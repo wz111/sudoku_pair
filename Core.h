@@ -28,10 +28,10 @@ private:
 		4,1,9,3,7,6,2,5,8,
 		6,3,8,4,2,5,9,1,7
 	};
-	int _originalMartix[SUDOKU_SIZE] = { 0 };
+	int _originalMartix[SUDOKU_SIZE] = {0};
 	int _seed[NUM_ROW] = { 2,4,5,6,1,8,7,3,9 };
 	int _initialSeed[NUM_ROW] = { 0 };
-
+	
 	set<string> endSet;
 
 public:
@@ -50,7 +50,7 @@ public:
 
 	//generate(3 params)
 	void generate(int num, int mode, int result[][SUDOKU_SIZE]);
-
+	
 	//output
 	void print(int number, int result[][SUDOKU_SIZE]);
 

@@ -19,7 +19,7 @@ Core::~Core()
 	;
 }
 
-void Core::Swap(int* a, int* b)
+void Core::Swap(int* a, int* b) 
 {
 	int temp;
 	temp = *a;
@@ -27,10 +27,10 @@ void Core::Swap(int* a, int* b)
 	*b = temp;
 }
 
-bool Core::DuplicateCheck(int* a, int aim, int count)
+bool Core::DuplicateCheck(int* a, int aim, int count) 
 {
 	int i = 0;
-	for (i = 0; i < count; i++)
+	for(i = 0 ; i < count ; i++)
 	{
 		if (a[i] == aim)
 			return true;
@@ -38,18 +38,18 @@ bool Core::DuplicateCheck(int* a, int aim, int count)
 	return false;
 }
 
-int* Core::getInitialSeed()
+int* Core::getInitialSeed() 
 {
 	return _initialSeed;
 }
 
-void Core::RowSwap(int* srcMartix, int Type, int* rank)
+void Core::RowSwap(int* srcMartix, int Type, int* rank) 
 {
 	int ranktemp[3] = { 0 };
 	for (int i = 0; i < 3; i++) {
 		ranktemp[i] = rank[i];
 	}
-	while (ranktemp[0] != Type || ranktemp[1] != Type + 1 || ranktemp[2] != Type + 2)
+	while (ranktemp[0] !=  Type || ranktemp[1] != Type + 1 || ranktemp[2] != Type + 2)
 	{
 		if (ranktemp[0] != Type) {
 			if (ranktemp[1] == Type)
@@ -139,25 +139,25 @@ void Core::RowSwap(int* srcMartix, int Type, int* rank)
 }
 
 void Core::IndexSubstitution(int* seed, int* a, int* b, int len)
-{
+{    
 	int i;
 	//int result[81] = { 0 };
-	for (i = 0; i < len; i++)
+    for( i = 0 ; i < len ; i++ )
 	{
 		int temp = a[i];
 		b[i] = seed[temp - 1];
 	}
 }
 
-void Core::SeedInitialRandom()
+void Core::SeedInitialRandom() 
 {
 	int i;
 	_initialSeed[8] = 9;
 	srand((unsigned)time(NULL));
-	for (i = 0; i < 8; i++)
+	for (i = 0 ; i < 8 ; i++) 
 	{
 		int b = (rand() % 8) + 1;
-		if (DuplicateCheck(_initialSeed, b, i))
+		if(DuplicateCheck(_initialSeed, b, i))
 		{
 			i--;
 			continue;
@@ -174,7 +174,7 @@ void Core::SudokuCheck(char temp[])
 	string a(temp);
 	endSet.insert(a);
 }
-int Core::getendSetNum()
+int Core::getendSetNum() 
 {
 	return endSet.size();
 }
@@ -207,8 +207,8 @@ void Core::create(int number, int result[][SUDOKU_SIZE])
 	*/
 	SeedInitialRandom();
 	IndexSubstitution(_initialSeed, _ancestorMartix, _originalMartix, SUDOKU_SIZE);
-
-	do
+	
+	do 
 	{
 		int paramArray[MAX_NUM_ROWSUB] = { 0 };
 		int count = 0;
@@ -219,18 +219,18 @@ void Core::create(int number, int result[][SUDOKU_SIZE])
 		memcpy(OriMartixCopy, _originalMartix, sizeof(int) * 81);
 		//OriMartixCopy = _originalMartix;
 		IndexSubstitution(_seed, OriMartixCopy, OriMartixCopy, SUDOKU_SIZE);
-		for (int i = 0; i < MAX_NUM_ROWSUB && martixCount < number; i++)
+		for (int i = 0; i < MAX_NUM_ROWSUB && martixCount < number ; i++) 
 		{
 			memcpy(OriMarRowCopy, OriMartixCopy, sizeof(int) * 81);
 			palaceVary1 = (rand() % 2) + 1;
 			palaceVary2 = (rand() % 6) + 1;
 			palaceVary3 = (rand() % 6) + 1;
 			param = palaceVary1 * 100 + palaceVary2 * 10 + palaceVary3;
-			if (!DuplicateCheck(paramArray, param, count))
+			if(!DuplicateCheck(paramArray, param, count))
 			{
 				paramArray[count++] = param;
 			}
-			else
+			else 
 			{
 				i--;
 				continue;
@@ -260,7 +260,7 @@ void Core::create(int number, int result[][SUDOKU_SIZE])
 				break;
 			case 4:
 				RowSwap(OriMarRowCopy, Type456, rank564);
-				break;
+				break; 
 			case 5:
 				RowSwap(OriMarRowCopy, Type456, rank645);
 				break;
@@ -302,19 +302,19 @@ void Core::create(int number, int result[][SUDOKU_SIZE])
 			//memcpy(result[martixCount], OriMarRowCopy, sizeof(int) * SUDOKU_SIZE);
 			martixCount++;
 		}
-
-	} while (next_permutation(_seed, _seed + 8) && martixCount < number);
+		
+	} while (next_permutation(_seed, _seed + 8) && martixCount < number );
 
 	/*
 	if (checkOption) {
-	if (number != getendSetNum())
-	{
-	cout << "duplicate" << endl;
-	}
-	else
-	{
-	cout << "not duplicate" << endl;
-	}
+		if (number != getendSetNum())
+		{
+			cout << "duplicate" << endl;
+		}
+		else
+		{
+			cout << "not duplicate" << endl;
+		}
 	}
 	else;
 	*/
