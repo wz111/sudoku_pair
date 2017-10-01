@@ -11,6 +11,9 @@
 #define Type789 7
 #define Check true
 #define NotCheck false
+#define EASY 1
+#define MEDIUM 2
+#define HARD 3
 
 using namespace std;
 
@@ -53,7 +56,7 @@ public:
 	
 	//output
 	void print(int number, int result[][SUDOKU_SIZE]);
-	void haha();
+	//void haha();
 };
 
 #endif

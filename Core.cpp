@@ -323,7 +323,22 @@ void Core::create(int number, int result[][SUDOKU_SIZE])
 void Core::generate(int number, int mode, int result[][SUDOKU_SIZE])
 {
 	create(number, result);
-
+	int blankNum = 0;
+	srand((unsigned)time(NULL));
+	for (int i = 0; i < number; i++) 
+	{
+		blankNum = rand() % 12 + 8 + mode * 12;
+		//$todo: study set random
+		for (int j = 0; j < blankNum; j++)
+		{
+			int t = rand() % 81;
+			while (result[i][t] == 0)
+			{
+				t = rand() % 81;
+			}
+			result[i][t] = 0;
+		}
+	}
 }
 
 void Core::print(int number, int result[][SUDOKU_SIZE])
@@ -356,5 +371,4 @@ void Core::print(int number, int result[][SUDOKU_SIZE])
 		std::fputs(temp, outfile);
 	}
 	std::fclose(outfile);
-
 }

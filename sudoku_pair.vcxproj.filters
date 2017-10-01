@@ -27,9 +27,6 @@
     <ClInclude Include="Core.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="SolveSudoku.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -39,9 +36,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Core.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="SolveSudoku.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
