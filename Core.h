@@ -53,7 +53,7 @@ public:
 	
 	//output
 	void print(int number, int result[][SUDOKU_SIZE]);
-
+	void haha();
 };
 
 #endif
