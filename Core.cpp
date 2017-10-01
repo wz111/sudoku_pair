@@ -341,6 +341,179 @@ void Core::generate(int number, int mode, int result[][SUDOKU_SIZE])
 	}
 }
 
+int Core::numTransfor(int a)
+{
+	int temp = 1;
+	for (int k = 1; k < a; k++)
+	{
+		temp <<= 1;
+	}
+	return temp;
+}
+
+int Core::RemoveCandidates(int index, int puzzle[], int flag[])
+{
+	if (flag[index] == 1)
+	{
+		return puzzle[index];
+	}
+
+	int row = index / 9;
+	int col = index % 9;
+	int m = row / 3;
+	int n = col / 3;
+	int i1;
+	int j1;
+	int pointCopy = puzzle[index];
+
+	//Palace candidates removal
+	for (i1 = m * 3; i1 < m * 3 + 3; i1++)
+	{
+		for (j1 = n * 3; j1 < n * 3 + 3; j1++)
+		{
+			if (flag[i1 * 9 + j1] == 1)
+			{
+				pointCopy = pointCopy & (~numTransfor(puzzle[i1 * 9 + j1]));
+			}
+		}
+	}
+
+	//row and col candidates removal
+	int i;
+	for (i = 0; i < 9; i++)
+	{
+		if (flag[row * 9 + i] == 1)
+		{
+			pointCopy = pointCopy & (~numTransfor(puzzle[row * 9 + i]));
+		}
+		if (flag[i * 9 + col] == 1)
+		{
+			pointCopy = pointCopy & (~numTransfor(puzzle[i * 9 + col]));
+		}
+		else
+			;
+	}
+	return  pointCopy;
+}
+int tt = 0;
+bool Core::Fill(int index, int puzzle[], int flag[])
+{
+	if (index >= 81)
+	{
+		tt++;
+		//if (tt == 2)
+			return true;
+		//else
+			//return false;
+	}
+	int shiftvalue = RemoveCandidates(index, puzzle, flag);
+	int pointCopy = puzzle[index];
+
+	if (flag[index] == 0)
+	{
+		for (int i = 1; shiftvalue > 0; i++)
+		{
+			if (shiftvalue % 2 != 0)
+			{
+				puzzle[index] = i;
+				flag[index] = 1;
+				if (Fill(index + 1, puzzle, flag))
+				{
+					return true;
+				}
+			}
+			shiftvalue = shiftvalue >> 1;
+		}
+	}
+	else
+	{
+		return Fill(index + 1, puzzle, flag);
+	}
+	puzzle[index] = pointCopy;
+	flag[index] = 0;
+	return false;
+}
+
+bool Core::isUnique(int puzzle[SUDOKU_SIZE])
+{
+	return true;
+	/*int flag[SUDOKU_SIZE] = { 0 };
+	int binary[SUDOKU_SIZE] = { 0 };
+	for (int i = 0; i < SUDOKU_SIZE; i++)
+	{
+		if (puzzle[i] == 0)
+		{
+			int t = 0x1ff;
+			for (int j = 0; j < 9; j++)
+			{
+				if (puzzle[9 * j + i % 9] != 0)
+				{
+					int shift = 1;
+					for (int k = 1; k < puzzle[9 * j + i % 9]; k++)
+					{
+						shift <<= 1;
+					}
+					t = t & (~shift);
+				}
+			}
+			for (int j = 0; j < 9; j++)
+			{
+				if (puzzle[i / 9 * 9 + j] != 0)
+				{
+					int shift = 1;
+					for (int k = 1; k < puzzle[i / 9 * 9 + j]; k++)
+					{
+						shift <<= 1;
+					}
+					t = t & (~shift);
+				}
+			}
+			int x = i / 9 / 3;
+			int y = i % 9 / 3;
+			for (int j = 0; j < 3; j++)
+			{
+				for (int k = 0; k < 3; k++)
+				{
+					if (puzzle[ (x + j) * 9 + y + k] != 0)
+					{
+						int shift = 1;
+						for (int k = 1; k < puzzle[(x + j) * 9 + y + k]; k++)
+						{
+							shift <<= 1;
+						}
+						t = t & (~shift);
+					}
+				}
+			}
+			binary[i] = t;
+			flag[i] = 1;
+		}
+	}*/
+
+
+}
+
+void Core::generate(int number, int lower, int upper, bool unique, int result[][SUDOKU_SIZE])
+{
+	create(number, result);
+	int blankNum = 0;
+	srand((unsigned)time(NULL));
+	for (int i = 0; i < number; i++)
+	{
+		blankNum = rand() % (upper - lower + 1) + lower;
+		//$todo: study set random
+		for (int j = 0; j < blankNum; j++)
+		{
+			int t = rand() % 81;
+			while (result[i][t] == 0)
+			{
+				t = rand() % 81;
+			}
+			result[i][t] = 0;
+		}
+	}
+}
+
 void Core::print(int number, int result[][SUDOKU_SIZE])
 {
 	FILE* outfile;

@@ -52,11 +52,16 @@ public:
 	void Swap(int* a, int* b);
 
 	//generate(3 params)
-	void generate(int num, int mode, int result[][SUDOKU_SIZE]);
-	
+	void generate(int number, int mode, int result[][SUDOKU_SIZE]);
+	void generate(int number, int lower, int upper, bool unique, int result[][SUDOKU_SIZE]);
 	//output
 	void print(int number, int result[][SUDOKU_SIZE]);
+	bool isUnique(int puzzle[SUDOKU_SIZE]);
 	//void haha();
+
+	int numTransfor(int num);
+	int RemoveCandidates(int index, int puzzle[], int flag[]);
+	bool Fill(int index, int puzzle[], int flag[]);
 };
 
 #endif
