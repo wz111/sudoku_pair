@@ -395,18 +395,22 @@ int Core::RemoveCandidates(int index, int puzzle[], int flag[])
 	}
 	return  pointCopy;
 }
-int tt = 0;
-bool Core::Fill(int index, int puzzle[], int flag[])
+
+bool Core::Fill(int index, int puzzle[], int flag[], int solveMode)
 {
 	if (index >= 81)
 	{
-		tt++;
-		//if (tt == 2)
+		solveCnt++;
+		if (solveCnt == solveMode)
 			return true;
-		//else
-			//return false;
+		else
+			return false;
 	}
 	int shiftvalue = RemoveCandidates(index, puzzle, flag);
+	if (shiftvalue == 0)
+	{
+		return false;
+	}
 	int pointCopy = puzzle[index];
 
 	if (flag[index] == 0)
@@ -417,7 +421,7 @@ bool Core::Fill(int index, int puzzle[], int flag[])
 			{
 				puzzle[index] = i;
 				flag[index] = 1;
-				if (Fill(index + 1, puzzle, flag))
+				if (Fill(index + 1, puzzle, flag, solveMode))
 				{
 					return true;
 				}
@@ -427,7 +431,7 @@ bool Core::Fill(int index, int puzzle[], int flag[])
 	}
 	else
 	{
-		return Fill(index + 1, puzzle, flag);
+		return Fill(index + 1, puzzle, flag, solveMode);
 	}
 	puzzle[index] = pointCopy;
 	flag[index] = 0;
@@ -436,61 +440,29 @@ bool Core::Fill(int index, int puzzle[], int flag[])
 
 bool Core::isUnique(int puzzle[SUDOKU_SIZE])
 {
-	return true;
-	/*int flag[SUDOKU_SIZE] = { 0 };
-	int binary[SUDOKU_SIZE] = { 0 };
-	for (int i = 0; i < SUDOKU_SIZE; i++)
+	int flag[SUDOKU_SIZE] = { 0 };
+
+	for (int i = 0; i<SUDOKU_SIZE ; i++)
 	{
 		if (puzzle[i] == 0)
 		{
-			int t = 0x1ff;
-			for (int j = 0; j < 9; j++)
-			{
-				if (puzzle[9 * j + i % 9] != 0)
-				{
-					int shift = 1;
-					for (int k = 1; k < puzzle[9 * j + i % 9]; k++)
-					{
-						shift <<= 1;
-					}
-					t = t & (~shift);
-				}
-			}
-			for (int j = 0; j < 9; j++)
-			{
-				if (puzzle[i / 9 * 9 + j] != 0)
-				{
-					int shift = 1;
-					for (int k = 1; k < puzzle[i / 9 * 9 + j]; k++)
-					{
-						shift <<= 1;
-					}
-					t = t & (~shift);
-				}
-			}
-			int x = i / 9 / 3;
-			int y = i % 9 / 3;
-			for (int j = 0; j < 3; j++)
-			{
-				for (int k = 0; k < 3; k++)
-				{
-					if (puzzle[ (x + j) * 9 + y + k] != 0)
-					{
-						int shift = 1;
-						for (int k = 1; k < puzzle[(x + j) * 9 + y + k]; k++)
-						{
-							shift <<= 1;
-						}
-						t = t & (~shift);
-					}
-				}
-			}
-			binary[i] = t;
+			puzzle[i] = 0x1ff;
+			flag[i] = 0;
+		}
+		else
+		{
 			flag[i] = 1;
 		}
-	}*/
-
-
+	}
+	solveCnt = 0;
+	if (Fill(0, puzzle, flag, 2))
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
 }
 
 void Core::generate(int number, int lower, int upper, bool unique, int result[][SUDOKU_SIZE])
@@ -500,18 +472,53 @@ void Core::generate(int number, int lower, int upper, bool unique, int result[][
 	srand((unsigned)time(NULL));
 	for (int i = 0; i < number; i++)
 	{
+		int temp[SUDOKU_SIZE] = { 0 };
+		memcpy(temp, result[i], sizeof(int) * SUDOKU_SIZE);
 		blankNum = rand() % (upper - lower + 1) + lower;
 		//$todo: study set random
 		for (int j = 0; j < blankNum; j++)
 		{
-			int t = rand() % 81;
+			int t = rand() % SUDOKU_SIZE;
 			while (result[i][t] == 0)
 			{
-				t = rand() % 81;
+				t = rand() % SUDOKU_SIZE;
 			}
 			result[i][t] = 0;
 		}
+		if (unique)
+		{
+			if (isUnique(result[i]))
+			{
+				continue;
+			}
+			else
+			{
+				memcpy(result[i], temp, sizeof(int) * SUDOKU_SIZE);
+				i--;
+				continue;
+			}
+		}
 	}
+}
+
+bool Core::solve(int puzzle[], int solution[])
+{
+	int flag[SUDOKU_SIZE] = { 0 };
+	for (int i = 0; i < SUDOKU_SIZE; i++)
+	{
+		if (puzzle[i] == 0)
+		{
+			puzzle[i] = 0x1ff;
+			flag[i] = 0;
+		}
+		else
+		{
+			flag[i] = 1;
+		}
+	}
+	memcpy(solution, puzzle, sizeof(int) * SUDOKU_SIZE);
+	solveCnt = 0;
+	return Fill(0, solution, flag, 1);
 }
 
 void Core::print(int number, int result[][SUDOKU_SIZE])

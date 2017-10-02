@@ -34,6 +34,7 @@ private:
 	int _originalMartix[SUDOKU_SIZE] = {0};
 	int _seed[NUM_ROW] = { 2,4,5,6,1,8,7,3,9 };
 	int _initialSeed[NUM_ROW] = { 0 };
+	int solveCnt = 0;
 	
 	set<string> endSet;
 
@@ -61,7 +62,8 @@ public:
 
 	int numTransfor(int num);
 	int RemoveCandidates(int index, int puzzle[], int flag[]);
-	bool Fill(int index, int puzzle[], int flag[]);
+	bool Fill(int index, int puzzle[], int flag[], int tt);
+	bool solve(int puzzle[], int solution[]);
 };
 
 #endif
