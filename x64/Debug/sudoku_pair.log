@@ -1,3 +1,0 @@
-﻿  Core.cpp
-c:\users\administrator\desktop\sudoku_pair\sudoku_pair\core.cpp(179): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
-  sudoku_pair.vcxproj -> C:\Users\Administrator\Desktop\sudoku_pair\x64\Debug\sudoku_pair.lib
