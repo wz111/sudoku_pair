@@ -365,7 +365,6 @@ int Core::RemoveCandidates(int index, int puzzle[], int flag[])
 	int i1;
 	int j1;
 	int pointCopy = puzzle[index];
-
 	//Palace candidates removal
 	for (i1 = m * 3; i1 < m * 3 + 3; i1++)
 	{
@@ -377,7 +376,6 @@ int Core::RemoveCandidates(int index, int puzzle[], int flag[])
 			}
 		}
 	}
-
 	//row and col candidates removal
 	int i;
 	for (i = 0; i < 9; i++)
@@ -411,12 +409,35 @@ bool Core::Fill(int index, int puzzle[], int flag[], int solveMode)
 	{
 		return false;
 	}
+
+	/*&if (index == 80)
+	{
+		FILE * out;
+		fopen_s(&out, "out.txt", "w");
+		fprintf(out, "shiftvalue = %d\n", shiftvalue);
+		fclose(out);
+	}*/
+
+	/*if (index == 80)
+	{
+		FILE *logx;
+		fopen_s(&logx, "logx.txt", "w");
+		for (int i = 0; i < 81; i++)
+		{
+			fprintf(logx, "%d ", puzzle[i]);
+			if (i % 9 == 8)
+				fprintf(logx, "\n");
+		}
+		fclose(logx);
+	}*/
+
 	int pointCopy = puzzle[index];
 
 	if (flag[index] == 0)
 	{
 		for (int i = 1; shiftvalue > 0; i++)
 		{
+			
 			if (shiftvalue % 2 != 0)
 			{
 				puzzle[index] = i;
