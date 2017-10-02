@@ -9,6 +9,9 @@
 
 using namespace std;
 
+int result[CREATEMAX][SUDOKU_SIZE] = { 0 };
+int puzzleSet[CREATEMAX][SUDOKU_SIZE] = { 0 };
+
 Core::Core()
 {
 }
@@ -440,13 +443,15 @@ bool Core::Fill(int index, int puzzle[], int flag[], int solveMode)
 
 bool Core::isUnique(int puzzle[SUDOKU_SIZE])
 {
+	int t[81] = { 0 };
+	memcpy(t, puzzle, (sizeof(int)) * 81);
 	int flag[SUDOKU_SIZE] = { 0 };
 
 	for (int i = 0; i<SUDOKU_SIZE ; i++)
 	{
-		if (puzzle[i] == 0)
+		if (t[i] == 0)
 		{
-			puzzle[i] = 0x1ff;
+			t[i] = 0x1ff;
 			flag[i] = 0;
 		}
 		else
@@ -455,7 +460,7 @@ bool Core::isUnique(int puzzle[SUDOKU_SIZE])
 		}
 	}
 	solveCnt = 0;
-	if (Fill(0, puzzle, flag, 2))
+	if (Fill(0, t, flag, 2))
 	{
 		return false;
 	}
@@ -521,6 +526,24 @@ bool Core::solve(int puzzle[], int solution[])
 	return Fill(0, solution, flag, 1);
 }
 
+int Core::str2num(char *s, int max)
+{
+	int t = 0;
+	for (int i = 0; i < strlen(s); i++)
+	{
+		if (s[i]<'0' || s[i]>'9')
+		{
+			return -1;
+		}
+		if (t > max)
+		{
+			return -1;
+		}
+		t = t * 10 + s[i] - '0';
+	}
+	return t;
+}
+
 void Core::print(int number, int result[][SUDOKU_SIZE])
 {
 	FILE* outfile;
@@ -551,4 +574,211 @@ void Core::print(int number, int result[][SUDOKU_SIZE])
 		std::fputs(temp, outfile);
 	}
 	std::fclose(outfile);
+}
+
+int Core::readFile(char *path, int puzzleSet[][SUDOKU_SIZE])
+{
+	FILE *inFile;
+	errno_t err;
+	if ((err = fopen_s(&inFile, path, "r")) != 0)
+	{
+		// $todo: catch error
+		printf("Unable to open sudoku.txt\n");
+		exit(1);
+	}
+	int sudokuNum = 0;
+	int num = 0;
+	int x = 0;
+	//$todo: catch error
+	while ((fscanf(inFile, "%d", &x)) != EOF)
+	{
+		puzzleSet[sudokuNum][num++] = x;
+		if (num >= 81)
+		{
+			num = 0;
+			sudokuNum++;
+		}
+	}
+	if (num != 0)
+	{
+		//$todo: catch error
+		printf("error\n");
+		exit(1);
+	}
+	fclose(inFile);
+	return sudokuNum;
+}
+
+void Core::read(int argc, char* argv[])
+{
+	if (argc == 3)
+	{
+		if (strlen(argv[1]) == 2 && argv[1][0] == '-' && argv[1][1] == 'c')
+		{
+			int t = str2num(argv[2], CREATEMAX);
+			if (t < 0)
+			{
+				//$todo: catch error
+				printf("error\n");
+				return;
+			}
+			memset(result, 0, CREATEMAX * (sizeof(int)));
+			create(t, result);
+			print(t, result);
+		}
+		else if (strlen(argv[1]) == 2 && argv[1][0] == '-' && argv[1][1] == 's')
+		{
+			
+			int sudokuNum = readFile(argv[2], puzzleSet);
+			memset(result, 0, CREATEMAX * (sizeof(int)));
+			for (int i = 0; i < sudokuNum; i++)
+			{
+				solve(puzzleSet[i], result[i]);
+			}
+			print(sudokuNum, result);
+		}
+		else if (strlen(argv[1]) == 2 && argv[1][0] == '-' && argv[1][1] == 'n')
+		{
+			int t = str2num(argv[2], CREATEMAX);
+			if (t < 0)
+			{
+				//$todo: catch error
+				printf("error\n");
+				return;
+			}
+			memset(result, 0, CREATEMAX * (sizeof(int)));
+			generate(t, EASY, result);
+			print(t, result);
+		}
+		else
+		{
+			//$todo: catch error
+			printf("error\n");
+		}
+	}
+	else if (argc == 4 &&
+		strlen(argv[1]) == 2 && argv[1][0] == '-' && argv[1][1] == 'n' &&
+		strlen(argv[3]) == 2 && argv[3][0] == '-' && argv[3][1] == 'u'
+		)
+	{
+		int t = str2num(argv[2], CREATEMAX);
+		if (t < 0)
+		{
+			//$todo: catch error
+			printf("error\n");
+			return;
+		}
+		memset(result, 0, CREATEMAX * (sizeof(int)));
+		generate(t, LOWER, UPPER, true, result);
+		print(t, result);
+	}
+	else if (argc == 5 &&
+		strlen(argv[1]) == 2 && argv[1][0] == '-' && argv[1][1] == 'n' &&
+		strlen(argv[3]) == 2 && argv[3][0] == '-' && argv[3][1] == 'm'
+		)
+	{
+		int t = str2num(argv[2], CREATEMAX);
+		if (t < 0)
+		{
+			//$todo: catch error
+			printf("error\n");
+			return;
+		}
+		int mode = str2num(argv[4], MODEMAX);
+		if (mode <= 0)
+		{
+			//$todo: catch error
+			printf("error\n");
+			return;
+		}
+		memset(result, 0, CREATEMAX * (sizeof(int)));
+		generate(t, mode, result);
+		print(t, result);
+	}
+	else if (argc == 5 &&
+		strlen(argv[1]) == 2 && argv[1][0] == '-' && argv[1][1] == 'n' &&
+		strlen(argv[3]) == 2 && argv[3][0] == '-' && argv[3][1] == 'r'
+		)
+	{
+		int t = str2num(argv[2], CREATEMAX);
+		if (t < 0)
+		{
+			//$todo: catch error
+			printf("error\n");
+			return;
+		}
+		int lower = 0;
+		int upper = 0;
+		if (strlen(argv[4]) == 5 && argv[4][2] == '~' &&
+			'0' <= argv[4][0] && argv[4][0] <= '9' &&
+			'0' <= argv[4][1] && argv[4][1] <= '9' &&
+			'0' <= argv[4][3] && argv[4][3] <= '9' &&
+			'0' <= argv[4][4] && argv[4][4] <= '9'
+			)
+		{
+			lower = (argv[4][0] - '0') * 10 + (argv[4][1] - '0');
+			upper = (argv[4][3] - '0') * 10 + (argv[4][4] - '0');
+			if (lower > upper)
+			{
+				//$todo: catch error
+				printf("error\n");
+				return;
+			}
+		}
+		else
+		{
+			//$todo: catch error
+			printf("error\n");
+			return;
+		}
+		memset(result, 0, CREATEMAX * (sizeof(int)));
+		generate(t, lower, upper, false, result);
+		print(t, result);
+	}
+	else if (argc == 6 &&
+		strlen(argv[1]) == 2 && argv[1][0] == '-' && argv[1][1] == 'n' &&
+		strlen(argv[3]) == 2 && argv[3][0] == '-' && argv[3][1] == 'r' &&
+		strlen(argv[5]) == 2 && argv[5][0] == '-' && argv[5][1] == 'u'
+		)
+	{
+		int t = str2num(argv[2], CREATEMAX);
+		if (t < 0)
+		{
+			//$todo: catch error
+			printf("error\n");
+			return;
+		}
+		int lower = 0;
+		int upper = 0;
+		if (strlen(argv[4]) == 5 && argv[4][2] == '~' &&
+			'0' <= argv[4][0] && argv[4][0] <= '9' &&
+			'0' <= argv[4][1] && argv[4][1] <= '9' &&
+			'0' <= argv[4][3] && argv[4][3] <= '9' &&
+			'0' <= argv[4][4] && argv[4][4] <= '9'
+			)
+		{
+			lower = (argv[4][0] - '0') * 10 + (argv[4][1] - '0');
+			upper = (argv[4][3] - '0') * 10 + (argv[4][4] - '0');
+			if (lower > upper)
+			{
+				//$todo: catch error
+				printf("error\n");
+				return;
+			}
+		}
+		else
+		{
+			//$todo: catch error
+			printf("error\n");
+			return;
+		}
+		memset(result, 0, CREATEMAX * (sizeof(int)));
+		generate(t, lower, upper, true, result);
+		print(t, result);
+	}
+	else
+	{
+		//$todo: catch error
+		printf("error\n");
+	}
 }

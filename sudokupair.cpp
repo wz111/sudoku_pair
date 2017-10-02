@@ -1,11 +1,16 @@
-// sudokupair.cpp: 定义控制台应用程序的入口点。
+// sudokupair.cpp: 
 //
-
 #include "stdafx.h"
+#include "Core.h"
 
+//#include "Core.cpp"
 
-int main()
+using namespace std;
+
+int main(int argc, char *argv[])
 {
+	Core core;
+	core.read(argc, argv);
     return 0;
 }
 

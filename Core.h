@@ -11,6 +11,10 @@
 #define Type789 7
 #define Check true
 #define NotCheck false
+#define CREATEMAX 1000000
+#define MODEMAX 3
+#define LOWER 20
+#define UPPER 55
 #define EASY 1
 #define MEDIUM 2
 #define HARD 3
@@ -55,15 +59,17 @@ public:
 	//generate(3 params)
 	void generate(int number, int mode, int result[][SUDOKU_SIZE]);
 	void generate(int number, int lower, int upper, bool unique, int result[][SUDOKU_SIZE]);
-	//output
-	void print(int number, int result[][SUDOKU_SIZE]);
 	bool isUnique(int puzzle[SUDOKU_SIZE]);
-	//void haha();
-
 	int numTransfor(int num);
 	int RemoveCandidates(int index, int puzzle[], int flag[]);
 	bool Fill(int index, int puzzle[], int flag[], int tt);
 	bool solve(int puzzle[], int solution[]);
+	int str2num(char *s, int max);
+
+	// io
+	void print(int number, int result[][SUDOKU_SIZE]);
+	void read(int argc, char* argv[]);
+	int readFile(char *path, int puzzleSet[][SUDOKU_SIZE]);
 };
 
 #endif
