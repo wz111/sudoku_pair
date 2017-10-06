@@ -41,11 +41,6 @@ bool Core::DuplicateCheck(int* a, int aim, int count)
 	return false;
 }
 
-int* Core::getInitialSeed() 
-{
-	return _initialSeed;
-}
-
 void Core::RowSwap(int* srcMartix, int Type, int* rank) 
 {
 	int ranktemp[3] = { 0 };
@@ -141,37 +136,6 @@ void Core::RowSwap(int* srcMartix, int Type, int* rank)
 	}
 }
 
-void Core::IndexSubstitution(int* seed, int* a, int* b, int len)
-{    
-	int i;
-	//int result[81] = { 0 };
-    for( i = 0 ; i < len ; i++ )
-	{
-		int temp = a[i];
-		b[i] = seed[temp - 1];
-	}
-}
-
-void Core::SeedInitialRandom() 
-{
-	int i;
-	_initialSeed[8] = 9;
-	srand((unsigned)time(NULL));
-	for (i = 0 ; i < 8 ; i++) 
-	{
-		int b = (rand() % 8) + 1;
-		if(DuplicateCheck(_initialSeed, b, i))
-		{
-			i--;
-			continue;
-		}
-		else
-		{
-			_initialSeed[i] = b;
-		}
-	}
-}
-
 void Core::SudokuCheck(char temp[])
 {
 	string a(temp);
@@ -184,130 +148,68 @@ int Core::getendSetNum()
 
 void Core::create(int number, int result[][SUDOKU_SIZE])
 {
-	int rank123[3] = { 1,2,3 };
-	int rank132[3] = { 1,3,2 };
-	int rank456[3] = { 4,5,6 };
-	int rank465[3] = { 4,6,5 };
-	int rank546[3] = { 5,4,6 };
-	int rank564[3] = { 5,6,4 };
-	int rank645[3] = { 6,4,5 };
-	int rank654[3] = { 6,5,4 };
-	int rank789[3] = { 7,8,9 };
-	int rank798[3] = { 7,9,8 };
-	int rank879[3] = { 8,7,9 };
-	int rank897[3] = { 8,9,7 };
-	int rank978[3] = { 9,7,8 };
-	int rank987[3] = { 9,8,7 };
-
-	int palaceVary1 = 0;
-	int palaceVary2 = 0;
-	int palaceVary3 = 0;
-	int param = 0;
+	int rank1[6][3] = {
+		{ 1,2,3 },{ 1,3,2 },{ 2,1,3 },{ 2,3,1 },
+		{ 3,1,2 },{ 3,2,1 }
+	};
+	int rank2[6][3] = {
+		{ 4,5,6 },{ 4,6,5 },{ 5,4,6 },{ 5,6,4 },
+		{ 6,4,5 },{ 6,5,4 }
+	};
+	int rank3[6][3] = {
+		{ 7,8,9 },{ 7,9,8 },{ 8,7,9 },{ 8,9,7 },
+		{ 9,7,8 },{ 9,8,7 }
+	};
 	int martixCount = 0;
 	/*
 	ofstream out;
 	out.open("sudoku.txt");
 	*/
-	SeedInitialRandom();
-	IndexSubstitution(_initialSeed, _ancestorMartix, _originalMartix, SUDOKU_SIZE);
-	
-	do 
+	srand((unsigned)time(NULL));
+	while (true)
 	{
-		int paramArray[MAX_NUM_ROWSUB] = { 0 };
-		int count = 0;
-		int OriMarRowCopy[81] = { 0 };
+		//solve Random Puzzle
+		int puzzleStart[81] = { 0 };
 		int OriMartixCopy[81] = { 0 };
-		//IndexSubstitution(_seed, _originalMartix, OriMartixCopy, NUM_POINT);
-		srand((unsigned)time(NULL));
-		memcpy(OriMartixCopy, _originalMartix, sizeof(int) * 81);
-		//OriMartixCopy = _originalMartix;
-		IndexSubstitution(_seed, OriMartixCopy, OriMartixCopy, SUDOKU_SIZE);
-		for (int i = 0; i < MAX_NUM_ROWSUB && martixCount < number ; i++) 
+		int OriMarRowCopy[81] = { 0 };
+		puzzleStart[0] = rand() % 9 + 1;
+		puzzleStart[12] = rand() % 9 + 1;
+		puzzleStart[24] = rand() % 9 + 1;
+		puzzleStart[28] = rand() % 9 + 1;
+		puzzleStart[40] = rand() % 9 + 1;
+		puzzleStart[52] = rand() % 9 + 1;
+		puzzleStart[56] = rand() % 9 + 1;
+		puzzleStart[68] = rand() % 9 + 1;
+		puzzleStart[80] = rand() % 9 + 1;
+		if (!solve(puzzleStart, OriMartixCopy))
 		{
-			memcpy(OriMarRowCopy, OriMartixCopy, sizeof(int) * 81);
-			palaceVary1 = (rand() % 2) + 1;
-			palaceVary2 = (rand() % 6) + 1;
-			palaceVary3 = (rand() % 6) + 1;
-			param = palaceVary1 * 100 + palaceVary2 * 10 + palaceVary3;
-			if(!DuplicateCheck(paramArray, param, count))
-			{
-				paramArray[count++] = param;
-			}
-			else 
-			{
-				i--;
-				continue;
-			}
-			switch (palaceVary1)
-			{
-			case 1:
-				RowSwap(OriMarRowCopy, Type123, rank123);
-				break;
-			case 2:
-				RowSwap(OriMarRowCopy, Type123, rank132);
-				break;
-			default:
-				cout << "Error1" << endl;
-				break;
-			}
-			switch (palaceVary2)
-			{
-			case 1:
-				RowSwap(OriMarRowCopy, Type456, rank456);
-				break;
-			case 2:
-				RowSwap(OriMarRowCopy, Type456, rank465);
-				break;
-			case 3:
-				RowSwap(OriMarRowCopy, Type456, rank546);
-				break;
-			case 4:
-				RowSwap(OriMarRowCopy, Type456, rank564);
-				break; 
-			case 5:
-				RowSwap(OriMarRowCopy, Type456, rank645);
-				break;
-			case 6:
-				RowSwap(OriMarRowCopy, Type456, rank654);
-				break;
-			default:
-				cout << "Error2" << endl;
-				break;
-			}
-			switch (palaceVary3)
-			{
-			case 1:
-				RowSwap(OriMarRowCopy, Type789, rank789);
-				break;
-			case 2:
-				RowSwap(OriMarRowCopy, Type789, rank798);
-				break;
-			case 3:
-				RowSwap(OriMarRowCopy, Type789, rank879);
-				break;
-			case 4:
-				RowSwap(OriMarRowCopy, Type789, rank897);
-				break;
-			case 5:
-				RowSwap(OriMarRowCopy, Type789, rank978);
-				break;
-			case 6:
-				RowSwap(OriMarRowCopy, Type789, rank987);
-				break;
-			default:
-				cout << "Error3" << endl;
-				break;
-			}
-			for (int i = 0; i < SUDOKU_SIZE; i++)
-			{
-				result[martixCount][i] = OriMarRowCopy[i];
-			}
-			//memcpy(result[martixCount], OriMarRowCopy, sizeof(int) * SUDOKU_SIZE);
-			martixCount++;
+			//$todo: 
+			printf("no solution");
+			continue;
 		}
-		
-	} while (next_permutation(_seed, _seed + 8) && martixCount < number );
 
+		//row transfor
+		for (int i = 0; i < 6; i++)
+		{
+			for (int j = 0; j < 6; j++)
+			{
+				for (int k = 0; k < 6; k++)
+				{
+					memcpy(OriMarRowCopy, OriMartixCopy, sizeof(int) * 81);
+					RowSwap(OriMarRowCopy, Type123, rank1[i]);
+					RowSwap(OriMarRowCopy, Type456, rank2[j]);
+					RowSwap(OriMarRowCopy, Type789, rank3[k]);
+
+					memcpy(result[martixCount], OriMarRowCopy, sizeof(int) * SUDOKU_SIZE);
+					martixCount++;
+					if (martixCount == number)
+					{
+						return;
+					}
+				}
+			}
+		}
+	}
 	/*
 	if (checkOption) {
 		if (number != getendSetNum())
@@ -368,7 +270,6 @@ int Core::RemoveCandidates(int index, int puzzle[], int flag[])
 	int i1;
 	int j1;
 	int pointCopy = puzzle[index];
-
 	//Palace candidates removal
 	for (i1 = m * 3; i1 < m * 3 + 3; i1++)
 	{
@@ -380,7 +281,6 @@ int Core::RemoveCandidates(int index, int puzzle[], int flag[])
 			}
 		}
 	}
-
 	//row and col candidates removal
 	int i;
 	for (i = 0; i < 9; i++)
@@ -414,12 +314,35 @@ bool Core::Fill(int index, int puzzle[], int flag[], int solveMode)
 	{
 		return false;
 	}
+
+	/*&if (index == 80)
+	{
+		FILE * out;
+		fopen_s(&out, "out.txt", "w");
+		fprintf(out, "shiftvalue = %d\n", shiftvalue);
+		fclose(out);
+	}*/
+
+	/*if (index == 80)
+	{
+		FILE *logx;
+		fopen_s(&logx, "logx.txt", "w");
+		for (int i = 0; i < 81; i++)
+		{
+			fprintf(logx, "%d ", puzzle[i]);
+			if (i % 9 == 8)
+				fprintf(logx, "\n");
+		}
+		fclose(logx);
+	}*/
+
 	int pointCopy = puzzle[index];
 
 	if (flag[index] == 0)
 	{
 		for (int i = 1; shiftvalue > 0; i++)
 		{
+			
 			if (shiftvalue % 2 != 0)
 			{
 				puzzle[index] = i;
