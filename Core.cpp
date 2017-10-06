@@ -166,6 +166,10 @@ void Core::create(int number, int result[][SUDOKU_SIZE])
 	out.open("sudoku.txt");
 	*/
 	srand((unsigned)time(NULL));
+
+	//for debug
+	int nn = 0;
+
 	while (true)
 	{
 		//solve Random Puzzle
@@ -183,10 +187,11 @@ void Core::create(int number, int result[][SUDOKU_SIZE])
 		puzzleStart[80] = rand() % 9 + 1;
 		if (!solve(puzzleStart, OriMartixCopy))
 		{
-			//$todo: 
 			printf("no solution");
 			continue;
 		}
+
+		printf("%d\n", nn++);
 
 		//row transfor
 		for (int i = 0; i < 6; i++)
@@ -210,19 +215,6 @@ void Core::create(int number, int result[][SUDOKU_SIZE])
 			}
 		}
 	}
-	/*
-	if (checkOption) {
-		if (number != getendSetNum())
-		{
-			cout << "duplicate" << endl;
-		}
-		else
-		{
-			cout << "not duplicate" << endl;
-		}
-	}
-	else;
-	*/
 }
 
 void Core::generate(int number, int mode, int result[][SUDOKU_SIZE])
@@ -314,27 +306,6 @@ bool Core::Fill(int index, int puzzle[], int flag[], int solveMode)
 	{
 		return false;
 	}
-
-	/*&if (index == 80)
-	{
-		FILE * out;
-		fopen_s(&out, "out.txt", "w");
-		fprintf(out, "shiftvalue = %d\n", shiftvalue);
-		fclose(out);
-	}*/
-
-	/*if (index == 80)
-	{
-		FILE *logx;
-		fopen_s(&logx, "logx.txt", "w");
-		for (int i = 0; i < 81; i++)
-		{
-			fprintf(logx, "%d ", puzzle[i]);
-			if (i % 9 == 8)
-				fprintf(logx, "\n");
-		}
-		fclose(logx);
-	}*/
 
 	int pointCopy = puzzle[index];
 
@@ -451,6 +422,10 @@ bool Core::solve(int puzzle[], int solution[])
 
 int Core::str2num(char *s, int max)
 {
+	if (strlen(s) == 0)
+	{
+		return -1;
+	}
 	int t = 0;
 	for (int i = 0; i < strlen(s); i++)
 	{
@@ -458,11 +433,11 @@ int Core::str2num(char *s, int max)
 		{
 			return -1;
 		}
+		t = t * 10 + s[i] - '0';
 		if (t > max)
 		{
 			return -1;
 		}
-		t = t * 10 + s[i] - '0';
 	}
 	return t;
 }
@@ -505,16 +480,17 @@ int Core::readFile(char *path, int puzzleSet[][SUDOKU_SIZE])
 	errno_t err;
 	if ((err = fopen_s(&inFile, path, "r")) != 0)
 	{
-		// $todo: catch error
-		printf("Unable to open sudoku.txt\n");
-		exit(1);
+		throw MyFileException();
 	}
 	int sudokuNum = 0;
 	int num = 0;
 	int x = 0;
-	//$todo: catch error
 	while ((fscanf(inFile, "%d", &x)) != EOF)
 	{
+		if (x < 1 || x > 9)
+		{
+			throw MySudokuException();
+		}
 		puzzleSet[sudokuNum][num++] = x;
 		if (num >= 81)
 		{
@@ -522,11 +498,9 @@ int Core::readFile(char *path, int puzzleSet[][SUDOKU_SIZE])
 			sudokuNum++;
 		}
 	}
-	if (num != 0)
+	if (num != 0 || sudokuNum == 0)
 	{
-		//$todo: catch error
-		printf("error\n");
-		exit(1);
+		throw MySudokuException();
 	}
 	fclose(inFile);
 	return sudokuNum;
@@ -539,11 +513,9 @@ void Core::read(int argc, char* argv[])
 		if (strlen(argv[1]) == 2 && argv[1][0] == '-' && argv[1][1] == 'c')
 		{
 			int t = str2num(argv[2], CREATEMAX);
-			if (t < 0)
+			if (t <= 0)
 			{
-				//$todo: catch error
-				printf("error\n");
-				return;
+				throw MyParameterException();
 			}
 			memset(result, 0, CREATEMAX * (sizeof(int)));
 			create(t, result);
@@ -562,12 +534,10 @@ void Core::read(int argc, char* argv[])
 		}
 		else if (strlen(argv[1]) == 2 && argv[1][0] == '-' && argv[1][1] == 'n')
 		{
-			int t = str2num(argv[2], CREATEMAX);
-			if (t < 0)
+			int t = str2num(argv[2], GANGNMAX);
+			if (t <= 0)
 			{
-				//$todo: catch error
-				printf("error\n");
-				return;
+				throw MyParameterException();
 			}
 			memset(result, 0, CREATEMAX * (sizeof(int)));
 			generate(t, EASY, result);
@@ -575,8 +545,7 @@ void Core::read(int argc, char* argv[])
 		}
 		else
 		{
-			//$todo: catch error
-			printf("error\n");
+			throw MyOrderException();
 		}
 	}
 	else if (argc == 4 &&
@@ -584,12 +553,10 @@ void Core::read(int argc, char* argv[])
 		strlen(argv[3]) == 2 && argv[3][0] == '-' && argv[3][1] == 'u'
 		)
 	{
-		int t = str2num(argv[2], CREATEMAX);
-		if (t < 0)
+		int t = str2num(argv[2], GANGNMAX);
+		if (t <= 0)
 		{
-			//$todo: catch error
-			printf("error\n");
-			return;
+			throw MyParameterException();
 		}
 		memset(result, 0, CREATEMAX * (sizeof(int)));
 		generate(t, LOWER, UPPER, true, result);
@@ -600,19 +567,15 @@ void Core::read(int argc, char* argv[])
 		strlen(argv[3]) == 2 && argv[3][0] == '-' && argv[3][1] == 'm'
 		)
 	{
-		int t = str2num(argv[2], CREATEMAX);
-		if (t < 0)
+		int t = str2num(argv[2], GANGNMAX);
+		if (t <= 0)
 		{
-			//$todo: catch error
-			printf("error\n");
-			return;
+			throw MyParameterException();
 		}
 		int mode = str2num(argv[4], MODEMAX);
-		if (mode <= 0)
+		if (mode <= 0 || mode >= 4)
 		{
-			//$todo: catch error
-			printf("error\n");
-			return;
+			throw MyParameterException();
 		}
 		memset(result, 0, CREATEMAX * (sizeof(int)));
 		generate(t, mode, result);
@@ -623,12 +586,10 @@ void Core::read(int argc, char* argv[])
 		strlen(argv[3]) == 2 && argv[3][0] == '-' && argv[3][1] == 'r'
 		)
 	{
-		int t = str2num(argv[2], CREATEMAX);
-		if (t < 0)
+		int t = str2num(argv[2], GANGNMAX);
+		if (t <= 0)
 		{
-			//$todo: catch error
-			printf("error\n");
-			return;
+			throw MyParameterException();
 		}
 		int lower = 0;
 		int upper = 0;
@@ -643,16 +604,12 @@ void Core::read(int argc, char* argv[])
 			upper = (argv[4][3] - '0') * 10 + (argv[4][4] - '0');
 			if (lower > upper)
 			{
-				//$todo: catch error
-				printf("error\n");
-				return;
+				throw MyParameterException();
 			}
 		}
 		else
 		{
-			//$todo: catch error
-			printf("error\n");
-			return;
+			throw MyParameterException();
 		}
 		memset(result, 0, CREATEMAX * (sizeof(int)));
 		generate(t, lower, upper, false, result);
@@ -664,12 +621,10 @@ void Core::read(int argc, char* argv[])
 		strlen(argv[5]) == 2 && argv[5][0] == '-' && argv[5][1] == 'u'
 		)
 	{
-		int t = str2num(argv[2], CREATEMAX);
-		if (t < 0)
+		int t = str2num(argv[2], GANGNMAX);
+		if (t <= 0)
 		{
-			//$todo: catch error
-			printf("error\n");
-			return;
+			throw MyParameterException();
 		}
 		int lower = 0;
 		int upper = 0;
@@ -684,16 +639,12 @@ void Core::read(int argc, char* argv[])
 			upper = (argv[4][3] - '0') * 10 + (argv[4][4] - '0');
 			if (lower > upper)
 			{
-				//$todo: catch error
-				printf("error\n");
-				return;
+				throw MyParameterException();
 			}
 		}
 		else
 		{
-			//$todo: catch error
-			printf("error\n");
-			return;
+			throw MyParameterException();
 		}
 		memset(result, 0, CREATEMAX * (sizeof(int)));
 		generate(t, lower, upper, true, result);
@@ -701,7 +652,6 @@ void Core::read(int argc, char* argv[])
 	}
 	else
 	{
-		//$todo: catch error
-		printf("error\n");
+		throw MyOrderException();
 	}
 }

@@ -12,6 +12,7 @@
 #define Check true
 #define NotCheck false
 #define CREATEMAX 1000000
+#define GANGNMAX 10000
 #define MODEMAX 3
 #define LOWER 20
 #define UPPER 55
@@ -20,6 +21,46 @@
 #define HARD 3
 
 using namespace std;
+
+struct MyOrderException : public exception
+{
+	const char * msg() const throw ()
+	{
+		return "Error : No Such Order";
+	}
+};
+
+struct MyFileException : public exception
+{
+	const char * msg() const throw ()
+	{
+		return "Error : File Not Found";
+	}
+};
+
+struct MySudokuException : public exception
+{
+	const char * msg() const throw ()
+	{
+		return "Error : Unsupported Sudoku";
+	}
+};
+
+struct MyParameterException : public exception
+{
+	const char * msg() const throw ()
+	{
+		return "Error : Illegal Parameter";
+	}
+};
+
+struct MyFormatException : public exception
+{
+	const char * msg() const throw ()
+	{
+		return "Error : Wrong Number of Parameters";
+	}
+};
 
 class Core
 {
