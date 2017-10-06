@@ -210,19 +210,6 @@ void Core::create(int number, int result[][SUDOKU_SIZE])
 			}
 		}
 	}
-	/*
-	if (checkOption) {
-		if (number != getendSetNum())
-		{
-			cout << "duplicate" << endl;
-		}
-		else
-		{
-			cout << "not duplicate" << endl;
-		}
-	}
-	else;
-	*/
 }
 
 void Core::generate(int number, int mode, int result[][SUDOKU_SIZE])
@@ -314,28 +301,6 @@ bool Core::Fill(int index, int puzzle[], int flag[], int solveMode)
 	{
 		return false;
 	}
-
-	/*&if (index == 80)
-	{
-		FILE * out;
-		fopen_s(&out, "out.txt", "w");
-		fprintf(out, "shiftvalue = %d\n", shiftvalue);
-		fclose(out);
-	}*/
-
-	/*if (index == 80)
-	{
-		FILE *logx;
-		fopen_s(&logx, "logx.txt", "w");
-		for (int i = 0; i < 81; i++)
-		{
-			fprintf(logx, "%d ", puzzle[i]);
-			if (i % 9 == 8)
-				fprintf(logx, "\n");
-		}
-		fclose(logx);
-	}*/
-
 	int pointCopy = puzzle[index];
 
 	if (flag[index] == 0)

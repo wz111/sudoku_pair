@@ -54,7 +54,7 @@ public:
 	void generate(int number, int mode, int result[][SUDOKU_SIZE]);
 	void generate(int number, int lower, int upper, bool unique, int result[][SUDOKU_SIZE]);
 	bool isUnique(int puzzle[SUDOKU_SIZE]);
-	int numTransfor(int num);
+	int numTransfor(int num);  
 	int RemoveCandidates(int index, int puzzle[], int flag[]);
 	bool Fill(int index, int puzzle[], int flag[], int tt);
 	bool solve(int puzzle[], int solution[]);
