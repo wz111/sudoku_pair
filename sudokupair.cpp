@@ -5,10 +5,13 @@
 
 int main(int argc, char *argv[])
 {
+	clock_t start, finish;
+	start = clock();
+
 	try {
 		Core core;
 		core.read(argc, argv);
-		return 0;
+		
 	}
 	catch (MyOrderException& e)
 	{
@@ -30,6 +33,8 @@ int main(int argc, char *argv[])
 		std::cout << "MyParameterException caught" << std::endl;
 		std::cout << e.msg() << std::endl;
 	}
-	
+	finish = clock();
+	printf("time = %.2f", ((double)(finish - start)) / 1000);
+	return 0;
 }
 

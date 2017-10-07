@@ -193,7 +193,7 @@ void Core::create(int number, int result[][SUDOKU_SIZE])
             puzzleStart[position[i]] = t;
         }
 
-        printf("%d\n", nn++);
+        /*printf("%d\n", nn++);
         for (int j = 0; j < 9; j++)
         {
             for (int k = 0; k < 9; k++)
@@ -201,7 +201,7 @@ void Core::create(int number, int result[][SUDOKU_SIZE])
                 printf("%d ", puzzleStart[j * 9 + k]);
             }
             printf("\n");
-        }
+        }*/
 
 		if (!solve(puzzleStart, OriMartixCopy))
 		{
