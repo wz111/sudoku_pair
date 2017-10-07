@@ -11,12 +11,16 @@ class Index : public QObject
 private:
 	Recv * _recv;
 	SudokuGUI * _w;
-	QPushButton *startGame;
-	QPushButton *loadGame;
-	QPushButton *leaderboard;
-	QPushButton *setting;
-	QPushButton *gameIntro;
+	QPushButton *startGameBtn;
+	QPushButton *loadGameBtn;
+	QPushButton *leaderboardBtn;
+	QPushButton *settingBtn;
+	QPushButton *gameIntroBtn;
 	QPushButton *sudoku[81];
+    QPushButton *generateBtn;
+    QPushButton *hintBtn;
+    QPushButton *checkBtn;
+    QPushButton *backBtn;
 public:
 	Index(Recv *recv, SudokuGUI *w);
 	~Index();
@@ -24,5 +28,7 @@ public:
 public slots:
 	void hide5btn() const;
 	void sudokuShow() const;
+    void show5btn() const;
+    void sudokuHide() const;
 };
 
