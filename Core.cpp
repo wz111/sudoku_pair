@@ -136,16 +136,6 @@ void Core::RowSwap(int* srcMartix, int Type, int* rank)
 	}
 }
 
-void Core::SudokuCheck(char temp[])
-{
-	string a(temp);
-	endSet.insert(a);
-}
-int Core::getendSetNum() 
-{
-	return endSet.size();
-}
-
 void Core::create(int number, int result[][SUDOKU_SIZE])
 {
 	int rank1[6][3] = {
@@ -161,21 +151,15 @@ void Core::create(int number, int result[][SUDOKU_SIZE])
 		{ 9,7,8 },{ 9,8,7 }
 	};
 	int martixCount = 0;
-	/*
-	ofstream out;
-	out.open("sudoku.txt");
-	*/
 	srand((unsigned)time(NULL));
-
-	//for debug
-	int nn = 0;
-
 	while (true)
 	{
 		//solve Random Puzzle
 		int puzzleStart[81] = { 0 };
 		int OriMartixCopy[81] = { 0 };
 		int OriMarRowCopy[81] = { 0 };
+        char startSet[10];
+        string sSet;
         int position[10] = { 0, 12, 24, 28, 40, 52, 56, 68, 80};
         int a[10] = { 0 };
         int t = 0;
@@ -191,17 +175,16 @@ void Core::create(int number, int result[][SUDOKU_SIZE])
                 }
             }
             puzzleStart[position[i]] = t;
+            startSet[i] = t + '0';
+        }
+        sSet = startSet;
+        int setSize = _startSet.size();
+        _startSet.insert(sSet);
+        if (setSize == sSet.size())
+        {
+            continue;
         }
 
-        printf("%d\n", nn++);
-        for (int j = 0; j < 9; j++)
-        {
-            for (int k = 0; k < 9; k++)
-            {
-                printf("%d ", puzzleStart[j * 9 + k]);
-            }
-            printf("\n");
-        }
 
 		if (!solve(puzzleStart, OriMartixCopy))
 		{
@@ -526,6 +509,7 @@ void Core::read(int argc, char* argv[])
 {
 	if (argc == 3)
 	{
+        //-c x
 		if (strlen(argv[1]) == 2 && argv[1][0] == '-' && argv[1][1] == 'c')
 		{
 			int t = str2num(argv[2], CREATEMAX);
@@ -537,6 +521,7 @@ void Core::read(int argc, char* argv[])
 			create(t, result);
 			print(t, result);
 		}
+        //-s filepath
 		else if (strlen(argv[1]) == 2 && argv[1][0] == '-' && argv[1][1] == 's')
 		{
 			
@@ -548,6 +533,7 @@ void Core::read(int argc, char* argv[])
 			}
 			print(sudokuNum, result);
 		}
+        //-n x
 		else if (strlen(argv[1]) == 2 && argv[1][0] == '-' && argv[1][1] == 'n')
 		{
 			int t = str2num(argv[2], GANGNMAX);
@@ -564,6 +550,7 @@ void Core::read(int argc, char* argv[])
 			throw MyOrderException();
 		}
 	}
+    //-n x -u
 	else if (argc == 4 &&
 		strlen(argv[1]) == 2 && argv[1][0] == '-' && argv[1][1] == 'n' &&
 		strlen(argv[3]) == 2 && argv[3][0] == '-' && argv[3][1] == 'u'
@@ -578,6 +565,22 @@ void Core::read(int argc, char* argv[])
 		generate(t, LOWER, UPPER, true, result);
 		print(t, result);
 	}
+    //-u -n x
+    else if (argc == 4 &&
+        strlen(argv[1]) == 2 && argv[1][0] == '-' && argv[1][1] == 'u' &&
+        strlen(argv[2]) == 2 && argv[2][0] == '-' && argv[2][1] == 'n'
+        )
+    {
+        int t = str2num(argv[3], GANGNMAX);
+        if (t <= 0)
+        {
+            throw MyParameterException();
+        }
+        memset(result, 0, CREATEMAX * (sizeof(int)));
+        generate(t, LOWER, UPPER, true, result);
+        print(t, result);
+    }
+    //-n x -m mode
 	else if (argc == 5 &&
 		strlen(argv[1]) == 2 && argv[1][0] == '-' && argv[1][1] == 'n' &&
 		strlen(argv[3]) == 2 && argv[3][0] == '-' && argv[3][1] == 'm'
@@ -597,6 +600,27 @@ void Core::read(int argc, char* argv[])
 		generate(t, mode, result);
 		print(t, result);
 	}
+    //-m mode -n x
+    else if (argc == 5 &&
+        strlen(argv[1]) == 2 && argv[1][0] == '-' && argv[1][1] == 'm' &&
+        strlen(argv[3]) == 2 && argv[3][0] == '-' && argv[3][1] == 'n'
+        )
+    {
+        int t = str2num(argv[4], GANGNMAX);
+        if (t <= 0)
+        {
+            throw MyParameterException();
+        }
+        int mode = str2num(argv[2], MODEMAX);
+        if (mode <= 0 || mode >= 4)
+        {
+            throw MyParameterException();
+        }
+        memset(result, 0, CREATEMAX * (sizeof(int)));
+        generate(t, mode, result);
+        print(t, result);
+    }
+    //-n x -r lower~upper
 	else if (argc == 5 &&
 		strlen(argv[1]) == 2 && argv[1][0] == '-' && argv[1][1] == 'n' &&
 		strlen(argv[3]) == 2 && argv[3][0] == '-' && argv[3][1] == 'r'
@@ -618,7 +642,7 @@ void Core::read(int argc, char* argv[])
 		{
 			lower = (argv[4][0] - '0') * 10 + (argv[4][1] - '0');
 			upper = (argv[4][3] - '0') * 10 + (argv[4][4] - '0');
-			if (lower > upper)
+			if (lower > upper || lower < LOWER || upper > UPPER)
 			{
 				throw MyParameterException();
 			}
@@ -631,6 +655,42 @@ void Core::read(int argc, char* argv[])
 		generate(t, lower, upper, false, result);
 		print(t, result);
 	}
+    //-r lower~upper -n x
+    else if (argc == 5 &&
+        strlen(argv[1]) == 2 && argv[1][0] == '-' && argv[1][1] == 'r' &&
+        strlen(argv[3]) == 2 && argv[3][0] == '-' && argv[3][1] == 'n'
+        )
+    {
+        int t = str2num(argv[4], GANGNMAX);
+        if (t <= 0)
+        {
+            throw MyParameterException();
+        }
+        int lower = 0;
+        int upper = 0;
+        if (strlen(argv[2]) == 5 && argv[2][2] == '~' &&
+            '0' <= argv[2][0] && argv[2][0] <= '9' &&
+            '0' <= argv[2][1] && argv[2][1] <= '9' &&
+            '0' <= argv[2][3] && argv[2][3] <= '9' &&
+            '0' <= argv[2][4] && argv[2][4] <= '9'
+            )
+        {
+            lower = (argv[2][0] - '0') * 10 + (argv[2][1] - '0');
+            upper = (argv[2][3] - '0') * 10 + (argv[2][4] - '0');
+            if (lower > upper || lower < LOWER || upper > UPPER)
+            {
+                throw MyParameterException();
+            }
+        }
+        else
+        {
+            throw MyParameterException();
+        }
+        memset(result, 0, CREATEMAX * (sizeof(int)));
+        generate(t, lower, upper, false, result);
+        print(t, result);
+    }
+    //-n x -r lower~upper -u
 	else if (argc == 6 &&
 		strlen(argv[1]) == 2 && argv[1][0] == '-' && argv[1][1] == 'n' &&
 		strlen(argv[3]) == 2 && argv[3][0] == '-' && argv[3][1] == 'r' &&
@@ -653,7 +713,7 @@ void Core::read(int argc, char* argv[])
 		{
 			lower = (argv[4][0] - '0') * 10 + (argv[4][1] - '0');
 			upper = (argv[4][3] - '0') * 10 + (argv[4][4] - '0');
-			if (lower > upper)
+            if (lower > upper || lower < LOWER || upper > UPPER)
 			{
 				throw MyParameterException();
 			}
@@ -666,6 +726,186 @@ void Core::read(int argc, char* argv[])
 		generate(t, lower, upper, true, result);
 		print(t, result);
 	}
+    //-n x -u -r lower~upper
+    else if (argc == 6 &&
+        strlen(argv[1]) == 2 && argv[1][0] == '-' && argv[1][1] == 'n' &&
+        strlen(argv[3]) == 2 && argv[3][0] == '-' && argv[3][1] == 'u' &&
+        strlen(argv[4]) == 2 && argv[4][0] == '-' && argv[4][1] == 'r'
+        )
+    {
+        int t = str2num(argv[2], GANGNMAX);
+        if (t <= 0)
+        {
+            throw MyParameterException();
+        }
+        int lower = 0;
+        int upper = 0;
+        if (strlen(argv[5]) == 5 && argv[5][2] == '~' &&
+            '0' <= argv[5][0] && argv[5][0] <= '9' &&
+            '0' <= argv[5][1] && argv[5][1] <= '9' &&
+            '0' <= argv[5][3] && argv[5][3] <= '9' &&
+            '0' <= argv[5][4] && argv[5][4] <= '9'
+            )
+        {
+            lower = (argv[5][0] - '0') * 10 + (argv[5][1] - '0');
+            upper = (argv[5][3] - '0') * 10 + (argv[5][4] - '0');
+            if (lower > upper || lower < LOWER || upper > UPPER)
+            {
+                throw MyParameterException();
+            }
+        }
+        else
+        {
+            throw MyParameterException();
+        }
+        memset(result, 0, CREATEMAX * (sizeof(int)));
+        generate(t, lower, upper, true, result);
+        print(t, result);
+    }
+    //-r lower~upper -n x -u
+    else if (argc == 6 &&
+        strlen(argv[1]) == 2 && argv[1][0] == '-' && argv[1][1] == 'r' &&
+        strlen(argv[3]) == 2 && argv[3][0] == '-' && argv[3][1] == 'n' &&
+        strlen(argv[5]) == 2 && argv[5][0] == '-' && argv[5][1] == 'u'
+        )
+    {
+        int t = str2num(argv[4], GANGNMAX);
+        if (t <= 0)
+        {
+            throw MyParameterException();
+        }
+        int lower = 0;
+        int upper = 0;
+        if (strlen(argv[2]) == 5 && argv[2][2] == '~' &&
+            '0' <= argv[2][0] && argv[2][0] <= '9' &&
+            '0' <= argv[2][1] && argv[2][1] <= '9' &&
+            '0' <= argv[2][3] && argv[2][3] <= '9' &&
+            '0' <= argv[2][4] && argv[2][4] <= '9'
+            )
+        {
+            lower = (argv[2][0] - '0') * 10 + (argv[2][1] - '0');
+            upper = (argv[2][3] - '0') * 10 + (argv[2][4] - '0');
+            if (lower > upper || lower < LOWER || upper > UPPER)
+            {
+                throw MyParameterException();
+            }
+        }
+        else
+        {
+            throw MyParameterException();
+        }
+        memset(result, 0, CREATEMAX * (sizeof(int)));
+        generate(t, lower, upper, true, result);
+        print(t, result);
+    }
+    //-r lower~upper -u -n x
+    else if (argc == 6 &&
+        strlen(argv[1]) == 2 && argv[1][0] == '-' && argv[1][1] == 'r' &&
+        strlen(argv[3]) == 2 && argv[3][0] == '-' && argv[3][1] == 'u' &&
+        strlen(argv[4]) == 2 && argv[4][0] == '-' && argv[4][1] == 'n'
+        )
+    {
+        int t = str2num(argv[5], GANGNMAX);
+        if (t <= 0)
+        {
+            throw MyParameterException();
+        }
+        int lower = 0;
+        int upper = 0;
+        if (strlen(argv[2]) == 5 && argv[2][2] == '~' &&
+            '0' <= argv[2][0] && argv[2][0] <= '9' &&
+            '0' <= argv[2][1] && argv[2][1] <= '9' &&
+            '0' <= argv[2][3] && argv[2][3] <= '9' &&
+            '0' <= argv[2][4] && argv[2][4] <= '9'
+            )
+        {
+            lower = (argv[2][0] - '0') * 10 + (argv[2][1] - '0');
+            upper = (argv[2][3] - '0') * 10 + (argv[2][4] - '0');
+            if (lower > upper || lower < LOWER || upper > UPPER)
+            {
+                throw MyParameterException();
+            }
+        }
+        else
+        {
+            throw MyParameterException();
+        }
+        memset(result, 0, CREATEMAX * (sizeof(int)));
+        generate(t, lower, upper, true, result);
+        print(t, result);
+    }
+    //-u -n x -r lower~upper
+    else if (argc == 6 &&
+        strlen(argv[1]) == 2 && argv[1][0] == '-' && argv[1][1] == 'u' &&
+        strlen(argv[2]) == 2 && argv[2][0] == '-' && argv[2][1] == 'n' &&
+        strlen(argv[4]) == 2 && argv[4][0] == '-' && argv[4][1] == 'r'
+        )
+    {
+        int t = str2num(argv[3], GANGNMAX);
+        if (t <= 0)
+        {
+            throw MyParameterException();
+        }
+        int lower = 0;
+        int upper = 0;
+        if (strlen(argv[5]) == 5 && argv[5][2] == '~' &&
+            '0' <= argv[5][0] && argv[5][0] <= '9' &&
+            '0' <= argv[5][1] && argv[5][1] <= '9' &&
+            '0' <= argv[5][3] && argv[5][3] <= '9' &&
+            '0' <= argv[5][4] && argv[5][4] <= '9'
+            )
+        {
+            lower = (argv[5][0] - '0') * 10 + (argv[5][1] - '0');
+            upper = (argv[5][3] - '0') * 10 + (argv[5][4] - '0');
+            if (lower > upper || lower < LOWER || upper > UPPER)
+            {
+                throw MyParameterException();
+            }
+        }
+        else
+        {
+            throw MyParameterException();
+        }
+        memset(result, 0, CREATEMAX * (sizeof(int)));
+        generate(t, lower, upper, true, result);
+        print(t, result);
+    }
+    //-u -r lower~upper -n x
+    else if (argc == 6 &&
+        strlen(argv[1]) == 2 && argv[1][0] == '-' && argv[1][1] == 'u' &&
+        strlen(argv[2]) == 2 && argv[2][0] == '-' && argv[2][1] == 'r' &&
+        strlen(argv[4]) == 2 && argv[4][0] == '-' && argv[4][1] == 'n'
+        )
+    {
+        int t = str2num(argv[5], GANGNMAX);
+        if (t <= 0)
+        {
+            throw MyParameterException();
+        }
+        int lower = 0;
+        int upper = 0;
+        if (strlen(argv[3]) == 5 && argv[3][2] == '~' &&
+            '0' <= argv[3][0] && argv[3][0] <= '9' &&
+            '0' <= argv[3][1] && argv[3][1] <= '9' &&
+            '0' <= argv[3][3] && argv[3][3] <= '9' &&
+            '0' <= argv[3][4] && argv[3][4] <= '9'
+            )
+        {
+            lower = (argv[3][0] - '0') * 10 + (argv[3][1] - '0');
+            upper = (argv[3][3] - '0') * 10 + (argv[3][4] - '0');
+            if (lower > upper || lower < LOWER || upper > UPPER)
+            {
+                throw MyParameterException();
+            }
+        }
+        else
+        {
+            throw MyParameterException();
+        }
+        memset(result, 0, CREATEMAX * (sizeof(int)));
+        generate(t, lower, upper, true, result);
+        print(t, result);
+    }
 	else
 	{
 		throw MyOrderException();
