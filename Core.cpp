@@ -185,14 +185,24 @@ void Core::create(int number, int result[][SUDOKU_SIZE])
 		puzzleStart[56] = rand() % 9 + 1;
 		puzzleStart[68] = rand() % 9 + 1;
 		puzzleStart[80] = rand() % 9 + 1;
+		//puzzleStart[rand() % 81] = rand() % 9 + 1;
+		printf("%d\n", nn++);
+		for (int i = 0; i < 9; i++)
+		{
+			for (int j = 0; j < 9; j++)
+			{
+				printf("%d ", puzzleStart[i * 9 + j]);
+			}
+			printf("\n");
+		}
+
 		if (!solve(puzzleStart, OriMartixCopy))
 		{
 			printf("no solution");
 			continue;
 		}
 
-		printf("%d\n", nn++);
-
+	
 		//row transfor
 		for (int i = 0; i < 6; i++)
 		{
@@ -487,7 +497,7 @@ int Core::readFile(char *path, int puzzleSet[][SUDOKU_SIZE])
 	int x = 0;
 	while ((fscanf(inFile, "%d", &x)) != EOF)
 	{
-		if (x < 1 || x > 9)
+		if (x < 0 || x > 9)
 		{
 			throw MySudokuException();
 		}
