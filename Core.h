@@ -22,11 +22,22 @@
 
 using namespace std;
 
+
+
 struct MyOrderException : public exception
 {
 	const char * msg() const throw ()
 	{
-		return "Error : No Such Order";
+		return "Error : No Such Order\n\
+    Correct Usage:\n\
+        -c [number]                         (1<=number<=1,000,000)\n\
+        -s [puzzle_file_path]               (absolute or relative)\n\
+        -n [number]                         (1<=number<=10,000)\n\
+        -n [number] -m [mode]               (1<=number<=10,000) (1<=mode<=3)\n\
+        -n [number] -u                      (1<=number<=10,000)\n\
+        -n [number] -r [lower]~[upper]      (1<=number<=10,000) (20<=lower<=upper<=55)\n\
+        -n [number] -r [lower]~[upper] -u   (1<=number<=10,000) (20<=lower<=upper<=55)\n\
+    Parameter order is arbitrary.";
 	}
 };
 
@@ -34,7 +45,9 @@ struct MyFileException : public exception
 {
 	const char * msg() const throw ()
 	{
-		return "Error : File Not Found";
+		return "Error : File Not Found\n\
+        -s [puzzle_file_path]               (absolute or relative)\n\
+        File must exist!";
 	}
 };
 
@@ -42,7 +55,8 @@ struct MySudokuException : public exception
 {
 	const char * msg() const throw ()
 	{
-		return "Error : Unsupported Sudoku";
+		return "Error : Unsupported Sudoku\n\
+        File content must be legal!";
 	}
 };
 
@@ -50,7 +64,16 @@ struct MyParameterException : public exception
 {
 	const char * msg() const throw ()
 	{
-		return "Error : Illegal Parameter";
+        return "Error : No Such Order\n\
+    Correct Usage:\n\
+        -c [number]                         (1<=number<=1,000,000)\n\
+        -s [puzzle_file_path]               (absolute or relative)\n\
+        -n [number]                         (1<=number<=10,000)\n\
+        -n [number] -m [mode]               (1<=number<=10,000) (1<=mode<=3)\n\
+        -n [number] -u                      (1<=number<=10,000)\n\
+        -n [number] -r [lower]~[upper]      (1<=number<=10,000) (20<=lower<=upper<=55)\n\
+        -n [number] -r [lower]~[upper] -u   (1<=number<=10,000) (20<=lower<=upper<=55)\n\
+    Parameter order is arbitrary.";
 	}
 };
 
@@ -58,7 +81,16 @@ struct MyFormatException : public exception
 {
 	const char * msg() const throw ()
 	{
-		return "Error : Wrong Number of Parameters";
+        return "Error : No Such Order\n\
+    Correct Usage:\n\
+        -c [number]                         (1<=number<=1,000,000)\n\
+        -s [puzzle_file_path]               (absolute or relative)\n\
+        -n [number]                         (1<=number<=10,000)\n\
+        -n [number] -m [mode]               (1<=number<=10,000) (1<=mode<=3)\n\
+        -n [number] -u                      (1<=number<=10,000)\n\
+        -n [number] -r [lower]~[upper]      (1<=number<=10,000) (20<=lower<=upper<=55)\n\
+        -n [number] -r [lower]~[upper] -u   (1<=number<=10,000) (20<=lower<=upper<=55)\n\
+    Parameter order is arbitrary.";
 	}
 };
 
@@ -78,14 +110,12 @@ private:
 	};
 	int solveCnt = 0;
 	
-	set<string> endSet;
+	set<string> _startSet;
 
 public:
 	Core();
 	~Core();
 	void RowSwap(int* srcMartix, int Type, int* rank);
-	void SudokuCheck(char temp[]);
-	int getendSetNum();
 
 	void create(int number, int result[][SUDOKU_SIZE]);
 	bool DuplicateCheck(int* a, int aim, int count);
