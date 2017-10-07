@@ -176,25 +176,32 @@ void Core::create(int number, int result[][SUDOKU_SIZE])
 		int puzzleStart[81] = { 0 };
 		int OriMartixCopy[81] = { 0 };
 		int OriMarRowCopy[81] = { 0 };
-		puzzleStart[0] = rand() % 9 + 1;
-		puzzleStart[12] = rand() % 9 + 1;
-		puzzleStart[24] = rand() % 9 + 1;
-		puzzleStart[28] = rand() % 9 + 1;
-		puzzleStart[40] = rand() % 9 + 1;
-		puzzleStart[52] = rand() % 9 + 1;
-		puzzleStart[56] = rand() % 9 + 1;
-		puzzleStart[68] = rand() % 9 + 1;
-		puzzleStart[80] = rand() % 9 + 1;
-		//puzzleStart[rand() % 81] = rand() % 9 + 1;
-		printf("%d\n", nn++);
-		for (int i = 0; i < 9; i++)
-		{
-			for (int j = 0; j < 9; j++)
-			{
-				printf("%d ", puzzleStart[i * 9 + j]);
-			}
-			printf("\n");
-		}
+        int position[10] = { 0, 12, 24, 28, 40, 52, 56, 68, 80};
+        int a[10] = { 0 };
+        int t = 0;
+        for (int i = 0; i < 10; i++)
+        {
+            while(true)
+            {
+                t = rand() % 9 + 1;
+                if (a[t] < 2)
+                {
+                    a[t]++;
+                    break;
+                }
+            }
+            puzzleStart[position[i]] = t;
+        }
+
+        printf("%d\n", nn++);
+        for (int j = 0; j < 9; j++)
+        {
+            for (int k = 0; k < 9; k++)
+            {
+                printf("%d ", puzzleStart[j * 9 + k]);
+            }
+            printf("\n");
+        }
 
 		if (!solve(puzzleStart, OriMartixCopy))
 		{
@@ -202,7 +209,6 @@ void Core::create(int number, int result[][SUDOKU_SIZE])
 			continue;
 		}
 
-	
 		//row transfor
 		for (int i = 0; i < 6; i++)
 		{
