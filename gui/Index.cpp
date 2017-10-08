@@ -1,4 +1,7 @@
 #include "Index.h"
+#include "QGridLayout"
+#include "ui_SudokuGUI.h"
+#include "SudokuGUI.h"
 
 
 
@@ -14,32 +17,34 @@ Index::~Index()
 
 void Index::startNew() const
 {
-    hide5btn();
+    hideMain();
     sudokuShow();
 }
 
 void Index::backMain() const
 {
-    show5btn();
+    showMain();
     sudokuHide();
 }
 
-void Index::hide5btn() const
+void Index::hideMain() const
 {
 	startGameBtn->hide();
 	loadGameBtn->hide();
 	leaderboardBtn->hide();
 	settingBtn->hide();
 	gameIntroBtn->hide();
+    titleLabel->hide();
 }
 
-void Index::show5btn() const
+void Index::showMain() const
 {
     startGameBtn->show();
     loadGameBtn->show();
     leaderboardBtn->show();
     settingBtn->show();
     gameIntroBtn->show();
+    titleLabel->show();
 }
 
 void Index::sudokuShow() const
@@ -69,32 +74,72 @@ void Index::sudokuHide() const
 
 void Index::showIntro() const
 {
-    hide5btn();
+    hideMain();
     introBackBtn->show();
     introLabel->show();
 }
 
 void Index::hideIntro() const
 {
-    show5btn();
+    showMain();
     introBackBtn->hide();
     introLabel->hide();
 }
 
 void Index::showSetting() const
 {
-    hide5btn();
+    hideMain();
     settingBackBtn->show();
 }
 
 void Index::hideSetting() const
 {
-    show5btn();
+    showMain();
     settingBackBtn->hide();
 }
 
-void Index::init()
+/*
+void Index::startTimer() const
 {
+    if (!isStart)
+    {
+        ui->Start->setIconSize(QSize(70, 70));
+        ui->Start->setIcon(*pauseIcon);
+        ui->Start->show();
+        timer->start(1000);
+    }
+    else
+    {
+        ui->Start->setIcon(*generateBtn);
+        ui->Start->show();
+        timer->stop();
+    }
+    isStart = !isStart;
+}
+
+void Index::stopTimer() const
+{
+    timer->stop();    //计时器停止
+    time->setHMS(0, 0, 0); //时间设为0
+    ui->Timer->display(time->toString("hh:mm:ss")); //显示00:00:00
+    isStart = false;
+}
+
+void Index::updateTime() const
+{
+    *time = time->addSecs(1);
+    this->Timer->display(time->toString("hh:mm:ss"));
+}
+*/
+
+void Index::init()
+{   
+    QGridLayout* mainlayout = new QGridLayout;
+
+    isStart = false;
+    timer = new QTimer;
+    time = new QTime(0, 0, 0);
+
 	startGameBtn = new QPushButton("Start Game", _w);
 	startGameBtn->setStyleSheet("font-size:30px;background-color: #a9a9a9;");
 	startGameBtn->setGeometry(500, 400, 200, 50);
@@ -119,7 +164,7 @@ void Index::init()
 	gameIntroBtn->setStyleSheet("font-size:30px;background-color: #a9a9a9;");
 	gameIntroBtn->setGeometry(500, 700, 200, 50);
     QObject::connect(gameIntroBtn, SIGNAL(clicked()), this, SLOT(showIntro()));
-    
+
 	for (int i = 0; i < 81; i++)
 	{
 		sudoku[i] = new QPushButton("8", _w);
@@ -159,6 +204,13 @@ void Index::init()
     backBtn->hide();
     QObject::connect(backBtn, SIGNAL(clicked()), this, SLOT(backMain()));
 
+    titleLabel = new QLabel("Sudoku", _w);
+    titleLabel->setStyleSheet("font-size:120px;");
+    titleLabel->adjustSize();
+    titleLabel->setGeometry(QRect(380, 100, 720, 200 * 1));  //四倍行距
+    titleLabel->setWordWrap(true);
+    titleLabel->setAlignment(Qt::AlignTop);
+
     introLabel = new QLabel("   Sudoku comes from a math game in Switzerland in the eighteenth Century.\
  It is a logic game using paper and pen for calculation.\
  The player needs to deduce the number of all the remaining spaces\
@@ -175,7 +227,6 @@ void Index::init()
     introLabel->setGeometry(QRect(40, 100, 1120, 30*24));  //四倍行距
     introLabel->setWordWrap(true);
     introLabel->setAlignment(Qt::AlignTop);
-
     introLabel->hide();
 
     introBackBtn = new QPushButton("back to main", _w);
@@ -189,6 +240,4 @@ void Index::init()
     settingBackBtn->setGeometry(500, 700, 200, 40);
     settingBackBtn->hide();
     QObject::connect(settingBackBtn, SIGNAL(clicked()), this, SLOT(hideSetting()));
-
-    
 }

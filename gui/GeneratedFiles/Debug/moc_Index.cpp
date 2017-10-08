@@ -30,10 +30,10 @@ struct qt_meta_stringdata_Index_t {
 static const qt_meta_stringdata_Index_t qt_meta_stringdata_Index = {
     {
 QT_MOC_LITERAL(0, 0, 5), // "Index"
-QT_MOC_LITERAL(1, 6, 8), // "hide5btn"
+QT_MOC_LITERAL(1, 6, 8), // "hideMain"
 QT_MOC_LITERAL(2, 15, 0), // ""
 QT_MOC_LITERAL(3, 16, 10), // "sudokuShow"
-QT_MOC_LITERAL(4, 27, 8), // "show5btn"
+QT_MOC_LITERAL(4, 27, 8), // "showMain"
 QT_MOC_LITERAL(5, 36, 10), // "sudokuHide"
 QT_MOC_LITERAL(6, 47, 8), // "startNew"
 QT_MOC_LITERAL(7, 56, 8), // "backMain"
@@ -43,7 +43,7 @@ QT_MOC_LITERAL(10, 85, 11), // "showSetting"
 QT_MOC_LITERAL(11, 97, 11) // "hideSetting"
 
     },
-    "Index\0hide5btn\0\0sudokuShow\0show5btn\0"
+    "Index\0hideMain\0\0sudokuShow\0showMain\0"
     "sudokuHide\0startNew\0backMain\0showIntro\0"
     "hideIntro\0showSetting\0hideSetting"
 };
@@ -95,9 +95,9 @@ void Index::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void 
         Index *_t = static_cast<Index *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->hide5btn(); break;
+        case 0: _t->hideMain(); break;
         case 1: _t->sudokuShow(); break;
-        case 2: _t->show5btn(); break;
+        case 2: _t->showMain(); break;
         case 3: _t->sudokuHide(); break;
         case 4: _t->startNew(); break;
         case 5: _t->backMain(); break;

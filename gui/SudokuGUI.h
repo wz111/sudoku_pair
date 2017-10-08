@@ -2,6 +2,10 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_SudokuGUI.h"
+#include <QDateTime>
+#include <QTimer>
+#include <QTime>
+
 
 class SudokuGUI : public QMainWindow
 {

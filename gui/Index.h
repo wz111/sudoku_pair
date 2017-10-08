@@ -4,7 +4,15 @@
 #include "ui_SudokuGUI.h"
 #include <QPushButton>
 #include <QLabel>
+#include <QDateTime>
+#include <QTimer>
+#include <QTime>
+#include "QGridLayout"
 #include "SudokuGUI.h"
+
+namespace Ui {
+    class Index;
+}
 
 class Index : public QObject
 {
@@ -25,15 +33,20 @@ private:
     QPushButton *introBackBtn;
     QPushButton *settingBackBtn;
 
+    QLabel *titleLabel;
     QLabel *introLabel;
+
+    QTimer *timer;
+    QTime *time;
+    bool isStart;
 public:
 	Index(Recv *recv, SudokuGUI *w);
 	~Index();
 	void init();
 public slots:
-    void hide5btn() const;
+    void hideMain() const;
 	void sudokuShow() const;
-    void show5btn() const;
+    void showMain() const;
     void sudokuHide() const;
     void startNew() const;
     void backMain() const;
@@ -41,5 +54,6 @@ public slots:
     void hideIntro() const;
     void showSetting() const;
     void hideSetting() const;
+
 };
 

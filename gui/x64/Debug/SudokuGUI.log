@@ -1,3 +1,9 @@
-﻿  main.cpp
+﻿  Moc'ing SudokuGUI.h...
+  moc_Index.cpp
+  moc_SudokuGUI.cpp
+  Index.cpp
+  SudokuGUI.cpp
+  main.cpp
+  正在生成代码...
   SudokuGUI.vcxproj -> C:\Users\Administrator\Desktop\SudokuGUI\x64\Debug\SudokuGUI.exe
   SudokuGUI.vcxproj -> C:\Users\Administrator\Desktop\SudokuGUI\x64\Debug\SudokuGUI.pdb (Full PDB)
