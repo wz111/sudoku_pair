@@ -26,7 +26,7 @@ public:
 	~Index();
 	void init();
 public slots:
-	void hide5btn() const;
+    void hide5btn() const;
 	void sudokuShow() const;
     void show5btn() const;
     void sudokuHide() const;
