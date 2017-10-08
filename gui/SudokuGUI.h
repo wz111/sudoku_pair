@@ -20,8 +20,5 @@ class Recv : public QObject
 
 public:
 	Recv() {}
-
-	public slots :	
-	    void startGame() const;
 	
 };

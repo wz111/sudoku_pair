@@ -3,6 +3,7 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_SudokuGUI.h"
 #include <QPushButton>
+#include <QLabel>
 #include "SudokuGUI.h"
 
 class Index : public QObject
@@ -21,6 +22,10 @@ private:
     QPushButton *hintBtn;
     QPushButton *checkBtn;
     QPushButton *backBtn;
+    QPushButton *introBackBtn;
+    QPushButton *settingBackBtn;
+
+    QLabel *introLabel;
 public:
 	Index(Recv *recv, SudokuGUI *w);
 	~Index();
@@ -30,5 +35,11 @@ public slots:
 	void sudokuShow() const;
     void show5btn() const;
     void sudokuHide() const;
+    void startNew() const;
+    void backMain() const;
+    void showIntro() const;
+    void hideIntro() const;
+    void showSetting() const;
+    void hideSetting() const;
 };
 

@@ -2,15 +2,13 @@
 #include <QtWidgets/QApplication>
 #include <QPushButton>
 #include "Index.h"
-QPushButton *gameIntro;
 
-void Recv::startGame() const
-{
-	
-}
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
+    QFont font = a.font();
+    font.setFamily(QObject::tr("Microsoft YaHei"));
+    a.setFont(font);
 	SudokuGUI w;
 	Recv recv;
 	w.resize(1200, 800);
