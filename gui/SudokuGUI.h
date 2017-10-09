@@ -24,5 +24,5 @@ class Recv : public QObject
 
 public:
 	Recv() {}
-	
+
 };

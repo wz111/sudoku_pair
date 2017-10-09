@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Index_t {
-    QByteArrayData data[17];
-    char stringdata0[160];
+    QByteArrayData data[20];
+    char stringdata0[192];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -45,14 +45,18 @@ QT_MOC_LITERAL(12, 109, 14), // "changeBtnGroup"
 QT_MOC_LITERAL(13, 124, 2), // "id"
 QT_MOC_LITERAL(14, 127, 8), // "showMode"
 QT_MOC_LITERAL(15, 136, 13), // "showModeStart"
-QT_MOC_LITERAL(16, 150, 9) // "backQuery"
+QT_MOC_LITERAL(16, 150, 9), // "backQuery"
+QT_MOC_LITERAL(17, 160, 10), // "updateTime"
+QT_MOC_LITERAL(18, 171, 10), // "startTimer"
+QT_MOC_LITERAL(19, 182, 9) // "stopTimer"
 
     },
     "Index\0hideMain\0\0sudokuShow\0showMain\0"
     "sudokuHide\0startNew\0backMain\0showIntro\0"
     "hideIntro\0showSetting\0hideSetting\0"
     "changeBtnGroup\0id\0showMode\0showModeStart\0"
-    "backQuery"
+    "backQuery\0updateTime\0startTimer\0"
+    "stopTimer"
 };
 #undef QT_MOC_LITERAL
 
@@ -62,7 +66,7 @@ static const uint qt_meta_data_Index[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      14,   14, // methods
+      17,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -70,20 +74,23 @@ static const uint qt_meta_data_Index[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   84,    2, 0x0a /* Public */,
-       3,    0,   85,    2, 0x0a /* Public */,
-       4,    0,   86,    2, 0x0a /* Public */,
-       5,    0,   87,    2, 0x0a /* Public */,
-       6,    0,   88,    2, 0x0a /* Public */,
-       7,    0,   89,    2, 0x0a /* Public */,
-       8,    0,   90,    2, 0x0a /* Public */,
-       9,    0,   91,    2, 0x0a /* Public */,
-      10,    0,   92,    2, 0x0a /* Public */,
-      11,    0,   93,    2, 0x0a /* Public */,
-      12,    1,   94,    2, 0x0a /* Public */,
-      14,    0,   97,    2, 0x0a /* Public */,
-      15,    0,   98,    2, 0x0a /* Public */,
-      16,    0,   99,    2, 0x0a /* Public */,
+       1,    0,   99,    2, 0x0a /* Public */,
+       3,    0,  100,    2, 0x0a /* Public */,
+       4,    0,  101,    2, 0x0a /* Public */,
+       5,    0,  102,    2, 0x0a /* Public */,
+       6,    0,  103,    2, 0x0a /* Public */,
+       7,    0,  104,    2, 0x0a /* Public */,
+       8,    0,  105,    2, 0x0a /* Public */,
+       9,    0,  106,    2, 0x0a /* Public */,
+      10,    0,  107,    2, 0x0a /* Public */,
+      11,    0,  108,    2, 0x0a /* Public */,
+      12,    1,  109,    2, 0x0a /* Public */,
+      14,    0,  112,    2, 0x0a /* Public */,
+      15,    0,  113,    2, 0x0a /* Public */,
+      16,    0,  114,    2, 0x0a /* Public */,
+      17,    0,  115,    2, 0x0a /* Public */,
+      18,    0,  116,    2, 0x0a /* Public */,
+      19,    0,  117,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
@@ -97,6 +104,9 @@ static const uint qt_meta_data_Index[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, QMetaType::Int,   13,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -124,6 +134,9 @@ void Index::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void 
         case 11: _t->showMode(); break;
         case 12: _t->showModeStart(); break;
         case 13: _t->backQuery(); break;
+        case 14: _t->updateTime(); break;
+        case 15: _t->startTimer(); break;
+        case 16: _t->stopTimer(); break;
         default: ;
         }
     }
@@ -154,13 +167,13 @@ int Index::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 14)
+        if (_id < 17)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 14;
+        _id -= 17;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 14)
+        if (_id < 17)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 14;
+        _id -= 17;
     }
     return _id;
 }
