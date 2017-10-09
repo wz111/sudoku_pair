@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Index_t {
-    QByteArrayData data[16];
-    char stringdata0[150];
+    QByteArrayData data[17];
+    char stringdata0[160];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -44,13 +44,15 @@ QT_MOC_LITERAL(11, 97, 11), // "hideSetting"
 QT_MOC_LITERAL(12, 109, 14), // "changeBtnGroup"
 QT_MOC_LITERAL(13, 124, 2), // "id"
 QT_MOC_LITERAL(14, 127, 8), // "showMode"
-QT_MOC_LITERAL(15, 136, 13) // "showModeStart"
+QT_MOC_LITERAL(15, 136, 13), // "showModeStart"
+QT_MOC_LITERAL(16, 150, 9) // "backQuery"
 
     },
     "Index\0hideMain\0\0sudokuShow\0showMain\0"
     "sudokuHide\0startNew\0backMain\0showIntro\0"
     "hideIntro\0showSetting\0hideSetting\0"
-    "changeBtnGroup\0id\0showMode\0showModeStart"
+    "changeBtnGroup\0id\0showMode\0showModeStart\0"
+    "backQuery"
 };
 #undef QT_MOC_LITERAL
 
@@ -60,7 +62,7 @@ static const uint qt_meta_data_Index[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      13,   14, // methods
+      14,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -68,19 +70,20 @@ static const uint qt_meta_data_Index[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   79,    2, 0x0a /* Public */,
-       3,    0,   80,    2, 0x0a /* Public */,
-       4,    0,   81,    2, 0x0a /* Public */,
-       5,    0,   82,    2, 0x0a /* Public */,
-       6,    0,   83,    2, 0x0a /* Public */,
-       7,    0,   84,    2, 0x0a /* Public */,
-       8,    0,   85,    2, 0x0a /* Public */,
-       9,    0,   86,    2, 0x0a /* Public */,
-      10,    0,   87,    2, 0x0a /* Public */,
-      11,    0,   88,    2, 0x0a /* Public */,
-      12,    1,   89,    2, 0x0a /* Public */,
-      14,    0,   92,    2, 0x0a /* Public */,
-      15,    0,   93,    2, 0x0a /* Public */,
+       1,    0,   84,    2, 0x0a /* Public */,
+       3,    0,   85,    2, 0x0a /* Public */,
+       4,    0,   86,    2, 0x0a /* Public */,
+       5,    0,   87,    2, 0x0a /* Public */,
+       6,    0,   88,    2, 0x0a /* Public */,
+       7,    0,   89,    2, 0x0a /* Public */,
+       8,    0,   90,    2, 0x0a /* Public */,
+       9,    0,   91,    2, 0x0a /* Public */,
+      10,    0,   92,    2, 0x0a /* Public */,
+      11,    0,   93,    2, 0x0a /* Public */,
+      12,    1,   94,    2, 0x0a /* Public */,
+      14,    0,   97,    2, 0x0a /* Public */,
+      15,    0,   98,    2, 0x0a /* Public */,
+      16,    0,   99,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
@@ -94,6 +97,7 @@ static const uint qt_meta_data_Index[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, QMetaType::Int,   13,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -119,6 +123,7 @@ void Index::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void 
         case 10: _t->changeBtnGroup((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 11: _t->showMode(); break;
         case 12: _t->showModeStart(); break;
+        case 13: _t->backQuery(); break;
         default: ;
         }
     }
@@ -149,13 +154,13 @@ int Index::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 13)
+        if (_id < 14)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 13;
+        _id -= 14;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 13)
+        if (_id < 14)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 13;
+        _id -= 14;
     }
     return _id;
 }

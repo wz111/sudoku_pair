@@ -2,6 +2,7 @@
 #include "QGridLayout"
 #include "ui_SudokuGUI.h"
 #include "SudokuGUI.h"
+#include "QDialog"
 
 
 
@@ -30,6 +31,43 @@ void Index::backMain() const
 {
     showMain();
     sudokuHide();
+}
+
+void Index::backQuery() const
+{
+    QDialog *dlg = new QDialog(_w);
+    dlg->resize(600, 200);
+    //dlg->setGeometry(450, 700, 300, 200);
+    QLabel *backQueryLabel = new QLabel("Warning:", dlg);
+    QLabel *backQueryLabel0 = new QLabel("Are you sure you want to give up the current game?", dlg);
+    QLabel *backQueryLabel1 = new QLabel("(System will not keep your changes)", dlg);
+    QPushButton *backMainBtn = new QPushButton("back to main", dlg);
+    QPushButton *closeBtn = new QPushButton("close", dlg);
+    backQueryLabel->setStyleSheet("font-size:30px;");
+    backQueryLabel->setGeometry(QRect(5, 5, 590, 20));
+    backQueryLabel->adjustSize();
+    backQueryLabel->setWordWrap(true);
+    backQueryLabel->setAlignment(Qt::AlignTop);
+
+    backQueryLabel0->setStyleSheet("font-size:20px;");
+    backQueryLabel0->setGeometry(QRect(5, 60, 590, 20));
+    backQueryLabel0->adjustSize();
+    backQueryLabel0->setWordWrap(true);
+    backQueryLabel0->setAlignment(Qt::AlignTop);
+    
+    backQueryLabel1->setStyleSheet("font-size:20px;font:bold;");
+    backQueryLabel1->setGeometry(QRect(5, 100, 590, 20));
+    backQueryLabel1->adjustSize();
+    backQueryLabel1->setWordWrap(true);
+    backQueryLabel1->setAlignment(Qt::AlignTop);
+
+    backMainBtn->setGeometry(130, 160, 105, 30);
+    closeBtn->setGeometry(365, 160, 105, 30);
+    QObject::connect(backMainBtn, SIGNAL(clicked()), dlg, SLOT(close()));
+    QObject::connect(backMainBtn, SIGNAL(clicked()), this, SLOT(backMain()));
+    QObject::connect(closeBtn, SIGNAL(clicked()), dlg, SLOT(close()));
+    dlg->setModal(true);
+    dlg->show();
 }
 
 void Index::hideMain() const
@@ -277,7 +315,7 @@ void Index::init()
     backBtn->setStyleSheet("font-size:40px;background-color:red;");
     backBtn->setGeometry(900, 640, 200, 40);
     backBtn->hide();
-    QObject::connect(backBtn, SIGNAL(clicked()), this, SLOT(backMain()));
+    QObject::connect(backBtn, SIGNAL(clicked()), this, SLOT(backQuery()));
 
     titleLabel = new QLabel("Sudoku", _w);
     titleLabel->setStyleSheet("font-size:120px;");
