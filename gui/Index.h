@@ -66,5 +66,6 @@ public slots:
     void changeBtnGroup(int id) const;
     void showMode() const;
     void showModeStart() const;
+    void backQuery() const;
 };
 
