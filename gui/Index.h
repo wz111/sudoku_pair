@@ -3,7 +3,18 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_SudokuGUI.h"
 #include <QPushButton>
+#include <QLabel>
+#include <QDateTime>
+#include <QTimer>
+#include <QTime>
+#include <QRadioButton>
+#include <QButtonGroup>
+#include "QGridLayout"
 #include "SudokuGUI.h"
+
+namespace Ui {
+    class Index;
+}
 
 class Index : public QObject
 {
@@ -21,14 +32,39 @@ private:
     QPushButton *hintBtn;
     QPushButton *checkBtn;
     QPushButton *backBtn;
+    QPushButton *introBackBtn;
+    QPushButton *settingBackBtn;
+    QPushButton *modeStartBtn;
+
+    QButtonGroup *modeGroup;
+    QRadioButton *easyBtn;
+    QRadioButton *mediumBtn;
+    QRadioButton *hardBtn;
+
+    QLabel *titleLabel;
+    QLabel *introLabel;
+    QLabel *modeLabel;
+
+    QTimer *timer;
+    QTime *time;
+    bool isStart;
 public:
 	Index(Recv *recv, SudokuGUI *w);
 	~Index();
 	void init();
 public slots:
-	void hide5btn() const;
+    void hideMain() const;
 	void sudokuShow() const;
-    void show5btn() const;
+    void showMain() const;
     void sudokuHide() const;
+    void startNew() const;
+    void backMain() const;
+    void showIntro() const;
+    void hideIntro() const;
+    void showSetting() const;
+    void hideSetting() const;
+    void changeBtnGroup(int id) const;
+    void showMode() const;
+    void showModeStart() const;
 };
 
