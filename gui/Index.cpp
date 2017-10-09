@@ -18,6 +18,11 @@ Index::~Index()
 void Index::startNew() const
 {
     hideMain();
+    easyBtn->hide();
+    mediumBtn->hide();
+    hardBtn->hide();
+    modeStartBtn->hide();
+    modeLabel->hide();
     sudokuShow();
 }
 
@@ -49,10 +54,41 @@ void Index::showMain() const
 
 void Index::sudokuShow() const
 {
-	for (int i = 0; i < 81; i++)
-	{
-		sudoku[i]->show();
-	}
+    for (int i = 0; i < 81; i++)
+    {
+        sudoku[i]->show();
+    }
+    while (true)
+    {
+        if (easyBtn->isChecked())
+        {
+            for (int i = 0; i < 20; i++)
+            {
+                sudoku[i]->setText("");
+            }
+            break;
+        }
+        else if (mediumBtn->isChecked())
+        {
+            for (int i = 0; i < 40; i++)
+            {
+                sudoku[i]->setText("");
+            }
+            break;
+        }
+        else if (hardBtn->isChecked())
+        {
+            for (int i = 0; i < 60; i++)
+            {
+                sudoku[i]->setText("");
+            }
+            break;
+        }
+        else
+        {
+            continue;
+        }
+    }
     generateBtn->show();
     hintBtn->show();
     checkBtn->show();
@@ -98,6 +134,30 @@ void Index::hideSetting() const
     settingBackBtn->hide();
 }
 
+void Index::changeBtnGroup(int id) const
+{
+    switch (id)
+    {
+    case 0:
+        easyBtn->setChecked(true);
+        mediumBtn->setChecked(false);
+        hardBtn->setChecked(false);
+        break;
+    case 1:
+        easyBtn->setChecked(false);
+        mediumBtn->setChecked(true);
+        hardBtn->setChecked(false);
+        break;
+    case 2:
+        easyBtn->setChecked(false);
+        mediumBtn->setChecked(false);
+        hardBtn->setChecked(true);
+        break;
+    default:
+        break;
+    }
+}
+
 /*
 void Index::startTimer() const
 {
@@ -132,6 +192,21 @@ void Index::updateTime() const
 }
 */
 
+void Index::showMode() const
+{
+    hideMain();
+    modeLabel->show();
+    easyBtn->show();
+    mediumBtn->show();
+    hardBtn->show();
+    modeStartBtn->show();
+}
+
+void Index::showModeStart() const
+{
+    modeStartBtn->setEnabled(true);
+}
+
 void Index::init()
 {   
     QGridLayout* mainlayout = new QGridLayout;
@@ -143,7 +218,7 @@ void Index::init()
 	startGameBtn = new QPushButton("Start Game", _w);
 	startGameBtn->setStyleSheet("font-size:30px;background-color: #a9a9a9;");
 	startGameBtn->setGeometry(500, 400, 200, 50);
-	QObject::connect(startGameBtn, SIGNAL(clicked()), this, SLOT(startNew()));
+	QObject::connect(startGameBtn, SIGNAL(clicked()), this, SLOT(showMode()));
 
 	loadGameBtn = new QPushButton("Load Game", _w);
 	loadGameBtn->setStyleSheet("font-size:30px;background-color: #a9a9a9;");
@@ -221,13 +296,21 @@ void Index::init()
  In these eighty-one spaces, we give a certain number of known numbers and problem solving conditions,\
  and use logic and reasoning to fill 1-9 numbers in the other spaces.\
  So that each of the 1-9 numbers in each row, each column and each palace only appears once,\
- so it is also called 'nine squares'", _w);
+ so it is also called 'nine squares'.", _w);
     introLabel->setStyleSheet("font-size:30px;");
     introLabel->adjustSize();    
     introLabel->setGeometry(QRect(40, 100, 1120, 30*24));  //四倍行距
     introLabel->setWordWrap(true);
     introLabel->setAlignment(Qt::AlignTop);
     introLabel->hide();
+
+    modeLabel = new QLabel("Mode Selection", _w);
+    modeLabel->setStyleSheet("font-size:90px;");
+    modeLabel->adjustSize();
+    modeLabel->setGeometry(QRect(260, 100, 1120, 200 * 1));  //四倍行距
+    modeLabel->setWordWrap(true);
+    modeLabel->setAlignment(Qt::AlignTop);
+    modeLabel->hide();
 
     introBackBtn = new QPushButton("back to main", _w);
     introBackBtn->setStyleSheet("font-size:30px;background-color:red;");
@@ -240,4 +323,37 @@ void Index::init()
     settingBackBtn->setGeometry(500, 700, 200, 40);
     settingBackBtn->hide();
     QObject::connect(settingBackBtn, SIGNAL(clicked()), this, SLOT(hideSetting()));
+
+    modeStartBtn = new QPushButton("Start!", _w);
+    modeStartBtn->setStyleSheet("font-size:30px;background-color:#a9a9a9;");
+    modeStartBtn->setGeometry(500, 700, 200, 40);
+    modeStartBtn->setEnabled(false);
+    modeStartBtn->hide();
+    QObject::connect(modeStartBtn, SIGNAL(clicked()), this, SLOT(startNew()));
+
+    easyBtn = new QRadioButton(QString::fromUtf8("Easy"), _w);
+    easyBtn->setStyleSheet("font-size:45px;");
+    easyBtn->setGeometry(500, 300, 800, 100);
+    easyBtn->hide();
+    QObject::connect(easyBtn, SIGNAL(clicked()), this, SLOT(showModeStart()));
+
+    mediumBtn = new QRadioButton(QString::fromUtf8("Medium"), _w);
+    mediumBtn->setGeometry(500, 400, 800, 100);
+    mediumBtn->setStyleSheet("font-size:45px;");
+    mediumBtn->hide();
+    QObject::connect(mediumBtn, SIGNAL(clicked()), this, SLOT(showModeStart()));
+
+    hardBtn = new QRadioButton(QString::fromUtf8("Hard"),_w);
+    hardBtn->setGeometry(500, 500, 800, 100);
+    hardBtn->setStyleSheet("font-size:45px;");
+    hardBtn->hide();
+    QObject::connect(hardBtn, SIGNAL(clicked()), this, SLOT(showModeStart()));
+
+    modeGroup = new QButtonGroup();
+    modeGroup->addButton(easyBtn, 0);
+    modeGroup->addButton(mediumBtn, 1);
+    modeGroup->addButton(hardBtn, 2);
+    modeGroup->setExclusive(true);
+    QObject::connect(modeGroup, SIGNAL(buttonClicked(int)), this, SLOT(changeBtnGroup(int)));
+
 }

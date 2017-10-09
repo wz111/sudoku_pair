@@ -7,6 +7,8 @@
 #include <QDateTime>
 #include <QTimer>
 #include <QTime>
+#include <QRadioButton>
+#include <QButtonGroup>
 #include "QGridLayout"
 #include "SudokuGUI.h"
 
@@ -32,9 +34,16 @@ private:
     QPushButton *backBtn;
     QPushButton *introBackBtn;
     QPushButton *settingBackBtn;
+    QPushButton *modeStartBtn;
+
+    QButtonGroup *modeGroup;
+    QRadioButton *easyBtn;
+    QRadioButton *mediumBtn;
+    QRadioButton *hardBtn;
 
     QLabel *titleLabel;
     QLabel *introLabel;
+    QLabel *modeLabel;
 
     QTimer *timer;
     QTime *time;
@@ -54,6 +63,8 @@ public slots:
     void hideIntro() const;
     void showSetting() const;
     void hideSetting() const;
-
+    void changeBtnGroup(int id) const;
+    void showMode() const;
+    void showModeStart() const;
 };
 
