@@ -352,6 +352,12 @@ void Index::updateTime() const
 	//timeLabel->adjustSize();
 }
 
+void Index::generateNew() const
+{
+	sudokuHide();
+	showMode();
+}
+
 void Index::init()
 {
 	QGridLayout* mainlayout = new QGridLayout;
@@ -407,6 +413,7 @@ void Index::init()
 	generateBtn->setStyleSheet("font-size:40px;background-color:yellow;");
 	generateBtn->setGeometry(900, 400, 200, 40);
 	generateBtn->hide();
+	QObject::connect(generateBtn, SIGNAL(clicked()), this, SLOT(generateNew()));
 
 	hintBtn = new QPushButton("hint", _w);
 	hintBtn->setStyleSheet("font-size:40px;background-color:blue;");

@@ -74,5 +74,7 @@ public:
 	void updateTime() const;
 	void startTimer() const;
 	void stopTimer() const;
+
+	void generateNew() const;
 };
 
