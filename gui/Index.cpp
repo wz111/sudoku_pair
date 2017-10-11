@@ -94,71 +94,47 @@ void Index::sudokuShow() const
 {
 	for (int i = 0; i < 81; i++)
 	{
+		sudoku[i]->setStyleSheet("font-size:30px;background-color:white;");
+		sudoku[i]->setGeometry(40 + (i % 9) * 80, 40 + (i / 9) * 80, 80, 80);
+		sudoku[i]->hide();
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			sudoku[3 + i * 9 + j]->setStyleSheet("font-size:30px;background-color:#e5e5e5;");
+			sudoku[27 + i * 9 + j]->setStyleSheet("font-size:30px;background-color:#e5e5e5;");
+			sudoku[33 + i * 9 + j]->setStyleSheet("font-size:30px;background-color:#e5e5e5;");
+			sudoku[57 + i * 9 + j]->setStyleSheet("font-size:30px;background-color:#e5e5e5;");
+		}
+	}
+	for (int i = 0; i < 81; i++)
+	{
+		if (softKeyGroup->id(sudoku[i]) > 0)
+		{
+			softKeyGroup->removeButton(sudoku[i]);
+		}
 		sudoku[i]->show();
+		sudoku[i]->setCheckable(false);
 	}
 	int result[10][81] = { 0 };
 	Core c;
+	//~ c;
 	while (true)
 	{
 		if (easyBtn->isChecked())
 		{
-			/*for (int i = 0; i < 20; i++)
-			{
-				sudoku[i]->setText("");
-			}*/			
 		    c.generate(1, 1, result);
-			for (int i = 0; i < 81; i++)
-			{
-				if (result[0][i] == 0)
-				{
-					sudoku[i]->setText(" ");
-				}
-				else
-				{
-					sudoku[i]->setText(QString::number(result[0][i]));
-				}
-			}
-			//~ c;
 			break;
 		}
 		else if (mediumBtn->isChecked())
 		{
-			/*for (int i = 0; i < 40; i++)
-			{
-				sudoku[i]->setText("");
-			}*/
 			c.generate(1, 2, result);
-			for (int i = 0; i < 81; i++)
-			{
-				if (result[0][i] == 0)
-				{
-					sudoku[i]->setText(" ");
-				}
-				else
-				{
-					sudoku[i]->setText(QString::number(result[0][i]));
-				}
-			}
 			break;
 		}
 		else if (hardBtn->isChecked())
 		{
-			/*for (int i = 0; i < 60; i++)
-			{
-				sudoku[i]->setText("");
-			}*/
 			c.generate(1, 3, result);
-			for (int i = 0; i < 81; i++)
-			{
-				if (result[0][i] == 0)
-				{
-					sudoku[i]->setText(" ");
-				}
-				else
-				{
-					sudoku[i]->setText(QString::number(result[0][i]));
-				}
-			}
 			break;
 		}
 		else
@@ -166,13 +142,31 @@ void Index::sudokuShow() const
 			continue;
 		}
 	}
+
+	for (int i = 0; i < 81; i++)
+	{
+		if (result[0][i] == 0)
+		{
+			sudoku[i]->setText(" ");
+			softKeyGroup->addButton(sudoku[i]);
+			sudoku[i]->setCheckable(true);
+		}
+		else
+		{
+			sudoku[i]->setText(QString::number(result[0][i]));			
+		}
+	}
+
 	generateBtn->show();
 	hintBtn->show();
 	checkBtn->show();
 	backBtn->show();
 	startTimer();
+	for (int i = 0; i < 10; i++)
+	{
+		softKey[i]->show();
+	}
 }
-
 
 void Index::sudokuHide() const
 {
@@ -185,6 +179,10 @@ void Index::sudokuHide() const
 	checkBtn->hide();
 	backBtn->hide();
 	stopTimer();
+	for (int i = 0; i < 10; i++)
+	{
+		softKey[i]->hide();
+	}
 }
 
 void Index::showIntro() const
@@ -236,40 +234,6 @@ void Index::changeBtnGroup(int id) const
 		break;
 	}
 }
-
-/*
-void Index::startTimer() const
-{
-if (!isStart)
-{
-ui->Start->setIconSize(QSize(70, 70));
-ui->Start->setIcon(*pauseIcon);
-ui->Start->show();
-timer->start(1000);
-}
-else
-{
-ui->Start->setIcon(*generateBtn);
-ui->Start->show();
-timer->stop();
-}
-isStart = !isStart;
-}
-
-void Index::stopTimer() const
-{
-timer->stop();    //计时器停止
-time->setHMS(0, 0, 0); //时间设为0
-ui->Timer->display(time->toString("hh:mm:ss")); //显示00:00:00
-isStart = false;
-}
-
-void Index::updateTime() const
-{
-*time = time->addSecs(1);
-this->Timer->display(time->toString("hh:mm:ss"));
-}
-*/
 
 void Index::showMode() const
 {
@@ -358,6 +322,202 @@ void Index::generateNew() const
 	showMode();
 }
 
+void Index::fillBox() const
+{
+	for (int i = 0; i < 81; i++)
+	{
+		if (sudoku[i]->isChecked())
+		{
+			sudoku[i]->setText(((QPushButton*)QObject::sender())->text());
+			int tmp = (i / 9 / 3) * 3 * 9 + (i % 9 / 3) * 3;
+			if (tmp == 3 || tmp == 27 || tmp == 33 || tmp == 57)
+			{
+				sudoku[i]->setStyleSheet("font-size:35px;background-color:#e5e5e5;font:bold;");
+			}
+			else
+			{
+				sudoku[i]->setStyleSheet("font-size:35px;background-color:white;font:bold;");
+			}
+		}
+	}
+}
+
+void Index::giveHint() const
+{
+	int p[1][81] = { 0 };
+	for (int i = 0; i < 81; i++)
+	{
+		if (sudoku[i]->text() != " ")
+		{
+			p[0][i] = sudoku[i]->text().toInt();
+		}
+		else
+		{
+			p[0][i] = 0;
+		}
+	}
+	Core c;
+	int r[1][81] = { 0 };
+	
+	if (c.solve(p[0], r[0]))
+	{
+		c.print(1, r);
+		for (int i = 0; i < 81; i++)
+		{
+			if (sudoku[i]->isChecked())
+			{
+				sudoku[i]->setText(QString::number(r[0][i]));
+				int tmp = (i / 9 / 3) * 3 * 9 + (i % 9 / 3) * 3;
+				if (tmp == 3 || tmp == 27 || tmp == 33 || tmp == 57)
+				{
+					sudoku[i]->setStyleSheet("font-size:35px;background-color:#e5e5e5;font:bold;");
+				}
+				else
+				{
+					sudoku[i]->setStyleSheet("font-size:35px;background-color:white;font:bold;");
+				}
+			}
+		}
+
+	}
+	else
+	{
+		QDialog *hintDlg = new QDialog(_w);
+		hintDlg->resize(600, 200);
+		//dlg->setGeometry(450, 700, 300, 200);
+		QLabel *hintLabel = new QLabel("Current sudoku no solution!!", hintDlg);
+		hintLabel->setStyleSheet("font-size:30px;");
+		hintLabel->setGeometry(QRect(5, 80, 590, 20));
+		hintLabel->adjustSize();
+		hintLabel->setWordWrap(true);
+		hintLabel->setAlignment(Qt::AlignTop);
+		hintDlg->setModal(true);
+		hintDlg->show();
+	}
+}
+
+void Index::checkSudoku() const
+{
+	int p[81] = { 0 };
+	for (int i = 0; i < 81; i++)
+	{
+		if (sudoku[i]->text() == " ")
+		{
+			QDialog *incompleteDlg = new QDialog(_w);
+			incompleteDlg->resize(600, 200);
+			//dlg->setGeometry(450, 700, 300, 200);
+			QLabel *incompleteLabel = new QLabel("Sudoku is still blank.", incompleteDlg);
+			incompleteLabel->setStyleSheet("font-size:30px;");
+			incompleteLabel->setGeometry(QRect(5, 80, 590, 20));
+			incompleteLabel->adjustSize();
+			incompleteLabel->setWordWrap(true);
+			incompleteLabel->setAlignment(Qt::AlignTop);
+			incompleteDlg->setModal(true);
+			incompleteDlg->show();
+			return;
+		}
+		else
+		{
+			p[i] = sudoku[i]->text().toInt();
+		}
+	}
+	int r[10] = { 0 };
+	for (int i = 0; i < 9; i++)
+	{
+		memset(r, 0, sizeof(int) * 10);
+		for (int j = 0; j < 9; j++)
+		{
+			if (r[p[i * 9 + j]] == 0)
+			{
+				r[p[i * 9 + j]] = 1;
+			}
+			else
+			{
+				QDialog *waDlg = new QDialog(_w);
+				waDlg->resize(600, 200);
+				//dlg->setGeometry(450, 700, 300, 200);
+				QLabel *waLabel = new QLabel("Wrong Answer.", waDlg);
+				waLabel->setStyleSheet("font-size:30px;");
+				waLabel->setGeometry(QRect(5, 80, 590, 20));
+				waLabel->adjustSize();
+				waLabel->setWordWrap(true);
+				waLabel->setAlignment(Qt::AlignTop);
+				waDlg->setModal(true);
+				waDlg->show();
+				return;
+			}
+		}
+		memset(r, 0, sizeof(int) * 10);
+		for (int j = 0; j < 9; j++)
+		{
+			if (r[p[j * 9 + i]] == 0)
+			{
+				r[p[j * 9 + i]] = 1;
+			}
+			else
+			{
+				QDialog *waDlg = new QDialog(_w);
+				waDlg->resize(600, 200);
+				//dlg->setGeometry(450, 700, 300, 200);
+				QLabel *waLabel = new QLabel("Wrong Answer.", waDlg);
+				waLabel->setStyleSheet("font-size:30px;");
+				waLabel->setGeometry(QRect(5, 80, 590, 20));
+				waLabel->adjustSize();
+				waLabel->setWordWrap(true);
+				waLabel->setAlignment(Qt::AlignTop);
+				waDlg->setModal(true);
+				waDlg->show();
+				return;
+			}
+		}
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			memset(r, 0, sizeof(int) * 10);
+			for (int k = 0; k < 3; k++)
+			{
+				for (int l = 0; l < 3; l++)
+				{
+					if (r[p[(i * 3 + k) * 9 + j * 3 + l]] == 0)
+					{
+						r[p[(i * 3 + k) * 9 + j * 3 + l]] = 1;
+					}
+					else
+					{
+						QDialog *waDlg = new QDialog(_w);
+						waDlg->resize(600, 200);
+						//dlg->setGeometry(450, 700, 300, 200);
+						QLabel *waLabel = new QLabel("Wrong Answer.", waDlg);
+						waLabel->setStyleSheet("font-size:30px;");
+						waLabel->setGeometry(QRect(5, 80, 590, 20));
+						waLabel->adjustSize();
+						waLabel->setWordWrap(true);
+						waLabel->setAlignment(Qt::AlignTop);
+						waDlg->setModal(true);
+						waDlg->show();
+						return;
+					}
+				}
+			}
+		}
+	}
+	QDialog *acDlg = new QDialog(_w);
+	acDlg->resize(600, 200);
+	//dlg->setGeometry(450, 700, 300, 200);
+	QLabel *acLabel = new QLabel("Congratulations.", acDlg);
+	acLabel->setStyleSheet("font-size:30px;");
+	acLabel->setGeometry(QRect(5, 80, 590, 20));
+	acLabel->adjustSize();
+	acLabel->setWordWrap(true);
+	acLabel->setAlignment(Qt::AlignTop);
+	acDlg->setModal(true);
+	acDlg->show();
+	return;
+
+}
+
 void Index::init()
 {
 	QGridLayout* mainlayout = new QGridLayout;
@@ -391,14 +551,20 @@ void Index::init()
 	gameIntroBtn->setGeometry(500, 700, 200, 50);
 	QObject::connect(gameIntroBtn, SIGNAL(clicked()), this, SLOT(showIntro()));
 
+	softKeyGroup = new QButtonGroup();
+	softKeyGroup->setExclusive(true);
+
 	for (int i = 0; i < 81; i++)
 	{
 		sudoku[i] = new QPushButton("8", _w);
-		sudoku[i]->setStyleSheet("font-size:30px;background-color:white;");
-		sudoku[i]->setGeometry(40 + (i % 9) * 80, 40 + (i / 9) * 80, 80, 80);
-		sudoku[i]->hide();
+		//sudoku[i]->setStyleSheet("font-size:30px;background-color:white;");
+		//sudoku[i]->setGeometry(40 + (i % 9) * 80, 40 + (i / 9) * 80, 80, 80);
+		//sudoku[i]->hide();
+		//sudoku[i]->setCheckable(true);
+		//softKeyGroup->addButton(sudoku[i], i);
 	}
-	for (int i = 0; i < 3; i++)
+	initSudoku();
+	/*for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
 		{
@@ -407,27 +573,29 @@ void Index::init()
 			sudoku[33 + i * 9 + j]->setStyleSheet("font-size:30px;background-color:#e5e5e5;");
 			sudoku[57 + i * 9 + j]->setStyleSheet("font-size:30px;background-color:#e5e5e5;");
 		}
-	}
+	}*/
 
 	generateBtn = new QPushButton("generate", _w);
-	generateBtn->setStyleSheet("font-size:40px;background-color:yellow;");
-	generateBtn->setGeometry(900, 400, 200, 40);
+	generateBtn->setStyleSheet("font-size:35px;background-color:yellow;");
+	generateBtn->setGeometry(895, 150, 200, 40);
 	generateBtn->hide();
 	QObject::connect(generateBtn, SIGNAL(clicked()), this, SLOT(generateNew()));
 
 	hintBtn = new QPushButton("hint", _w);
-	hintBtn->setStyleSheet("font-size:40px;background-color:blue;");
-	hintBtn->setGeometry(900, 480, 200, 40);
+	hintBtn->setStyleSheet("font-size:35px;background-color:blue;");
+	hintBtn->setGeometry(895, 220, 200, 40);
 	hintBtn->hide();
+	QObject::connect(hintBtn, SIGNAL(clicked()), this, SLOT(giveHint()));
 
 	checkBtn = new QPushButton("check", _w);
-	checkBtn->setStyleSheet("font-size:40px;background-color:green;");
-	checkBtn->setGeometry(900, 560, 200, 40);
+	checkBtn->setStyleSheet("font-size:35px;background-color:green;");
+	checkBtn->setGeometry(895, 280, 200, 40);
 	checkBtn->hide();
+	QObject::connect(checkBtn, SIGNAL(clicked()), this, SLOT(checkSudoku()));
 
 	backBtn = new QPushButton("back", _w);
-	backBtn->setStyleSheet("font-size:40px;background-color:red;");
-	backBtn->setGeometry(900, 640, 200, 40);
+	backBtn->setStyleSheet("font-size:35px;background-color:red;");
+	backBtn->setGeometry(895, 340, 200, 40);
 	backBtn->hide();
 	QObject::connect(backBtn, SIGNAL(clicked()), this, SLOT(backQuery()));
 
@@ -515,7 +683,43 @@ void Index::init()
 	timeLabel = new QLabel("00:00:00", _w);
 	timeLabel->setStyleSheet("font-size:60px;");
 	timeLabel->adjustSize();
-	timeLabel->setGeometry(QRect(900, 200, 720, 200 * 1));  //四倍行距
+	timeLabel->setGeometry(QRect(880, 40, 720, 60 * 1));  //四倍行距
 	timeLabel->hide();
 
+	for (int i = 1; i <= 9; i++)
+	{
+		softKey[i] = new QPushButton(QString::number(i), _w);
+		softKey[i]->setStyleSheet("font-size:40px;background-color:pink;");
+		softKey[i]->setGeometry(880 + (i - 1) % 3 * 80, 440 + (i-1) / 3 * 80, 80, 80);
+		softKey[i]->hide();
+		QObject::connect(softKey[i], SIGNAL(clicked()), this, SLOT(fillBox()));
+	}
+	softKey[0] = new QPushButton(" ", _w);
+	softKey[0]->setStyleSheet("font-size:40px;background-color:pink;");
+	softKey[0]->setGeometry(880, 680, 240, 80);
+	softKey[0]->hide();
+	QObject::connect(softKey[0], SIGNAL(clicked()), this, SLOT(fillBox()));
+}
+
+void Index::initSudoku()
+{
+	for (int i = 0; i < 81; i++)
+	{
+		//sudoku[i] = new QPushButton("8", _w);
+		sudoku[i]->setStyleSheet("font-size:30px;background-color:white;");
+		sudoku[i]->setGeometry(40 + (i % 9) * 80, 40 + (i / 9) * 80, 80, 80);
+		sudoku[i]->hide();
+		//sudoku[i]->setCheckable(true);
+		//softKeyGroup->addButton(sudoku[i], i);
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			sudoku[3 + i * 9 + j]->setStyleSheet("font-size:30px;background-color:#e5e5e5;");
+			sudoku[27 + i * 9 + j]->setStyleSheet("font-size:30px;background-color:#e5e5e5;");
+			sudoku[33 + i * 9 + j]->setStyleSheet("font-size:30px;background-color:#e5e5e5;");
+			sudoku[57 + i * 9 + j]->setStyleSheet("font-size:30px;background-color:#e5e5e5;");
+		}
+	}
 }

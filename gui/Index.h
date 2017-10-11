@@ -42,6 +42,8 @@ private:
 	QRadioButton *mediumBtn;
 	QRadioButton *hardBtn;
 
+	QButtonGroup *softKeyGroup;
+
 	QLabel *titleLabel;
 	QLabel *introLabel;
 	QLabel *modeLabel;
@@ -51,10 +53,13 @@ private:
 	bool isStart;        //记录是否已经开始计时
 
 	QLabel *timeLabel;
+
+	QPushButton *softKey[10];
 public:
 	Index(Recv *recv, SudokuGUI *w);
 	~Index();
 	void init();
+	void initSudoku();
 	public slots:
 	void hideMain() const;
 	void sudokuShow() const;
@@ -76,5 +81,8 @@ public:
 	void stopTimer() const;
 
 	void generateNew() const;
+	void fillBox() const;
+	void giveHint() const;
+	void checkSudoku() const;
 };
 

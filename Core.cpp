@@ -404,6 +404,40 @@ void Core::generate(int number, int lower, int upper, bool unique, int result[][
 bool Core::solve(int puzzle[], int solution[])
 {
 	int flag[SUDOKU_SIZE] = { 0 };
+	for (int i = 0;i<81; i++)
+	{
+		if (puzzle[i] == 0)
+		{
+			continue;
+		}
+		else
+		{
+			for (int j = i / 9 * 9; j < 9; j++)
+			{
+				if (puzzle[i] == puzzle[j] && i != j)
+				{
+					return false;
+				}
+			}
+			for (int j = i % 9; j < 81; j += 9)
+			{
+				if (puzzle[i] == puzzle[j] && i != j)
+				{
+					return false;
+				}
+			}
+			for (int j = i / 9 / 3 * 3; j < 3; j++)
+			{
+				for (int k = i % 9 / 3 * 3; k < 3; k++)
+				{
+					if (puzzle[i] == puzzle[j * 9 + k] && i != j*9+k)
+					{
+						return false;
+					}
+				}
+			}
+		}
+	}
 	for (int i = 0; i < SUDOKU_SIZE; i++)
 	{
 		if (puzzle[i] == 0)
@@ -531,7 +565,10 @@ void Core::read(int argc, char* argv[])
 			memset(result, 0, CREATEMAX * (sizeof(int)));
 			for (int i = 0; i < sudokuNum; i++)
 			{
-				solve(puzzleSet[i], result[i]);
+				if (!solve(puzzleSet[i], result[i]))
+				{
+					throw MySudokuException();
+				}
 			}
 			print(sudokuNum, result);
 		}
