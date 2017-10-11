@@ -11,6 +11,7 @@
 #include <QButtonGroup>
 #include "QGridLayout"
 #include "SudokuGUI.h"
+#include "Core.h"
 
 namespace Ui {
 	class Index;

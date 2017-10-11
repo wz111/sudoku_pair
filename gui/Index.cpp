@@ -96,29 +96,68 @@ void Index::sudokuShow() const
 	{
 		sudoku[i]->show();
 	}
+	int result[10][81] = { 0 };
+	Core c;
 	while (true)
 	{
 		if (easyBtn->isChecked())
 		{
-			for (int i = 0; i < 20; i++)
+			/*for (int i = 0; i < 20; i++)
 			{
 				sudoku[i]->setText("");
+			}*/			
+		    c.generate(1, 1, result);
+			for (int i = 0; i < 81; i++)
+			{
+				if (result[0][i] == 0)
+				{
+					sudoku[i]->setText(" ");
+				}
+				else
+				{
+					sudoku[i]->setText(QString::number(result[0][i]));
+				}
 			}
+			//~ c;
 			break;
 		}
 		else if (mediumBtn->isChecked())
 		{
-			for (int i = 0; i < 40; i++)
+			/*for (int i = 0; i < 40; i++)
 			{
 				sudoku[i]->setText("");
+			}*/
+			c.generate(1, 2, result);
+			for (int i = 0; i < 81; i++)
+			{
+				if (result[0][i] == 0)
+				{
+					sudoku[i]->setText(" ");
+				}
+				else
+				{
+					sudoku[i]->setText(QString::number(result[0][i]));
+				}
 			}
 			break;
 		}
 		else if (hardBtn->isChecked())
 		{
-			for (int i = 0; i < 60; i++)
+			/*for (int i = 0; i < 60; i++)
 			{
 				sudoku[i]->setText("");
+			}*/
+			c.generate(1, 3, result);
+			for (int i = 0; i < 81; i++)
+			{
+				if (result[0][i] == 0)
+				{
+					sudoku[i]->setText(" ");
+				}
+				else
+				{
+					sudoku[i]->setText(QString::number(result[0][i]));
+				}
 			}
 			break;
 		}
