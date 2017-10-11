@@ -6,6 +6,8 @@
 #include <QTimer>
 #include <QDateTime>
 #include "Index.h"
+#include "Core.h"
+#include "iostream"
 
 int main(int argc, char *argv[])
 {
