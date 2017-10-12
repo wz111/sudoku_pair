@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Index_t {
-    QByteArrayData data[21];
-    char stringdata0[204];
+    QByteArrayData data[27];
+    char stringdata0[279];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -46,18 +46,26 @@ QT_MOC_LITERAL(13, 124, 2), // "id"
 QT_MOC_LITERAL(14, 127, 8), // "showMode"
 QT_MOC_LITERAL(15, 136, 13), // "showModeStart"
 QT_MOC_LITERAL(16, 150, 9), // "backQuery"
-QT_MOC_LITERAL(17, 160, 10), // "updateTime"
-QT_MOC_LITERAL(18, 171, 10), // "startTimer"
-QT_MOC_LITERAL(19, 182, 9), // "stopTimer"
-QT_MOC_LITERAL(20, 192, 11) // "generateNew"
+QT_MOC_LITERAL(17, 160, 13), // "generateQuery"
+QT_MOC_LITERAL(18, 174, 10), // "updateTime"
+QT_MOC_LITERAL(19, 185, 10), // "startTimer"
+QT_MOC_LITERAL(20, 196, 9), // "stopTimer"
+QT_MOC_LITERAL(21, 206, 11), // "generateNew"
+QT_MOC_LITERAL(22, 218, 7), // "fillBox"
+QT_MOC_LITERAL(23, 226, 8), // "giveHint"
+QT_MOC_LITERAL(24, 235, 11), // "checkSudoku"
+QT_MOC_LITERAL(25, 247, 15), // "showLeaderboard"
+QT_MOC_LITERAL(26, 263, 15) // "hideLeaderboard"
 
     },
     "Index\0hideMain\0\0sudokuShow\0showMain\0"
     "sudokuHide\0startNew\0backMain\0showIntro\0"
     "hideIntro\0showSetting\0hideSetting\0"
     "changeBtnGroup\0id\0showMode\0showModeStart\0"
-    "backQuery\0updateTime\0startTimer\0"
-    "stopTimer\0generateNew"
+    "backQuery\0generateQuery\0updateTime\0"
+    "startTimer\0stopTimer\0generateNew\0"
+    "fillBox\0giveHint\0checkSudoku\0"
+    "showLeaderboard\0hideLeaderboard"
 };
 #undef QT_MOC_LITERAL
 
@@ -67,7 +75,7 @@ static const uint qt_meta_data_Index[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      18,   14, // methods
+      24,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -75,24 +83,30 @@ static const uint qt_meta_data_Index[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,  104,    2, 0x0a /* Public */,
-       3,    0,  105,    2, 0x0a /* Public */,
-       4,    0,  106,    2, 0x0a /* Public */,
-       5,    0,  107,    2, 0x0a /* Public */,
-       6,    0,  108,    2, 0x0a /* Public */,
-       7,    0,  109,    2, 0x0a /* Public */,
-       8,    0,  110,    2, 0x0a /* Public */,
-       9,    0,  111,    2, 0x0a /* Public */,
-      10,    0,  112,    2, 0x0a /* Public */,
-      11,    0,  113,    2, 0x0a /* Public */,
-      12,    1,  114,    2, 0x0a /* Public */,
-      14,    0,  117,    2, 0x0a /* Public */,
-      15,    0,  118,    2, 0x0a /* Public */,
-      16,    0,  119,    2, 0x0a /* Public */,
-      17,    0,  120,    2, 0x0a /* Public */,
-      18,    0,  121,    2, 0x0a /* Public */,
-      19,    0,  122,    2, 0x0a /* Public */,
-      20,    0,  123,    2, 0x0a /* Public */,
+       1,    0,  134,    2, 0x0a /* Public */,
+       3,    0,  135,    2, 0x0a /* Public */,
+       4,    0,  136,    2, 0x0a /* Public */,
+       5,    0,  137,    2, 0x0a /* Public */,
+       6,    0,  138,    2, 0x0a /* Public */,
+       7,    0,  139,    2, 0x0a /* Public */,
+       8,    0,  140,    2, 0x0a /* Public */,
+       9,    0,  141,    2, 0x0a /* Public */,
+      10,    0,  142,    2, 0x0a /* Public */,
+      11,    0,  143,    2, 0x0a /* Public */,
+      12,    1,  144,    2, 0x0a /* Public */,
+      14,    0,  147,    2, 0x0a /* Public */,
+      15,    0,  148,    2, 0x0a /* Public */,
+      16,    0,  149,    2, 0x0a /* Public */,
+      17,    0,  150,    2, 0x0a /* Public */,
+      18,    0,  151,    2, 0x0a /* Public */,
+      19,    0,  152,    2, 0x0a /* Public */,
+      20,    0,  153,    2, 0x0a /* Public */,
+      21,    0,  154,    2, 0x0a /* Public */,
+      22,    0,  155,    2, 0x0a /* Public */,
+      23,    0,  156,    2, 0x0a /* Public */,
+      24,    0,  157,    2, 0x0a /* Public */,
+      25,    0,  158,    2, 0x0a /* Public */,
+      26,    0,  159,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
@@ -106,6 +120,12 @@ static const uint qt_meta_data_Index[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, QMetaType::Int,   13,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -137,10 +157,16 @@ void Index::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void 
         case 11: _t->showMode(); break;
         case 12: _t->showModeStart(); break;
         case 13: _t->backQuery(); break;
-        case 14: _t->updateTime(); break;
-        case 15: _t->startTimer(); break;
-        case 16: _t->stopTimer(); break;
-        case 17: _t->generateNew(); break;
+        case 14: _t->generateQuery(); break;
+        case 15: _t->updateTime(); break;
+        case 16: _t->startTimer(); break;
+        case 17: _t->stopTimer(); break;
+        case 18: _t->generateNew(); break;
+        case 19: _t->fillBox(); break;
+        case 20: _t->giveHint(); break;
+        case 21: _t->checkSudoku(); break;
+        case 22: _t->showLeaderboard(); break;
+        case 23: _t->hideLeaderboard(); break;
         default: ;
         }
     }
@@ -171,13 +197,13 @@ int Index::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 18)
+        if (_id < 24)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 18;
+        _id -= 24;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 18)
+        if (_id < 24)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 18;
+        _id -= 24;
     }
     return _id;
 }

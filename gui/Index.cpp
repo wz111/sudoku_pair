@@ -90,6 +90,32 @@ void Index::showMain() const
 	titleLabel->show();
 }
 
+void Index::showLeaderboard() const
+{
+	hideMain();
+	leaderBackBtn->show();
+	leaderTitle->show();
+	easyLeader->show();
+	mediumLeader->show();
+	hardLeader->show();
+	easyTime->show();
+	mediumTime->show();
+	hardTime->show();
+}
+
+void Index::hideLeaderboard() const
+{
+	showMain();
+	leaderBackBtn->hide();
+	leaderTitle->hide();
+	easyLeader->hide();
+	mediumLeader->hide();
+	hardLeader->hide();
+	easyTime->hide();
+	mediumTime->hide();
+	hardTime->hide();
+}
+
 void Index::sudokuShow() const
 {
 	for (int i = 0; i < 81; i++)
@@ -124,7 +150,7 @@ void Index::sudokuShow() const
 	{
 		if (easyBtn->isChecked())
 		{
-		    c.generate(1, 1, result);
+			c.generate(1, 1, result);
 			break;
 		}
 		else if (mediumBtn->isChecked())
@@ -153,7 +179,7 @@ void Index::sudokuShow() const
 		}
 		else
 		{
-			sudoku[i]->setText(QString::number(result[0][i]));			
+			sudoku[i]->setText(QString::number(result[0][i]));
 		}
 	}
 
@@ -321,39 +347,39 @@ void Index::updateTime() const
 
 void Index::generateQuery() const
 {
-        QDialog *dlg = new QDialog(_w);
-        dlg->resize(600, 200);
-        //dlg->setGeometry(450, 700, 300, 200);
-        QLabel *backQueryLabel = new QLabel("Warning:", dlg);
-        QLabel *backQueryLabel0 = new QLabel("Are you sure you want to give up the current game?", dlg);
-        QLabel *backQueryLabel1 = new QLabel("(System will not keep your changes)", dlg);
-        QPushButton *genNewBtn = new QPushButton("generate new", dlg);
-        QPushButton *closeBtn = new QPushButton("close", dlg);
-        backQueryLabel->setStyleSheet("font-size:30px;");
-        backQueryLabel->setGeometry(QRect(5, 5, 590, 20));
-        backQueryLabel->adjustSize();
-        backQueryLabel->setWordWrap(true);
-        backQueryLabel->setAlignment(Qt::AlignTop);
+	QDialog *dlg = new QDialog(_w);
+	dlg->resize(600, 200);
+	//dlg->setGeometry(450, 700, 300, 200);
+	QLabel *backQueryLabel = new QLabel("Warning:", dlg);
+	QLabel *backQueryLabel0 = new QLabel("Are you sure you want to give up the current game?", dlg);
+	QLabel *backQueryLabel1 = new QLabel("(System will not keep your changes)", dlg);
+	QPushButton *genNewBtn = new QPushButton("generate new", dlg);
+	QPushButton *closeBtn = new QPushButton("close", dlg);
+	backQueryLabel->setStyleSheet("font-size:30px;");
+	backQueryLabel->setGeometry(QRect(5, 5, 590, 20));
+	backQueryLabel->adjustSize();
+	backQueryLabel->setWordWrap(true);
+	backQueryLabel->setAlignment(Qt::AlignTop);
 
-        backQueryLabel0->setStyleSheet("font-size:20px;");
-        backQueryLabel0->setGeometry(QRect(5, 60, 590, 20));
-        backQueryLabel0->adjustSize();
-        backQueryLabel0->setWordWrap(true);
-        backQueryLabel0->setAlignment(Qt::AlignTop);
+	backQueryLabel0->setStyleSheet("font-size:20px;");
+	backQueryLabel0->setGeometry(QRect(5, 60, 590, 20));
+	backQueryLabel0->adjustSize();
+	backQueryLabel0->setWordWrap(true);
+	backQueryLabel0->setAlignment(Qt::AlignTop);
 
-        backQueryLabel1->setStyleSheet("font-size:20px;font:bold;");
-        backQueryLabel1->setGeometry(QRect(5, 100, 590, 20));
-        backQueryLabel1->adjustSize();
-        backQueryLabel1->setWordWrap(true);
-        backQueryLabel1->setAlignment(Qt::AlignTop);
+	backQueryLabel1->setStyleSheet("font-size:20px;font:bold;");
+	backQueryLabel1->setGeometry(QRect(5, 100, 590, 20));
+	backQueryLabel1->adjustSize();
+	backQueryLabel1->setWordWrap(true);
+	backQueryLabel1->setAlignment(Qt::AlignTop);
 
-        genNewBtn->setGeometry(130, 160, 105, 30);
-        closeBtn->setGeometry(365, 160, 105, 30);
-        QObject::connect(genNewBtn, SIGNAL(clicked()), dlg, SLOT(close()));
-        QObject::connect(genNewBtn, SIGNAL(clicked()), this, SLOT(generateNew()));
-        QObject::connect(closeBtn, SIGNAL(clicked()), dlg, SLOT(close()));
-        dlg->setModal(true);
-        dlg->show();
+	genNewBtn->setGeometry(130, 160, 105, 30);
+	closeBtn->setGeometry(365, 160, 105, 30);
+	QObject::connect(genNewBtn, SIGNAL(clicked()), dlg, SLOT(close()));
+	QObject::connect(genNewBtn, SIGNAL(clicked()), this, SLOT(generateNew()));
+	QObject::connect(closeBtn, SIGNAL(clicked()), dlg, SLOT(close()));
+	dlg->setModal(true);
+	dlg->show();
 }
 
 void Index::generateNew() const
@@ -398,7 +424,7 @@ void Index::giveHint() const
 	}
 	Core c;
 	int r[1][81] = { 0 };
-	
+
 	if (c.solve(p[0], r[0]))
 	{
 		c.print(1, r);
@@ -462,6 +488,7 @@ void Index::checkSudoku() const
 		}
 	}
 	int r[10] = { 0 };
+	int h[10] = { 0 };
 	for (int i = 0; i < 9; i++)
 	{
 		memset(r, 0, sizeof(int) * 10);
@@ -470,18 +497,32 @@ void Index::checkSudoku() const
 			if (r[p[i * 9 + j]] == 0)
 			{
 				r[p[i * 9 + j]] = 1;
+				h[p[i * 9 + j]] = i * 9 + j;
 			}
 			else
 			{
+				int chongfu1 = i * 9 + j;
+				int chongfu2 = h[p[i * 9 + j]];
+				QString chongfu1x = QString::number(chongfu1 / 9 + 1);
+				QString chongfu1y = QString::number(chongfu1 % 9 + 1);
+				QString chongfu2x = QString::number(chongfu2 / 9 + 1);
+				QString chongfu2y = QString::number(chongfu2 % 9 + 1);
 				QDialog *waDlg = new QDialog(_w);
 				waDlg->resize(600, 200);
 				//dlg->setGeometry(450, 700, 300, 200);
 				QLabel *waLabel = new QLabel("Wrong Answer.", waDlg);
+				QLabel *waInfoLabel = new QLabel("("+chongfu1x+", "+chongfu1y+") and \
+(" + chongfu2x + ", " + chongfu2y + ") are same!", waDlg);
 				waLabel->setStyleSheet("font-size:30px;");
-				waLabel->setGeometry(QRect(5, 80, 590, 20));
+				waLabel->setGeometry(QRect(5, 40, 590, 20));
 				waLabel->adjustSize();
 				waLabel->setWordWrap(true);
 				waLabel->setAlignment(Qt::AlignTop);
+				waInfoLabel->setStyleSheet("font-size:30px;");
+				waInfoLabel->setGeometry(QRect(15, 80, 590, 20));
+				waInfoLabel->adjustSize();
+				waInfoLabel->setWordWrap(true);
+				waInfoLabel->setAlignment(Qt::AlignTop);
 				waDlg->setModal(true);
 				waDlg->show();
 				return;
@@ -493,18 +534,32 @@ void Index::checkSudoku() const
 			if (r[p[j * 9 + i]] == 0)
 			{
 				r[p[j * 9 + i]] = 1;
+				h[p[j * 9 + i]] = j * 9 + i;
 			}
 			else
 			{
+				int chongfu1 = j * 9 + i;
+				int chongfu2 = h[p[j * 9 + i]];
+				QString chongfu1x = QString::number(chongfu1 / 9 + 1);
+				QString chongfu1y = QString::number(chongfu1 % 9 + 1);
+				QString chongfu2x = QString::number(chongfu2 / 9 + 1);
+				QString chongfu2y = QString::number(chongfu2 % 9 + 1);
 				QDialog *waDlg = new QDialog(_w);
 				waDlg->resize(600, 200);
 				//dlg->setGeometry(450, 700, 300, 200);
 				QLabel *waLabel = new QLabel("Wrong Answer.", waDlg);
+				QLabel *waInfoLabel = new QLabel("(" + chongfu1x + ", " + chongfu1y + ") and \
+(" + chongfu2x + ", " + chongfu2y + ") are same!", waDlg);
 				waLabel->setStyleSheet("font-size:30px;");
-				waLabel->setGeometry(QRect(5, 80, 590, 20));
+				waLabel->setGeometry(QRect(5, 40, 590, 20));
 				waLabel->adjustSize();
 				waLabel->setWordWrap(true);
 				waLabel->setAlignment(Qt::AlignTop);
+				waInfoLabel->setStyleSheet("font-size:30px;");
+				waInfoLabel->setGeometry(QRect(15, 80, 590, 20));
+				waInfoLabel->adjustSize();
+				waInfoLabel->setWordWrap(true);
+				waInfoLabel->setAlignment(Qt::AlignTop);
 				waDlg->setModal(true);
 				waDlg->show();
 				return;
@@ -523,18 +578,32 @@ void Index::checkSudoku() const
 					if (r[p[(i * 3 + k) * 9 + j * 3 + l]] == 0)
 					{
 						r[p[(i * 3 + k) * 9 + j * 3 + l]] = 1;
+						h[p[(i * 3 + k) * 9 + j * 3 + l]] = (i * 3 + k) * 9 + j * 3 + l;
 					}
 					else
 					{
+						int chongfu1 = (i * 3 + k) * 9 + j * 3 + l;
+						int chongfu2 = h[p[(i * 3 + k) * 9 + j * 3 + l]];
+						QString chongfu1x = QString::number(chongfu1 / 9 + 1);
+						QString chongfu1y = QString::number(chongfu1 % 9 + 1);
+						QString chongfu2x = QString::number(chongfu2 / 9 + 1);
+						QString chongfu2y = QString::number(chongfu2 % 9 + 1);
 						QDialog *waDlg = new QDialog(_w);
 						waDlg->resize(600, 200);
 						//dlg->setGeometry(450, 700, 300, 200);
 						QLabel *waLabel = new QLabel("Wrong Answer.", waDlg);
+						QLabel *waInfoLabel = new QLabel("(" + chongfu1x + ", " + chongfu1y + ") and \
+(" + chongfu2x + ", " + chongfu2y + ") are same!", waDlg);
 						waLabel->setStyleSheet("font-size:30px;");
-						waLabel->setGeometry(QRect(5, 80, 590, 20));
+						waLabel->setGeometry(QRect(5, 40, 590, 20));
 						waLabel->adjustSize();
 						waLabel->setWordWrap(true);
 						waLabel->setAlignment(Qt::AlignTop);
+						waInfoLabel->setStyleSheet("font-size:30px;");
+						waInfoLabel->setGeometry(QRect(15, 80, 590, 20));
+						waInfoLabel->adjustSize();
+						waInfoLabel->setWordWrap(true);
+						waInfoLabel->setAlignment(Qt::AlignTop);
 						waDlg->setModal(true);
 						waDlg->show();
 						return;
@@ -547,20 +616,77 @@ void Index::checkSudoku() const
 	acDlg->resize(600, 200);
 	//dlg->setGeometry(450, 700, 300, 200);
 	QLabel *acLabel = new QLabel("Congratulations!!", acDlg);
-    QLabel *acLabel1 = new QLabel("Close this window Click generate button to play next game", acDlg);
+	QLabel *acLabel1 = new QLabel("Close this window Click generate button to play next game", acDlg);
 	acLabel->setStyleSheet("font-size:30px;");
 	acLabel->setGeometry(QRect(5, 40, 590, 20));
 	acLabel->adjustSize();
 	acLabel->setWordWrap(true);
 	acLabel->setAlignment(Qt::AlignTop);
-    acLabel1->setStyleSheet("font-size:20px;");
-    acLabel1->setGeometry(QRect(5, 100, 590, 20));
-    acLabel1->adjustSize();
-    acLabel1->setWordWrap(true);
-    acLabel1->setAlignment(Qt::AlignTop);
+	acLabel1->setStyleSheet("font-size:20px;");
+	acLabel1->setGeometry(QRect(5, 100, 590, 20));
+	acLabel1->adjustSize();
+	acLabel1->setWordWrap(true);
+	acLabel1->setAlignment(Qt::AlignTop);
 	acDlg->setModal(true);
 	acDlg->show();
-    timer->stop();
+	timer->stop();
+	QString nowTimeS = timeLabel->text();
+	
+	int hourNum = nowTimeS.mid(0, 2).toInt();
+	int minuteNum = nowTimeS.mid(3, 2).toInt();
+	int secondNum = nowTimeS.mid(6, 2).toInt();
+	int nowTimeN = hourNum * 3600 + minuteNum * 60 + secondNum;
+	if (easyBtn->isChecked())
+	{
+		QString easyTimeS = easyTime->text();
+		if (easyTimeS == "No Record!")
+		{
+			easyTime->setText(nowTimeS);
+			return;
+		}
+		int easyHourNum = easyTimeS.mid(0, 2).toInt();
+		int easyMinuteNum = easyTimeS.mid(3, 2).toInt();
+		int easySecondNum = easyTimeS.mid(6, 2).toInt();
+		int easyTimeN = easyHourNum * 3600 + easyMinuteNum * 60 + easySecondNum;
+		if (easyTimeN > nowTimeN)
+		{
+			easyTime->setText(nowTimeS);
+		}
+	}
+	else if (mediumBtn->isChecked())
+	{
+		QString mediumTimeS = mediumTime->text();
+		if (mediumTimeS == "No Record!")
+		{
+			mediumTime->setText(nowTimeS);
+			return;
+		}
+		int mediumHourNum = mediumTimeS.mid(0, 2).toInt();
+		int mediumMinuteNum = mediumTimeS.mid(3, 2).toInt();
+		int mediumSecondNum = mediumTimeS.mid(6, 2).toInt();
+		int mediumTimeN = mediumHourNum * 3600 + mediumMinuteNum * 60 + mediumSecondNum;
+		if (mediumTimeN > nowTimeN)
+		{
+			mediumTime->setText(nowTimeS);
+		}
+	}
+	else
+	{
+		QString hardTimeS = hardTime->text();
+		if (hardTimeS == "No Record!")
+		{
+			hardTime->setText(nowTimeS);
+			return;
+		}
+		int hardHourNum = hardTimeS.mid(0, 2).toInt();
+		int hardMinuteNum = hardTimeS.mid(3, 2).toInt();
+		int hardSecondNum = hardTimeS.mid(6, 2).toInt();
+		int hardTimeN = hardHourNum * 3600 + hardMinuteNum * 60 + hardSecondNum;
+		if (hardTimeN > nowTimeN)
+		{
+			hardTime->setText(nowTimeS);
+		}
+	}
 	return;
 
 }
@@ -568,7 +694,7 @@ void Index::checkSudoku() const
 void Index::init()
 {
 	QGridLayout* mainlayout = new QGridLayout;
-    sudokuChecked = false;
+	sudokuChecked = false;
 	/*isStart = false;
 	timer = new QTimer;
 	time = new QTime(0, 0, 0);*/
@@ -586,7 +712,7 @@ void Index::init()
 	leaderboardBtn = new QPushButton("Leaderboard", _w);
 	leaderboardBtn->setStyleSheet("font-size:30px;background-color: #a9a9a9;");
 	leaderboardBtn->setGeometry(500, 550, 200, 50);
-	//QObject::connect(startGameBtn, SIGNAL(clicked()), this, SLOT(hide5btn()));
+	QObject::connect(leaderboardBtn, SIGNAL(clicked()), this, SLOT(showLeaderboard()));
 
 	settingBtn = new QPushButton("Setting", _w);
 	settingBtn->setStyleSheet("font-size:30px;background-color: #a9a9a9;");
@@ -604,24 +730,8 @@ void Index::init()
 	for (int i = 0; i < 81; i++)
 	{
 		sudoku[i] = new QPushButton("8", _w);
-		//sudoku[i]->setStyleSheet("font-size:30px;background-color:white;");
-		//sudoku[i]->setGeometry(40 + (i % 9) * 80, 40 + (i / 9) * 80, 80, 80);
-		//sudoku[i]->hide();
-		//sudoku[i]->setCheckable(true);
-		//softKeyGroup->addButton(sudoku[i], i);
 	}
 	initSudoku();
-	/*for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < 3; j++)
-		{
-			sudoku[3 + i * 9 + j]->setStyleSheet("font-size:30px;background-color:#e5e5e5;");
-			sudoku[27 + i * 9 + j]->setStyleSheet("font-size:30px;background-color:#e5e5e5;");
-			sudoku[33 + i * 9 + j]->setStyleSheet("font-size:30px;background-color:#e5e5e5;");
-			sudoku[57 + i * 9 + j]->setStyleSheet("font-size:30px;background-color:#e5e5e5;");
-		}
-	}*/
-
 	generateBtn = new QPushButton("generate", _w);
 	generateBtn->setStyleSheet("font-size:35px;background-color:yellow;");
 	generateBtn->setGeometry(895, 150, 200, 40);
@@ -691,6 +801,12 @@ void Index::init()
 	settingBackBtn->hide();
 	QObject::connect(settingBackBtn, SIGNAL(clicked()), this, SLOT(hideSetting()));
 
+	leaderBackBtn = new QPushButton("back to main", _w);
+	leaderBackBtn->setStyleSheet("font-size:30px;background-color:red;");
+	leaderBackBtn->setGeometry(500, 700, 200, 40);
+	leaderBackBtn->hide();
+	QObject::connect(leaderBackBtn, SIGNAL(clicked()), this, SLOT(hideLeaderboard()));
+
 	modeStartBtn = new QPushButton("Start!", _w);
 	modeStartBtn->setStyleSheet("font-size:30px;background-color:#a9a9a9;");
 	modeStartBtn->setGeometry(500, 700, 200, 40);
@@ -733,11 +849,67 @@ void Index::init()
 	timeLabel->setGeometry(QRect(880, 40, 720, 60 * 1));  //四倍行距
 	timeLabel->hide();
 
+	leaderTitle = new QLabel("Best Time Record", _w);
+	leaderTitle->setStyleSheet("font-size:90px;");
+	leaderTitle->adjustSize();
+	leaderTitle->setGeometry(QRect(230, 40, 1120, 150 * 1));  //四倍行距
+	leaderTitle->setWordWrap(true);
+	leaderTitle->setAlignment(Qt::AlignTop);
+	leaderTitle->hide();
+
+	easyLeader = new QLabel("Easy : ", _w);
+	easyLeader->setStyleSheet("font-size:60px;");
+	easyLeader->adjustSize();
+	easyLeader->setGeometry(QRect(260, 300, 400, 100 * 1));  //四倍行距
+	easyLeader->setWordWrap(true);
+	easyLeader->setAlignment(Qt::AlignTop);
+	easyLeader->hide();
+	
+	mediumLeader = new QLabel("Medium : ", _w);
+	mediumLeader->setStyleSheet("font-size:60px;");
+	mediumLeader->adjustSize();
+	mediumLeader->setGeometry(QRect(260, 400, 400, 100 * 1));  //四倍行距
+	mediumLeader->setWordWrap(true);
+	mediumLeader->setAlignment(Qt::AlignTop);
+	mediumLeader->hide();
+	
+	hardLeader = new QLabel("Hard : ", _w);
+	hardLeader->setStyleSheet("font-size:60px;");
+	hardLeader->adjustSize();
+	hardLeader->setGeometry(QRect(260, 500, 400, 100 * 1));  //四倍行距
+	hardLeader->setWordWrap(true);
+	hardLeader->setAlignment(Qt::AlignTop);
+	hardLeader->hide();
+	
+	easyTime = new QLabel("No Record!", _w);
+	easyTime->setStyleSheet("font-size:60px;");
+	easyTime->adjustSize();
+	easyTime->setGeometry(QRect(740, 300, 1000, 100 * 1));  //四倍行距
+	easyTime->setWordWrap(true);
+	easyTime->setAlignment(Qt::AlignTop);
+	easyTime->hide();
+	
+	mediumTime = new QLabel("No Record!", _w);
+	mediumTime->setStyleSheet("font-size:60px;");
+	mediumTime->adjustSize();
+	mediumTime->setGeometry(QRect(740, 400, 1000, 100 * 1));  //四倍行距
+	mediumTime->setWordWrap(true);
+	mediumTime->setAlignment(Qt::AlignTop);
+	mediumTime->hide();
+	
+	hardTime = new QLabel("No Record!", _w);
+	hardTime->setStyleSheet("font-size:60px;");
+	hardTime->adjustSize();
+	hardTime->setGeometry(QRect(740, 500, 1000, 100 * 1));  //四倍行距
+	hardTime->setWordWrap(true);
+	hardTime->setAlignment(Qt::AlignTop);
+	hardTime->hide();
+
 	for (int i = 1; i <= 9; i++)
 	{
 		softKey[i] = new QPushButton(QString::number(i), _w);
 		softKey[i]->setStyleSheet("font-size:40px;background-color:pink;");
-		softKey[i]->setGeometry(880 + (i - 1) % 3 * 80, 440 + (i-1) / 3 * 80, 80, 80);
+		softKey[i]->setGeometry(880 + (i - 1) % 3 * 80, 440 + (i - 1) / 3 * 80, 80, 80);
 		softKey[i]->hide();
 		QObject::connect(softKey[i], SIGNAL(clicked()), this, SLOT(fillBox()));
 	}

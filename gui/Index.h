@@ -35,6 +35,8 @@ private:
 	QPushButton *backBtn;
 	QPushButton *introBackBtn;
 	QPushButton *settingBackBtn;
+	QPushButton *leaderBackBtn;
+
 	QPushButton *modeStartBtn;
 
 	QButtonGroup *modeGroup;
@@ -56,7 +58,15 @@ private:
 
 	QPushButton *softKey[10];
 
-    bool sudokuChecked;
+	bool sudokuChecked;
+	QLabel *leaderTitle;
+	QLabel *easyLeader;
+	QLabel *mediumLeader;
+	QLabel *hardLeader;
+	QLabel *easyTime;
+	QLabel *mediumTime;
+	QLabel *hardTime;
+
 public:
 	Index(Recv *recv, SudokuGUI *w);
 	~Index();
@@ -77,7 +87,7 @@ public:
 	void showMode() const;
 	void showModeStart() const;
 	void backQuery() const;
-    void generateQuery() const;
+	void generateQuery() const;
 
 	void updateTime() const;
 	void startTimer() const;
@@ -88,5 +98,7 @@ public:
 	void giveHint() const;
 	void checkSudoku() const;
 
+	void showLeaderboard() const;
+	void hideLeaderboard() const;
 };
 
