@@ -249,17 +249,20 @@ void Index::showModeStart() const
 {
 	modeStartBtn->setEnabled(true);
 }
+
 void Index::startTimer() const
 {
 	timeLabel->show();
 	timeLabel->setText("00:00:00");
 	timer->start(1000);
 }
+
 void Index::stopTimer() const
 {
 	timeLabel->hide();
 	timer->stop();
 }
+
 void Index::updateTime() const
 {
 	QString nowTime = timeLabel->text();
@@ -314,6 +317,43 @@ void Index::updateTime() const
 	}
 	timeLabel->setText(outString);
 	//timeLabel->adjustSize();
+}
+
+void Index::generateQuery() const
+{
+        QDialog *dlg = new QDialog(_w);
+        dlg->resize(600, 200);
+        //dlg->setGeometry(450, 700, 300, 200);
+        QLabel *backQueryLabel = new QLabel("Warning:", dlg);
+        QLabel *backQueryLabel0 = new QLabel("Are you sure you want to give up the current game?", dlg);
+        QLabel *backQueryLabel1 = new QLabel("(System will not keep your changes)", dlg);
+        QPushButton *genNewBtn = new QPushButton("generate new", dlg);
+        QPushButton *closeBtn = new QPushButton("close", dlg);
+        backQueryLabel->setStyleSheet("font-size:30px;");
+        backQueryLabel->setGeometry(QRect(5, 5, 590, 20));
+        backQueryLabel->adjustSize();
+        backQueryLabel->setWordWrap(true);
+        backQueryLabel->setAlignment(Qt::AlignTop);
+
+        backQueryLabel0->setStyleSheet("font-size:20px;");
+        backQueryLabel0->setGeometry(QRect(5, 60, 590, 20));
+        backQueryLabel0->adjustSize();
+        backQueryLabel0->setWordWrap(true);
+        backQueryLabel0->setAlignment(Qt::AlignTop);
+
+        backQueryLabel1->setStyleSheet("font-size:20px;font:bold;");
+        backQueryLabel1->setGeometry(QRect(5, 100, 590, 20));
+        backQueryLabel1->adjustSize();
+        backQueryLabel1->setWordWrap(true);
+        backQueryLabel1->setAlignment(Qt::AlignTop);
+
+        genNewBtn->setGeometry(130, 160, 105, 30);
+        closeBtn->setGeometry(365, 160, 105, 30);
+        QObject::connect(genNewBtn, SIGNAL(clicked()), dlg, SLOT(close()));
+        QObject::connect(genNewBtn, SIGNAL(clicked()), this, SLOT(generateNew()));
+        QObject::connect(closeBtn, SIGNAL(clicked()), dlg, SLOT(close()));
+        dlg->setModal(true);
+        dlg->show();
 }
 
 void Index::generateNew() const
@@ -506,14 +546,21 @@ void Index::checkSudoku() const
 	QDialog *acDlg = new QDialog(_w);
 	acDlg->resize(600, 200);
 	//dlg->setGeometry(450, 700, 300, 200);
-	QLabel *acLabel = new QLabel("Congratulations.", acDlg);
+	QLabel *acLabel = new QLabel("Congratulations!!", acDlg);
+    QLabel *acLabel1 = new QLabel("Close this window Click generate button to play next game", acDlg);
 	acLabel->setStyleSheet("font-size:30px;");
-	acLabel->setGeometry(QRect(5, 80, 590, 20));
+	acLabel->setGeometry(QRect(5, 40, 590, 20));
 	acLabel->adjustSize();
 	acLabel->setWordWrap(true);
 	acLabel->setAlignment(Qt::AlignTop);
+    acLabel1->setStyleSheet("font-size:20px;");
+    acLabel1->setGeometry(QRect(5, 100, 590, 20));
+    acLabel1->adjustSize();
+    acLabel1->setWordWrap(true);
+    acLabel1->setAlignment(Qt::AlignTop);
 	acDlg->setModal(true);
 	acDlg->show();
+    timer->stop();
 	return;
 
 }
@@ -521,7 +568,7 @@ void Index::checkSudoku() const
 void Index::init()
 {
 	QGridLayout* mainlayout = new QGridLayout;
-
+    sudokuChecked = false;
 	/*isStart = false;
 	timer = new QTimer;
 	time = new QTime(0, 0, 0);*/
@@ -579,7 +626,7 @@ void Index::init()
 	generateBtn->setStyleSheet("font-size:35px;background-color:yellow;");
 	generateBtn->setGeometry(895, 150, 200, 40);
 	generateBtn->hide();
-	QObject::connect(generateBtn, SIGNAL(clicked()), this, SLOT(generateNew()));
+	QObject::connect(generateBtn, SIGNAL(clicked()), this, SLOT(generateQuery()));
 
 	hintBtn = new QPushButton("hint", _w);
 	hintBtn->setStyleSheet("font-size:35px;background-color:blue;");
@@ -589,13 +636,13 @@ void Index::init()
 
 	checkBtn = new QPushButton("check", _w);
 	checkBtn->setStyleSheet("font-size:35px;background-color:green;");
-	checkBtn->setGeometry(895, 280, 200, 40);
+	checkBtn->setGeometry(895, 290, 200, 40);
 	checkBtn->hide();
 	QObject::connect(checkBtn, SIGNAL(clicked()), this, SLOT(checkSudoku()));
 
 	backBtn = new QPushButton("back", _w);
 	backBtn->setStyleSheet("font-size:35px;background-color:red;");
-	backBtn->setGeometry(895, 340, 200, 40);
+	backBtn->setGeometry(895, 360, 200, 40);
 	backBtn->hide();
 	QObject::connect(backBtn, SIGNAL(clicked()), this, SLOT(backQuery()));
 

@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B12702AD-ABFB-343A-A199-8E24837244A3}</ProjectGuid>
     <Keyword>Qt4VSv1.0</Keyword>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -30,6 +31,9 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IncludePath>D:\Qt\Qt5.6.3\5.6.3\msvc2015_64\include;$(IncludePath)</IncludePath>
+    <ReferencePath>D:\Qt\Qt5.6.3\5.6.3\msvc2015_64\lib;$(ReferencePath)</ReferencePath>
+    <LibraryPath>D:\Qt\Qt5.6.3\5.6.3\msvc2015_64\bin;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
@@ -115,7 +119,7 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Core.h" />
+    <ClInclude Include="..\..\sudoku_pair\sudoku_pair\gui\Core.h" />
     <ClInclude Include="GeneratedFiles\ui_SudokuGUI.h" />
     <CustomBuild Include="Index.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
@@ -141,10 +145,16 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <None Include="sudoku_pair.dll" />
+    <Library Include="..\..\sudoku_pair\sudoku_pair\gui\sudoku_pair.lib" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="sudoku_pair.lib" />
+    <None Include="..\..\sudoku_pair\sudoku_pair\gui\sudoku_pair.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="tubiao.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SudokuGUI.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -55,6 +55,8 @@ private:
 	QLabel *timeLabel;
 
 	QPushButton *softKey[10];
+
+    bool sudokuChecked;
 public:
 	Index(Recv *recv, SudokuGUI *w);
 	~Index();
@@ -75,6 +77,7 @@ public:
 	void showMode() const;
 	void showModeStart() const;
 	void backQuery() const;
+    void generateQuery() const;
 
 	void updateTime() const;
 	void startTimer() const;
@@ -84,5 +87,6 @@ public:
 	void fillBox() const;
 	void giveHint() const;
 	void checkSudoku() const;
+
 };
 
