@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <QtWidgets/QMainWindow>
 #include "ui_SudokuGUI.h"
@@ -14,91 +14,94 @@
 #include "Core.h"
 
 namespace Ui {
-	class Index;
+    class Index;
 }
 
 class Index : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 private:
-	Recv * _recv;
-	SudokuGUI * _w;
-	QPushButton *startGameBtn;
-	QPushButton *loadGameBtn;
-	QPushButton *leaderboardBtn;
-	QPushButton *settingBtn;
-	QPushButton *gameIntroBtn;
-	QPushButton *sudoku[81];
-	QPushButton *generateBtn;
-	QPushButton *hintBtn;
-	QPushButton *checkBtn;
-	QPushButton *backBtn;
-	QPushButton *introBackBtn;
-	QPushButton *settingBackBtn;
-	QPushButton *leaderBackBtn;
+    Recv * _recv;
+    SudokuGUI * _w;
+    QPushButton *startGameBtn;
+    QPushButton *loadGameBtn;
+    QPushButton *leaderboardBtn;
+    QPushButton *settingBtn;
+    QPushButton *gameIntroBtn;
+    QPushButton *sudoku[81];
+    QPushButton *generateBtn;
+    QPushButton *hintBtn;
+    QPushButton *checkBtn;
+    QPushButton *backBtn;
+    QPushButton *introBackBtn;
+    QPushButton *settingBackBtn;
+    QPushButton *leaderBackBtn;
 
-	QPushButton *modeStartBtn;
+    QPushButton *modeStartBtn;
 
-	QButtonGroup *modeGroup;
-	QRadioButton *easyBtn;
-	QRadioButton *mediumBtn;
-	QRadioButton *hardBtn;
+    QButtonGroup *modeGroup;
+    QRadioButton *easyBtn;
+    QRadioButton *mediumBtn;
+    QRadioButton *hardBtn;
 
-	QButtonGroup *softKeyGroup;
+    QButtonGroup *softKeyGroup;
 
-	QLabel *titleLabel;
-	QLabel *introLabel;
-	QLabel *modeLabel;
+    QLabel *titleLabel;
+    QLabel *introLabel;
+    QLabel *modeLabel;
 
-	QTimer * timer;      //��ʱ�� ÿ�����ʱ��
-	QTime * timeRecord;  //��¼ʱ��
-	bool isStart;        //��¼�Ƿ��Ѿ���ʼ��ʱ
+    QTimer * timer;      //¶¨Ê±Æ÷ Ã¿Ãë¸üÐÂÊ±¼ä
+    QTime * timeRecord;  //¼ÇÂ¼Ê±¼ä
+    bool isStart;        //¼ÇÂ¼ÊÇ·ñÒÑ¾­¿ªÊ¼¼ÆÊ±
 
-	QLabel *timeLabel;
+    QLabel *timeLabel;
 
-	QPushButton *softKey[10];
+    QPushButton *softKey[10];
 
-	bool sudokuChecked;
-	QLabel *leaderTitle;
-	QLabel *easyLeader;
-	QLabel *mediumLeader;
-	QLabel *hardLeader;
-	QLabel *easyTime;
-	QLabel *mediumTime;
-	QLabel *hardTime;
+    bool sudokuChecked;
+    QLabel *leaderTitle;
+    QLabel *easyLeader;
+    QLabel *mediumLeader;
+    QLabel *hardLeader;
+    QLabel *easyTime;
+    QLabel *mediumTime;
+    QLabel *hardTime;
+
+    QIcon unselectIcon;
+    QIcon selectedIcon;
 
 public:
-	Index(Recv *recv, SudokuGUI *w);
-	~Index();
-	void init();
-	void initSudoku();
-	public slots:
-	void hideMain() const;
-	void sudokuShow() const;
-	void showMain() const;
-	void sudokuHide() const;
-	void startNew() const;
-	void backMain() const;
-	void showIntro() const;
-	void hideIntro() const;
-	void showSetting() const;
-	void hideSetting() const;
-	void changeBtnGroup(int id) const;
-	void showMode() const;
-	void showModeStart() const;
-	void backQuery() const;
-	void generateQuery() const;
+    Index(Recv *recv, SudokuGUI *w);
+    ~Index();
+    void init();
+    void initSudoku();
+    public slots:
+    void hideMain() const;
+    void sudokuShow() const;
+    void showMain() const;
+    void sudokuHide() const;
+    void startNew() const;
+    void backMain() const;
+    void showIntro() const;
+    void hideIntro() const;
+    void showSetting() const;
+    void hideSetting() const;
+    void changeBtnGroup(int id) const;
+    void showMode() const;
+    void showModeStart() const;
+    void backQuery() const;
+    void generateQuery() const;
 
-	void updateTime() const;
-	void startTimer() const;
-	void stopTimer() const;
+    void updateTime() const;
+    void startTimer() const;
+    void stopTimer() const;
 
-	void generateNew() const;
-	void fillBox() const;
-	void giveHint() const;
-	void checkSudoku() const;
+    void generateNew() const;
+    void fillBox() const;
+    void giveHint() const;
+    void checkSudoku() const;
 
-	void showLeaderboard() const;
-	void hideLeaderboard() const;
+    void showLeaderboard() const;
+    void hideLeaderboard() const;
 };
 

@@ -73,24 +73,24 @@
     <ClInclude Include="GeneratedFiles\ui_SudokuGUI.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core.h">
+    <ClInclude Include="..\..\sudoku_pair\sudoku_pair\gui\Core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="sudoku_pair.dll">
-      <Filter>Source Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="sudoku_pair.lib">
+    <Library Include="..\..\sudoku_pair\sudoku_pair\gui\sudoku_pair.lib">
       <Filter>Source Files</Filter>
     </Library>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="SudokuGUI.rc" />
+    <None Include="..\..\sudoku_pair\sudoku_pair\gui\sudoku_pair.dll">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="tubiao.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SudokuGUI.rc" />
   </ItemGroup>
 </Project>
