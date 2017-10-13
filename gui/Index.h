@@ -67,15 +67,12 @@ private:
     QLabel *mediumTime;
     QLabel *hardTime;
 
-    QIcon unselectIcon;
-    QIcon selectedIcon;
-
 public:
     Index(Recv *recv, SudokuGUI *w);
     ~Index();
     void init();
     void initSudoku();
-    public slots:
+public slots:
     void hideMain() const;
     void sudokuShow() const;
     void showMain() const;
@@ -103,5 +100,7 @@ public:
 
     void showLeaderboard() const;
     void hideLeaderboard() const;
+
+    void changeColor() const;
 };
 
