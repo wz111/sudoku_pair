@@ -93,6 +93,7 @@ public slots:
     void showModeStart() const;
     void backQuery() const;
     void generateQuery() const;
+    void showLoad() const;
 
     void updateTime() const;
     void startTimer() const;

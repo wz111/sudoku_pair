@@ -1,0 +1,60 @@
+﻿  stdafx.cpp
+  Core.cpp
+c:\users\administrator\desktop\sudoku_pair\sudoku_pair\Core.h(28): warning C4275: 非 dll 接口 class“std::exception”用作 dll 接口 struct“MyOrderException”的基
+  D:\VS2017\VC\Tools\MSVC\14.11.25503\include\vcruntime_exception.h(43): note: 参见“std::exception”的声明
+  c:\users\administrator\desktop\sudoku_pair\sudoku_pair\Core.h(27): note: 参见“MyOrderException”的声明
+c:\users\administrator\desktop\sudoku_pair\sudoku_pair\Core.h(45): warning C4275: 非 dll 接口 class“std::exception”用作 dll 接口 struct“MyFileException”的基
+  D:\VS2017\VC\Tools\MSVC\14.11.25503\include\vcruntime_exception.h(43): note: 参见“std::exception”的声明
+  c:\users\administrator\desktop\sudoku_pair\sudoku_pair\Core.h(44): note: 参见“MyFileException”的声明
+c:\users\administrator\desktop\sudoku_pair\sudoku_pair\Core.h(55): warning C4275: 非 dll 接口 class“std::exception”用作 dll 接口 struct“MySudokuException”的基
+  D:\VS2017\VC\Tools\MSVC\14.11.25503\include\vcruntime_exception.h(43): note: 参见“std::exception”的声明
+  c:\users\administrator\desktop\sudoku_pair\sudoku_pair\Core.h(54): note: 参见“MySudokuException”的声明
+c:\users\administrator\desktop\sudoku_pair\sudoku_pair\Core.h(64): warning C4275: 非 dll 接口 class“std::exception”用作 dll 接口 struct“MyParameterException”的基
+  D:\VS2017\VC\Tools\MSVC\14.11.25503\include\vcruntime_exception.h(43): note: 参见“std::exception”的声明
+  c:\users\administrator\desktop\sudoku_pair\sudoku_pair\Core.h(63): note: 参见“MyParameterException”的声明
+c:\users\administrator\desktop\sudoku_pair\sudoku_pair\Core.h(81): warning C4275: 非 dll 接口 class“std::exception”用作 dll 接口 struct“MyFormatException”的基
+  D:\VS2017\VC\Tools\MSVC\14.11.25503\include\vcruntime_exception.h(43): note: 参见“std::exception”的声明
+  c:\users\administrator\desktop\sudoku_pair\sudoku_pair\Core.h(80): note: 参见“MyFormatException”的声明
+c:\users\administrator\desktop\sudoku_pair\sudoku_pair\Core.h(113): warning C4251: “Core::_startSet”: class“std::set<std::string,std::less<_Kty>,std::allocator<_Kty>>”需要有 dll 接口由 class“Core”的客户端使用
+          with
+          [
+              _Kty=std::string
+          ]
+  c:\users\administrator\desktop\sudoku_pair\sudoku_pair\Core.h(113): note: 参见“std::set<std::string,std::less<_Kty>,std::allocator<_Kty>>”的声明
+          with
+          [
+              _Kty=std::string
+          ]
+Core.cpp(182): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  sudokupair.cpp
+c:\users\administrator\desktop\sudoku_pair\sudoku_pair\Core.h(28): warning C4275: 非 dll 接口 class“std::exception”用作 dll 接口 struct“MyOrderException”的基
+  D:\VS2017\VC\Tools\MSVC\14.11.25503\include\vcruntime_exception.h(43): note: 参见“std::exception”的声明
+  c:\users\administrator\desktop\sudoku_pair\sudoku_pair\Core.h(27): note: 参见“MyOrderException”的声明
+c:\users\administrator\desktop\sudoku_pair\sudoku_pair\Core.h(45): warning C4275: 非 dll 接口 class“std::exception”用作 dll 接口 struct“MyFileException”的基
+  D:\VS2017\VC\Tools\MSVC\14.11.25503\include\vcruntime_exception.h(43): note: 参见“std::exception”的声明
+  c:\users\administrator\desktop\sudoku_pair\sudoku_pair\Core.h(44): note: 参见“MyFileException”的声明
+c:\users\administrator\desktop\sudoku_pair\sudoku_pair\Core.h(55): warning C4275: 非 dll 接口 class“std::exception”用作 dll 接口 struct“MySudokuException”的基
+  D:\VS2017\VC\Tools\MSVC\14.11.25503\include\vcruntime_exception.h(43): note: 参见“std::exception”的声明
+  c:\users\administrator\desktop\sudoku_pair\sudoku_pair\Core.h(54): note: 参见“MySudokuException”的声明
+c:\users\administrator\desktop\sudoku_pair\sudoku_pair\Core.h(64): warning C4275: 非 dll 接口 class“std::exception”用作 dll 接口 struct“MyParameterException”的基
+  D:\VS2017\VC\Tools\MSVC\14.11.25503\include\vcruntime_exception.h(43): note: 参见“std::exception”的声明
+  c:\users\administrator\desktop\sudoku_pair\sudoku_pair\Core.h(63): note: 参见“MyParameterException”的声明
+c:\users\administrator\desktop\sudoku_pair\sudoku_pair\Core.h(81): warning C4275: 非 dll 接口 class“std::exception”用作 dll 接口 struct“MyFormatException”的基
+  D:\VS2017\VC\Tools\MSVC\14.11.25503\include\vcruntime_exception.h(43): note: 参见“std::exception”的声明
+  c:\users\administrator\desktop\sudoku_pair\sudoku_pair\Core.h(80): note: 参见“MyFormatException”的声明
+c:\users\administrator\desktop\sudoku_pair\sudoku_pair\Core.h(113): warning C4251: “Core::_startSet”: class“std::set<std::string,std::less<_Kty>,std::allocator<_Kty>>”需要有 dll 接口由 class“Core”的客户端使用
+          with
+          [
+              _Kty=std::string
+          ]
+  c:\users\administrator\desktop\sudoku_pair\sudoku_pair\Core.h(113): note: 参见“std::set<std::string,std::less<_Kty>,std::allocator<_Kty>>”的声明
+          with
+          [
+              _Kty=std::string
+          ]
+    正在创建库 C:\Users\Administrator\Desktop\sudoku_pair\x64\Release\sudoku_pair.lib 和对象 C:\Users\Administrator\Desktop\sudoku_pair\x64\Release\sudoku_pair.exp
+  正在生成代码
+  All 257 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  已完成代码的生成
+  sudoku_pair.vcxproj -> C:\Users\Administrator\Desktop\sudoku_pair\x64\Release\sudoku_pair.dll
+  sudoku_pair.vcxproj -> C:\Users\Administrator\Desktop\sudoku_pair\x64\Release\sudoku_pair.pdb (Full PDB)

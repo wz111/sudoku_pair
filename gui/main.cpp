@@ -21,6 +21,7 @@ int main(int argc, char *argv[])
 	w.resize(1200, 800);
 	w.setObjectName("myWindow");
 	w.setStyleSheet("#myWindow{border-image:url(MainImage/main1.jpg);}");
+    w.setFixedSize(1200, 800);
 
 	Index index(&recv, &w);
 	index.init();

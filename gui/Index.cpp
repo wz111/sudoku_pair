@@ -246,18 +246,18 @@ void Index::showPic3() const
 void Index::showSetting() const
 {
     hideMain();
-    backgroundTitle->setGeometry(100, 100, 500, 100);
+    backgroundTitle->setGeometry(240, 100, 800, 130);
     backgroundTitle->setStyleSheet("font-size:80px");
     backgroundTitle->show();
-    Pic1Btn->setGeometry(400, 250, 500, 70);
+    Pic1Btn->setGeometry(440, 300, 500, 70);
     Pic1Btn->setStyleSheet("font-size:40px;");
     Pic1Btn->show();
     QObject::connect(Pic1Btn, SIGNAL(clicked()), this, SLOT(showPic1()));
-    Pic2Btn->setGeometry(400, 350, 500, 70);
+    Pic2Btn->setGeometry(440, 400, 500, 70);
     Pic2Btn->setStyleSheet("font-size:40px;");
     Pic2Btn->show();
     QObject::connect(Pic2Btn, SIGNAL(clicked()), this, SLOT(showPic2()));
-    Pic3Btn->setGeometry(400, 450, 500, 70);
+    Pic3Btn->setGeometry(440, 500, 500, 70);
     Pic3Btn->setStyleSheet("font-size:40px;");
     Pic3Btn->show();
     QObject::connect(Pic3Btn, SIGNAL(clicked()), this, SLOT(showPic3()));
@@ -534,7 +534,7 @@ void Index::checkSudoku() const
             QDialog *incompleteDlg = new QDialog(_w);
             incompleteDlg->resize(600, 200);
             //dlg->setGeometry(450, 700, 300, 200);
-            QLabel *incompleteLabel = new QLabel("Sudoku is still blank.", incompleteDlg);
+            QLabel *incompleteLabel = new QLabel("Current sudoku is still blank.", incompleteDlg);
             incompleteLabel->setStyleSheet("font-size:30px;");
             incompleteLabel->setGeometry(QRect(5, 80, 590, 20));
             incompleteLabel->adjustSize();
@@ -831,6 +831,11 @@ void Index::changeColor() const
     
 }
 
+void Index::showLoad() const
+{
+
+}
+
 void Index::init()
 {
     QGridLayout* mainlayout = new QGridLayout;
@@ -848,7 +853,7 @@ void Index::init()
     loadGameBtn = new QPushButton(" ", _w);
     loadGameBtn->setStyleSheet("background-image:url(MainImage/loadGame.png);background-color: #a9a9a9;");
     loadGameBtn->setGeometry(500, 475, 220, 45);
-    //QObject::connect(loadGameBtn, SIGNAL(clicked()), this, SLOT(hide5btn()));
+    QObject::connect(loadGameBtn, SIGNAL(clicked()), this, SLOT(showLoad()));
 
     leaderboardBtn = new QPushButton(" ", _w);
     leaderboardBtn->setStyleSheet("background-image:url(MainImage/record.png);background-color: #a9a9a9;");
@@ -874,25 +879,25 @@ void Index::init()
     }
     initSudoku();
     generateBtn = new QPushButton(" ", _w);
-    generateBtn->setStyleSheet("background-image:url(MainImage/generate.png);background-color:#e5e5e5;");
+    generateBtn->setStyleSheet("background-color:#adadad;background-image:url(MainImage/generate.png);");
     generateBtn->setGeometry(895, 150, 220, 45);
     generateBtn->hide();
     QObject::connect(generateBtn, SIGNAL(clicked()), this, SLOT(generateQuery()));
 
     hintBtn = new QPushButton(" ", _w);
-    hintBtn->setStyleSheet("background-image:url(MainImage/hint.png);background-color:#e5e5e5;");
+    hintBtn->setStyleSheet("background-image:url(MainImage/hint.png);background-color:#adadad;");
     hintBtn->setGeometry(895, 220, 220, 45);
     hintBtn->hide();
     QObject::connect(hintBtn, SIGNAL(clicked()), this, SLOT(giveHint()));
 
     checkBtn = new QPushButton(" ", _w);
-    checkBtn->setStyleSheet("background-image:url(MainImage/check.png);background-color:#e5e5e5;");
+    checkBtn->setStyleSheet("background-image:url(MainImage/check.png);background-color:#adadad;");
     checkBtn->setGeometry(895, 290, 220, 45);
     checkBtn->hide();
     QObject::connect(checkBtn, SIGNAL(clicked()), this, SLOT(checkSudoku()));
 
     backBtn = new QPushButton(" ", _w);
-    backBtn->setStyleSheet("background-image:url(MainImage/back.png);background-color:#e5e5e5;");
+    backBtn->setStyleSheet("background-image:url(MainImage/back.png);background-color:#adadad;");
     backBtn->setGeometry(895, 360, 220, 45);
     backBtn->hide();
     QObject::connect(backBtn, SIGNAL(clicked()), this, SLOT(backQuery()));
@@ -956,20 +961,20 @@ void Index::init()
     QObject::connect(modeStartBtn, SIGNAL(clicked()), this, SLOT(startNew()));
 
     easyBtn = new QRadioButton("                                        ", _w);
-    easyBtn->setStyleSheet("background-image:url(MainImage/easy.png);");
+    easyBtn->setStyleSheet("font-size:70px;background-image:url(MainImage/easy.png);");
     easyBtn->setGeometry(500, 350, 190, 70);
     easyBtn->hide();
     QObject::connect(easyBtn, SIGNAL(clicked()), this, SLOT(showModeStart()));
 
     mediumBtn = new QRadioButton("                                                      ", _w);
     mediumBtn->setGeometry(500, 450, 270, 70);
-    mediumBtn->setStyleSheet("background-image:url(MainImage/medium.png);");
+    mediumBtn->setStyleSheet("font-size:70px;background-image:url(MainImage/medium.png);");
     mediumBtn->hide();
     QObject::connect(mediumBtn, SIGNAL(clicked()), this, SLOT(showModeStart()));
 
     hardBtn = new QRadioButton("                                        ", _w);
     hardBtn->setGeometry(500, 550, 190, 70);
-    hardBtn->setStyleSheet("background-image:url(MainImage/hard.png);");
+    hardBtn->setStyleSheet("font-size:70px;background-image:url(MainImage/hard.png);");
     hardBtn->hide();
     QObject::connect(hardBtn, SIGNAL(clicked()), this, SLOT(showModeStart()));
 
@@ -1049,7 +1054,7 @@ void Index::init()
     for (int i = 1; i <= 9; i++)
     {
         softKey[i] = new QPushButton(QString::number(i), _w);
-        softKey[i]->setStyleSheet("font-size:40px;border-image:url(MainImage/lightBlue.png)");
+        softKey[i]->setStyleSheet("font-size:40px;background-image:url(MainImage/lightBlue.png)");
         softKey[i]->setGeometry(880 + (i - 1) % 3 * 80, 440 + (i - 1) / 3 * 80, 80, 80);
         softKey[i]->hide();
         QObject::connect(softKey[i], SIGNAL(clicked()), this, SLOT(fillBox()));
