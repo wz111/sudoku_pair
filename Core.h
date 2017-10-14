@@ -24,8 +24,8 @@ using namespace std;
 
 
 
-//struct __declspec(dllexport)  MyOrderException : public exception
-struct MyOrderException : public exception
+struct __declspec(dllexport)  MyOrderException : public exception
+//struct MyOrderException : public exception
 {
 	const char * msg() const throw ()
 	{
@@ -42,8 +42,8 @@ struct MyOrderException : public exception
 	}
 };
 
-//struct __declspec(dllexport)  MyFileException : public exception
-struct MyFileException : public exception
+struct __declspec(dllexport)  MyFileException : public exception
+//struct MyFileException : public exception
 {
 	const char * msg() const throw ()
 	{
@@ -53,8 +53,8 @@ struct MyFileException : public exception
 	}
 };
 
-//struct __declspec(dllexport)  MySudokuException : public exception
-struct MySudokuException : public exception
+struct __declspec(dllexport)  MySudokuException : public exception
+//struct MySudokuException : public exception
 {
 	const char * msg() const throw ()
 	{
@@ -63,8 +63,8 @@ struct MySudokuException : public exception
 	}
 };
 
-//struct __declspec(dllexport)  MyParameterException : public exception
-struct MyParameterException : public exception
+struct __declspec(dllexport)  MyParameterException : public exception
+//struct MyParameterException : public exception
 {
 	const char * msg() const throw ()
 	{
@@ -81,8 +81,8 @@ struct MyParameterException : public exception
 	}
 };
 
-//struct __declspec(dllexport) MyFormatException : public exception
-struct MyFormatException : public exception
+struct __declspec(dllexport) MyFormatException : public exception
+//struct MyFormatException : public exception
 {
 	const char * msg() const throw ()
 	{
@@ -99,8 +99,8 @@ struct MyFormatException : public exception
 	}
 };
 
-//class __declspec(dllexport) Core
-class Core
+class __declspec(dllexport) Core
+//class Core
 {
 private:
 	int _ancestorMartix[SUDOKU_SIZE] =
