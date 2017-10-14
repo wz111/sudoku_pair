@@ -46,6 +46,11 @@ private:
 
     QButtonGroup *softKeyGroup;
 
+    QLabel *backgroundTitle;
+    QRadioButton *Pic1Btn;
+    QRadioButton *Pic2Btn;
+    QRadioButton *Pic3Btn;
+
     QLabel *titleLabel;
     QLabel *introLabel;
     QLabel *modeLabel;
@@ -102,5 +107,9 @@ public slots:
     void hideLeaderboard() const;
 
     void changeColor() const;
+    void showPic1() const;
+    void showPic2() const;
+    void showPic3() const;
+    void changePicBtnGroup(int id) const;
 };
 
