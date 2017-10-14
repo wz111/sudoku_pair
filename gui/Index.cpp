@@ -38,9 +38,9 @@ void Index::backQuery() const
     QDialog *dlg = new QDialog(_w);
     dlg->resize(600, 200);
     //dlg->setGeometry(450, 700, 300, 200);
-    QLabel *backQueryLabel = new QLabel("Warning:", dlg);
-    QLabel *backQueryLabel0 = new QLabel("Are you sure you want to give up the current game?", dlg);
-    QLabel *backQueryLabel1 = new QLabel("(System will not keep your changes)", dlg);
+    QLabel *backQueryLabel = new QLabel("If You Want to Leave:", dlg);
+    QLabel *backQueryLabel0 = new QLabel("Please confirm that you have completed the current Sudoku.", dlg);
+    QLabel *backQueryLabel1 = new QLabel("Otherwise System will not keep your changes.", dlg);
     QPushButton *backMainBtn = new QPushButton("back to main", dlg);
     QPushButton *closeBtn = new QPushButton("close", dlg);
     backQueryLabel->setStyleSheet("font-size:30px;");
@@ -120,7 +120,7 @@ void Index::sudokuShow() const
 {
     for (int i = 0; i < 81; i++)
     {
-        sudoku[i]->setStyleSheet("font-size:30px;background-color:white;");
+        sudoku[i]->setStyleSheet("font-size:30px;background-image:url(MainImage/lightBlue.png)");
         sudoku[i]->setGeometry(40 + (i % 9) * 80, 40 + (i / 9) * 80, 80, 80);
         sudoku[i]->hide();
     }
@@ -128,10 +128,10 @@ void Index::sudokuShow() const
     {
         for (int j = 0; j < 3; j++)
         {
-            sudoku[3 + i * 9 + j]->setStyleSheet("font-size:30px;background-color:#e5e5e5;");
-            sudoku[27 + i * 9 + j]->setStyleSheet("font-size:30px;background-color:#e5e5e5;");
-            sudoku[33 + i * 9 + j]->setStyleSheet("font-size:30px;background-color:#e5e5e5;");
-            sudoku[57 + i * 9 + j]->setStyleSheet("font-size:30px;background-color:#e5e5e5;");
+            sudoku[3 + i * 9 + j]->setStyleSheet("font-size:30px;background-image:url(MainImage/hardBlue.png)");
+            sudoku[27 + i * 9 + j]->setStyleSheet("font-size:30px;background-image:url(MainImage/hardBlue.png)");
+            sudoku[33 + i * 9 + j]->setStyleSheet("font-size:30px;background-image:url(MainImage/hardBlue.png)");
+            sudoku[57 + i * 9 + j]->setStyleSheet("font-size:30px;background-image:url(MainImage/hardBlue.png)");
         }
     }
     for (int i = 0; i < 81; i++)
@@ -225,16 +225,78 @@ void Index::hideIntro() const
     introLabel->hide();
 }
 
+void Index::showPic1() const
+{
+    _w->setObjectName("myWindow");
+    _w->setStyleSheet("#myWindow{background-image:url(MainImage/main1.jpg);}");
+}
+
+void Index::showPic2() const
+{
+    _w->setObjectName("myWindow");
+    _w->setStyleSheet("#myWindow{background-image:url(MainImage/main2.jpg);}");
+}
+
+void Index::showPic3() const
+{
+    _w->setObjectName("myWindow");
+    _w->setStyleSheet("#myWindow{background-image:url(MainImage/main3.jpg);}");
+}
+
 void Index::showSetting() const
 {
     hideMain();
+    backgroundTitle->setGeometry(100, 100, 500, 100);
+    backgroundTitle->setStyleSheet("font-size:80px");
+    backgroundTitle->show();
+    Pic1Btn->setGeometry(400, 250, 500, 70);
+    Pic1Btn->setStyleSheet("font-size:40px;");
+    Pic1Btn->show();
+    QObject::connect(Pic1Btn, SIGNAL(clicked()), this, SLOT(showPic1()));
+    Pic2Btn->setGeometry(400, 350, 500, 70);
+    Pic2Btn->setStyleSheet("font-size:40px;");
+    Pic2Btn->show();
+    QObject::connect(Pic2Btn, SIGNAL(clicked()), this, SLOT(showPic2()));
+    Pic3Btn->setGeometry(400, 450, 500, 70);
+    Pic3Btn->setStyleSheet("font-size:40px;");
+    Pic3Btn->show();
+    QObject::connect(Pic3Btn, SIGNAL(clicked()), this, SLOT(showPic3()));
+
     settingBackBtn->show();
 }
 
 void Index::hideSetting() const
 {
     showMain();
+    Pic1Btn->hide();
+    Pic2Btn->hide();
+    Pic3Btn->hide();
     settingBackBtn->hide();
+    backgroundTitle->hide();
+}
+
+void Index::changePicBtnGroup(int id) const
+{
+    switch (id)
+    {
+    case 0:
+        Pic1Btn->setChecked(true);
+        Pic2Btn->setChecked(false);
+        Pic3Btn->setChecked(false);
+        break;
+    case 1:
+        Pic1Btn->setChecked(false);
+        Pic2Btn->setChecked(true);
+        Pic3Btn->setChecked(false);
+        break;
+    case 2:
+        Pic1Btn->setChecked(false);
+        Pic2Btn->setChecked(false);
+        Pic3Btn->setChecked(true);
+        break;
+    default:
+        break;
+    }
 }
 
 void Index::changeBtnGroup(int id) const
@@ -350,9 +412,9 @@ void Index::generateQuery() const
     QDialog *dlg = new QDialog(_w);
     dlg->resize(600, 200);
     //dlg->setGeometry(450, 700, 300, 200);
-    QLabel *backQueryLabel = new QLabel("Warning:", dlg);
-    QLabel *backQueryLabel0 = new QLabel("Are you sure you want to give up the current game?", dlg);
-    QLabel *backQueryLabel1 = new QLabel("(System will not keep your changes)", dlg);
+    QLabel *backQueryLabel = new QLabel("If You Want to Generate New:", dlg);
+    QLabel *backQueryLabel0 = new QLabel("Please confirm that you have completed the current Sudoku.", dlg);
+    QLabel *backQueryLabel1 = new QLabel("Otherwise System will not keep your changes.", dlg);
     QPushButton *genNewBtn = new QPushButton("generate new", dlg);
     QPushButton *closeBtn = new QPushButton("close", dlg);
     backQueryLabel->setStyleSheet("font-size:30px;");
@@ -398,11 +460,11 @@ void Index::fillBox() const
             int tmp = (i / 9 / 3) * 3 * 9 + (i % 9 / 3) * 3;
             if (tmp == 3 || tmp == 27 || tmp == 33 || tmp == 57)
             {
-                sudoku[i]->setStyleSheet("font-size:35px;background-color:#e5e5e5;font:bold;");
+                sudoku[i]->setStyleSheet("font-size:35px;background-image:url(MainImage/hardBlue.png);font:bold;");
             }
             else
             {
-                sudoku[i]->setStyleSheet("font-size:35px;background-color:white;font:bold;");
+                sudoku[i]->setStyleSheet("font-size:35px;background-image:url(MainImage/lightBlue.png);font:bold;");
             }
         }
     }
@@ -436,11 +498,11 @@ void Index::giveHint() const
                 int tmp = (i / 9 / 3) * 3 * 9 + (i % 9 / 3) * 3;
                 if (tmp == 3 || tmp == 27 || tmp == 33 || tmp == 57)
                 {
-                    sudoku[i]->setStyleSheet("font-size:35px;background-color:#e5e5e5;font:bold;");
+                    sudoku[i]->setStyleSheet("font-size:35px;background-image:url(MainImage/hardBlue.png);font:bold;");
                 }
                 else
                 {
-                    sudoku[i]->setStyleSheet("font-size:35px;background-color:white;font:bold;");
+                    sudoku[i]->setStyleSheet("font-size:35px;background-image:url(MainImage/lightBlue.png);font:bold;");
                 }
             }
         }
@@ -697,11 +759,11 @@ void Index::changeColor() const
     {
         if (softKeyGroup->id(sudoku[i]) != -1)
         {
-            sudoku[i]->setStyleSheet("font-size:35px;background-color:white;font:bold;");
+            sudoku[i]->setStyleSheet("font-size:35px;background-image:url(MainImage/lightBlue.png);font:bold;");
         }
         else
         {
-            sudoku[i]->setStyleSheet("font-size:30px;background-color:white;");
+            sudoku[i]->setStyleSheet("font-size:30px;background-image:url(MainImage/lightBlue.png)");
         }
     }
     for (int i = 0; i < 3; i++)
@@ -710,35 +772,35 @@ void Index::changeColor() const
         {
             if (softKeyGroup->id(sudoku[3 + i * 9 + j]) != -1)
             {
-                sudoku[3 + i * 9 + j]->setStyleSheet("font-size:35px;background-color:#e5e5e5;font:bold");
+                sudoku[3 + i * 9 + j]->setStyleSheet("font-size:35px;background-image:url(MainImage/hardBlue.png);font:bold");
             }
             else
             {
-                sudoku[3 + i * 9 + j]->setStyleSheet("font-size:30px;background-color:#e5e5e5;");
+                sudoku[3 + i * 9 + j]->setStyleSheet("font-size:30px;background-image:url(MainImage/hardBlue.png);");
             }
             if (softKeyGroup->id(sudoku[27 + i * 9 + j]) != -1)
             {
-                sudoku[27 + i * 9 + j]->setStyleSheet("font-size:35px;background-color:#e5e5e5;font:bold");
+                sudoku[27 + i * 9 + j]->setStyleSheet("font-size:35px;background-image:url(MainImage/hardBlue.png);font:bold");
             }
             else
             {
-                sudoku[27 + i * 9 + j]->setStyleSheet("font-size:30px;background-color:#e5e5e5;");
+                sudoku[27 + i * 9 + j]->setStyleSheet("font-size:30px;background-image:url(MainImage/hardBlue.png);");
             }
             if (softKeyGroup->id(sudoku[33 + i * 9 + j]) != -1)
             {
-                sudoku[33 + i * 9 + j]->setStyleSheet("font-size:35px;background-color:#e5e5e5;font:bold");
+                sudoku[33 + i * 9 + j]->setStyleSheet("font-size:35px;background-image:url(MainImage/hardBlue.png);font:bold");
             }
             else
             {
-                sudoku[33 + i * 9 + j]->setStyleSheet("font-size:30px;background-color:#e5e5e5;");
+                sudoku[33 + i * 9 + j]->setStyleSheet("font-size:30px;background-image:url(MainImage/hardBlue.png);");
             }
             if (softKeyGroup->id(sudoku[57 + i * 9 + j]) != -1)
             {
-                sudoku[57 + i * 9 + j]->setStyleSheet("font-size:35px;background-color:#e5e5e5;font:bold");
+                sudoku[57 + i * 9 + j]->setStyleSheet("font-size:35px;background-image:url(MainImage/hardBlue.png);font:bold");
             }
             else
             {
-                sudoku[57 + i * 9 + j]->setStyleSheet("font-size:30px;background-color:#e5e5e5;");
+                sudoku[57 + i * 9 + j]->setStyleSheet("font-size:30px;background-image:url(MainImage/hardBlue.png);");
             }
         }
     }
@@ -750,19 +812,19 @@ void Index::changeColor() const
         {
             if( softKeyGroup->id(((QPushButton*)QObject::sender())) != -1 )
             {
-                ((QPushButton*)QObject::sender())->setStyleSheet("font-size:35px;background-color:yellow;font:bold;");
+                ((QPushButton*)QObject::sender())->setStyleSheet("font-size:35px;background-image:url(MainImage/highYellow.png);font:bold;");
             }
             else
             {
-                ((QPushButton*)QObject::sender())->setStyleSheet("font-size:30px;background-color:yellow;");
+                ((QPushButton*)QObject::sender())->setStyleSheet("font-size:30px;background-image:url(MainImage/highYellow.png);");
             }
             if (softKeyGroup->id(sudoku[i]) != -1) 
             {
-                sudoku[i]->setStyleSheet("font-size:35px;background-color:yellow;font:bold");
+                sudoku[i]->setStyleSheet("font-size:35px;background-image:url(MainImage/highYellow.png);font:bold");
             }
             else 
             {
-                sudoku[i]->setStyleSheet("font-size:30px;background-color:yellow;");
+                sudoku[i]->setStyleSheet("font-size:30px;background-image:url(MainImage/highYellow.png);");
             }
         }
     }
@@ -812,25 +874,25 @@ void Index::init()
     }
     initSudoku();
     generateBtn = new QPushButton(" ", _w);
-    generateBtn->setStyleSheet("background-image:url(MainImage/generate.png);background-color:yellow;");
+    generateBtn->setStyleSheet("background-image:url(MainImage/generate.png);background-color:#e5e5e5;");
     generateBtn->setGeometry(895, 150, 220, 45);
     generateBtn->hide();
     QObject::connect(generateBtn, SIGNAL(clicked()), this, SLOT(generateQuery()));
 
     hintBtn = new QPushButton(" ", _w);
-    hintBtn->setStyleSheet("background-image:url(MainImage/hint.png);background-color:blue;");
+    hintBtn->setStyleSheet("background-image:url(MainImage/hint.png);background-color:#e5e5e5;");
     hintBtn->setGeometry(895, 220, 220, 45);
     hintBtn->hide();
     QObject::connect(hintBtn, SIGNAL(clicked()), this, SLOT(giveHint()));
 
     checkBtn = new QPushButton(" ", _w);
-    checkBtn->setStyleSheet("background-image:url(MainImage/check.png);background-color:green;");
+    checkBtn->setStyleSheet("background-image:url(MainImage/check.png);background-color:#e5e5e5;");
     checkBtn->setGeometry(895, 290, 220, 45);
     checkBtn->hide();
     QObject::connect(checkBtn, SIGNAL(clicked()), this, SLOT(checkSudoku()));
 
     backBtn = new QPushButton(" ", _w);
-    backBtn->setStyleSheet("background-image:url(MainImage/back.png);background-color:red;");
+    backBtn->setStyleSheet("background-image:url(MainImage/back.png);background-color:#e5e5e5;");
     backBtn->setGeometry(895, 360, 220, 45);
     backBtn->hide();
     QObject::connect(backBtn, SIGNAL(clicked()), this, SLOT(backQuery()));
@@ -893,19 +955,19 @@ void Index::init()
     modeStartBtn->hide();
     QObject::connect(modeStartBtn, SIGNAL(clicked()), this, SLOT(startNew()));
 
-    easyBtn = new QRadioButton(" ", _w);
+    easyBtn = new QRadioButton("                                        ", _w);
     easyBtn->setStyleSheet("background-image:url(MainImage/easy.png);");
     easyBtn->setGeometry(500, 350, 190, 70);
     easyBtn->hide();
     QObject::connect(easyBtn, SIGNAL(clicked()), this, SLOT(showModeStart()));
 
-    mediumBtn = new QRadioButton(" ", _w);
+    mediumBtn = new QRadioButton("                                                      ", _w);
     mediumBtn->setGeometry(500, 450, 270, 70);
     mediumBtn->setStyleSheet("background-image:url(MainImage/medium.png);");
     mediumBtn->hide();
     QObject::connect(mediumBtn, SIGNAL(clicked()), this, SLOT(showModeStart()));
 
-    hardBtn = new QRadioButton(" ", _w);
+    hardBtn = new QRadioButton("                                        ", _w);
     hardBtn->setGeometry(500, 550, 190, 70);
     hardBtn->setStyleSheet("background-image:url(MainImage/hard.png);");
     hardBtn->hide();
@@ -987,23 +1049,40 @@ void Index::init()
     for (int i = 1; i <= 9; i++)
     {
         softKey[i] = new QPushButton(QString::number(i), _w);
-        softKey[i]->setStyleSheet("font-size:40px;background-color:pink;");
+        softKey[i]->setStyleSheet("font-size:40px;border-image:url(MainImage/lightBlue.png)");
         softKey[i]->setGeometry(880 + (i - 1) % 3 * 80, 440 + (i - 1) / 3 * 80, 80, 80);
         softKey[i]->hide();
         QObject::connect(softKey[i], SIGNAL(clicked()), this, SLOT(fillBox()));
     }
     softKey[0] = new QPushButton(" ", _w);
-    softKey[0]->setStyleSheet("font-size:40px;background-color:pink;");
+    softKey[0]->setStyleSheet("font-size:40px;border-image:url(MainImage/lightBlue.png)");
     softKey[0]->setGeometry(880, 680, 240, 80);
     softKey[0]->hide();
     QObject::connect(softKey[0], SIGNAL(clicked()), this, SLOT(fillBox()));
+
+    Pic1Btn = new QRadioButton("Background 1 ", _w);
+    Pic1Btn->hide();
+    Pic2Btn = new QRadioButton("Background 2 ", _w);
+    Pic2Btn->hide();
+    Pic3Btn = new QRadioButton("Background 3 ", _w);
+    Pic3Btn->hide();
+
+    backgroundTitle = new QLabel("Change Background", _w);
+    backgroundTitle->hide();
+    
+    QButtonGroup *PicGroup = new QButtonGroup();
+    PicGroup->addButton(Pic1Btn, 0);
+    PicGroup->addButton(Pic2Btn, 1);
+    PicGroup->addButton(Pic3Btn, 2);
+    PicGroup->setExclusive(true);
+    QObject::connect(PicGroup, SIGNAL(buttonClicked(int)), this, SLOT(changePicBtnGroup(int)));
 }
 
 void Index::initSudoku()
 {
     for (int i = 0; i < 81; i++)
     {
-        sudoku[i]->setStyleSheet("font-size:30px;background-color:white;");
+        sudoku[i]->setStyleSheet("font-size:30px;background-image:url(MainImage/lightBlue.png);");
         sudoku[i]->setGeometry(40 + (i % 9) * 80, 40 + (i / 9) * 80, 80, 80);
         sudoku[i]->hide();
     }
@@ -1011,10 +1090,10 @@ void Index::initSudoku()
     {
         for (int j = 0; j < 3; j++)
         {
-            sudoku[3 + i * 9 + j]->setStyleSheet("font-size:30px;background-color:#e5e5e5;");
-            sudoku[27 + i * 9 + j]->setStyleSheet("font-size:30px;background-color:#e5e5e5;");
-            sudoku[33 + i * 9 + j]->setStyleSheet("font-size:30px;background-color:#e5e5e5;");
-            sudoku[57 + i * 9 + j]->setStyleSheet("font-size:30px;background-color:#e5e5e5;");
+            sudoku[3 + i * 9 + j]->setStyleSheet("font-size:30px;background-image:url(MainImage/hardBlue.png)");
+            sudoku[27 + i * 9 + j]->setStyleSheet("font-size:30px;background-image:url(MainImage/hardBlue.png)");
+            sudoku[33 + i * 9 + j]->setStyleSheet("font-size:30px;background-image:url(MainImage/hardBlue.png)");
+            sudoku[57 + i * 9 + j]->setStyleSheet("font-size:30px;background-image:url(MainImage/hardBlue.png)");
         }
     }
 }
