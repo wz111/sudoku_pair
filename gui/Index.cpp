@@ -832,8 +832,17 @@ void Index::changeColor() const
 }
 
 void Index::showLoad() const
-{
-
+{   
+    QDialog *nextDlg = new QDialog(_w);
+    nextDlg->resize(600, 200);
+    QLabel *nextLabel = new QLabel("Function is not open yet. Coming soon...", nextDlg);
+    nextLabel->setStyleSheet("font-size:30px;");
+    nextLabel->setGeometry(QRect(5, 80, 590, 20));
+    nextLabel->adjustSize();
+    nextLabel->setWordWrap(true);
+    nextLabel->setAlignment(Qt::AlignTop);
+    nextDlg->setModal(true);
+    nextDlg->show();
 }
 
 void Index::init()

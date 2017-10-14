@@ -1,3 +1,7 @@
-﻿  Index.cpp
+﻿  Moc'ing Index.h...
+  moc_Index.cpp
+  Index.cpp
+  main.cpp
+  正在生成代码...
     正在创建库 C:\Users\Administrator\Desktop\SudokuGUI\x64\Release\SudokuGUI.lib 和对象 C:\Users\Administrator\Desktop\SudokuGUI\x64\Release\SudokuGUI.exp
   SudokuGUI.vcxproj -> C:\Users\Administrator\Desktop\SudokuGUI\x64\Release\SudokuGUI.exe
