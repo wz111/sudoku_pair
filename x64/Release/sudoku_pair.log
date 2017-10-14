@@ -1,0 +1,11 @@
+﻿  stdafx.cpp
+  Core.cpp
+Core.cpp(182): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  sudokupair.cpp
+  正在生成代码
+  126 of 218 functions (57.8%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    14 functions had inline decision re-evaluated but remain unchanged
+  已完成代码的生成
+  sudoku_pair.vcxproj -> H:\VSCode\sudoku_pair\sudoku_pair\x64\Release\sudoku_pair.exe
+  sudoku_pair.vcxproj -> H:\VSCode\sudoku_pair\sudoku_pair\x64\Release\sudoku_pair.pdb (Full PDB)
