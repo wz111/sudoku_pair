@@ -121,6 +121,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\sudoku_pair\sudoku_pair\gui\Core.h" />
     <ClInclude Include="GeneratedFiles\ui_SudokuGUI.h" />
+    <ClInclude Include="resource.h" />
     <CustomBuild Include="Index.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc%27ing Index.h...</Message>
@@ -145,16 +146,16 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="tubiao.ico" />
+    <None Include="..\x64\Release\Core.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\x64\Release\Core.lib" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SudokuGUI.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\x64\Release\Core.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\x64\Release\Core.lib" />
+    <Image Include="tubiao.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

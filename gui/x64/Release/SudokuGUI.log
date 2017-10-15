@@ -1,3 +1,15 @@
-﻿  Index.cpp
+﻿  Moc'ing SudokuGUI.h...
+  Uic'ing SudokuGUI.ui...
+  Moc'ing Index.h...
+  Rcc'ing SudokuGUI.qrc...
+RCC : warning : No resources in 'C:\Users\Administrator\Desktop\SudokuGUI\SudokuGUI\SudokuGUI.qrc'.
+  
+  qrc_SudokuGUI.cpp
+  moc_Index.cpp
+  moc_SudokuGUI.cpp
+  Index.cpp
+  main.cpp
+  SudokuGUI.cpp
+  正在生成代码...
     正在创建库 C:\Users\Administrator\Desktop\SudokuGUI\x64\Release\SudokuGUI.lib 和对象 C:\Users\Administrator\Desktop\SudokuGUI\x64\Release\SudokuGUI.exp
   SudokuGUI.vcxproj -> C:\Users\Administrator\Desktop\SudokuGUI\x64\Release\SudokuGUI.exe
