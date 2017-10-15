@@ -145,16 +145,16 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\..\sudoku_pair\sudoku_pair\gui\sudoku_pair.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\sudoku_pair\sudoku_pair\gui\sudoku_pair.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="tubiao.ico" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SudokuGUI.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\x64\Release\Core.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\x64\Release\Core.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

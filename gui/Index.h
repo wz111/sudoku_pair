@@ -55,9 +55,9 @@ private:
     QLabel *introLabel;
     QLabel *modeLabel;
 
-    QTimer * timer;      //¶¨Ê±Æ÷ Ã¿Ãë¸üÐÂÊ±¼ä
-    QTime * timeRecord;  //¼ÇÂ¼Ê±¼ä
-    bool isStart;        //¼ÇÂ¼ÊÇ·ñÒÑ¾­¿ªÊ¼¼ÆÊ±
+    QTimer * timer;      
+    QTime * timeRecord;  
+    bool isStart;        
 
     QLabel *timeLabel;
 

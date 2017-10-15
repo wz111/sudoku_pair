@@ -78,19 +78,19 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\..\sudoku_pair\sudoku_pair\gui\sudoku_pair.lib">
-      <Filter>Source Files</Filter>
-    </Library>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\sudoku_pair\sudoku_pair\gui\sudoku_pair.dll">
-      <Filter>Source Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="tubiao.ico" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SudokuGUI.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\x64\Release\Core.dll">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\x64\Release\Core.lib">
+      <Filter>Source Files</Filter>
+    </Library>
   </ItemGroup>
 </Project>

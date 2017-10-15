@@ -456,7 +456,14 @@ void Index::fillBox() const
     {
         if (sudoku[i]->isChecked())
         {
-            sudoku[i]->setText(((QPushButton*)QObject::sender())->text());
+            if (((QPushButton*)QObject::sender())->text() == "Clear")
+            {
+                sudoku[i]->setText(" ");
+            }
+            else
+            {
+                sudoku[i]->setText(((QPushButton*)QObject::sender())->text());
+            }
             int tmp = (i / 9 / 3) * 3 * 9 + (i % 9 / 3) * 3;
             if (tmp == 3 || tmp == 27 || tmp == 33 || tmp == 57)
             {
@@ -693,6 +700,7 @@ void Index::checkSudoku() const
     acDlg->show();
     timer->stop();
     QString nowTimeS = timeLabel->text();
+    FILE *fp;
 
     int hourNum = nowTimeS.mid(0, 2).toInt();
     int minuteNum = nowTimeS.mid(3, 2).toInt();
@@ -1068,8 +1076,9 @@ void Index::init()
         softKey[i]->hide();
         QObject::connect(softKey[i], SIGNAL(clicked()), this, SLOT(fillBox()));
     }
-    softKey[0] = new QPushButton(" ", _w);
+    softKey[0] = new QPushButton("Clear", _w);
     softKey[0]->setStyleSheet("font-size:40px;border-image:url(MainImage/lightBlue.png)");
+    softKey[0]->adjustSize();
     softKey[0]->setGeometry(880, 680, 240, 80);
     softKey[0]->hide();
     QObject::connect(softKey[0], SIGNAL(clicked()), this, SLOT(fillBox()));
