@@ -30,17 +30,6 @@ void Core::Swap(int* a, int* b)
 	*b = temp;
 }
 
-bool Core::DuplicateCheck(int* a, int aim, int count) 
-{
-	int i = 0;
-	for(i = 0 ; i < count ; i++)
-	{
-		if (a[i] == aim)
-			return true;
-	}
-	return false;
-}
-
 void Core::RowSwap(int* srcMartix, int Type, int* rank) 
 {
 	int ranktemp[3] = { 0 };
@@ -95,34 +84,6 @@ void Core::RowSwap(int* srcMartix, int Type, int* rank)
 			{
 				int top = (ranktemp[1] - 1)*NUM_ROW;
 				int end = (ranktemp[2] - 1)*NUM_ROW;
-
-				for (int i = 0; i < NUM_ROW; i++) {
-					Swap(&srcMartix[top + i], &srcMartix[end + i]);
-				}
-				int temp = ranktemp[1];
-				ranktemp[1] = ranktemp[2];
-				ranktemp[2] = temp;
-				continue;
-			}
-		}
-		if (ranktemp[2] != Type + 2) {
-			if (ranktemp[0] == Type + 2)
-			{
-				int top = (ranktemp[0] - 1)*NUM_ROW;
-				int end = (ranktemp[2] - 1)*NUM_ROW;
-
-				for (int i = 0; i < NUM_ROW; i++) {
-					Swap(&srcMartix[top + i], &srcMartix[end + i]);
-				}
-				int temp = ranktemp[0];
-				ranktemp[0] = ranktemp[2];
-				ranktemp[2] = temp;
-				continue;
-			}
-			else if (ranktemp[1] == Type + 2)
-			{
-				int top = (ranktemp[2] - 1)*NUM_ROW;
-				int end = (ranktemp[1] - 1)*NUM_ROW;
 
 				for (int i = 0; i < NUM_ROW; i++) {
 					Swap(&srcMartix[top + i], &srcMartix[end + i]);
@@ -370,6 +331,18 @@ void Core::generate(int number, int lower, int upper, bool unique, int result[][
 	create(number, result);
 	int blankNum = 0;
 	srand((unsigned)time(NULL));
+    if (lower < 20 || lower>55)
+    {
+        throw(MyParameterException);
+    }
+    if (upper < 20 || upper>55)
+    {
+        throw(MyParameterException);
+    }
+    if (lower > upper)
+    {
+        throw(MyParameterException);
+    }
 	for (int i = 0; i < number; i++)
 	{
 		int temp[SUDOKU_SIZE] = { 0 };
