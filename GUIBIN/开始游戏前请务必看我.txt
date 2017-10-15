@@ -1,0 +1,47 @@
+《数独(Sudoku)》[EN]
+
+
+
+　　　　　      ╭═══════════════╮
+　　　　　　　　║       制作人：LuoboLiam      ║
+　╭══════┤  　	 制作人：    AlenDou　  ├══════╮
+　║　　　　　　║　 http://github.com/wz111　  ║　　　　　　║
+　║　　　　　　║　　　　　　　　　　　　　　　║            ║
+　║　　　　　　╰═══════════════╯　　　　　　║
+　║　　　　　　　　　　　　　　　　　　　　　　　　　　　　　║
+　║　　　　　　　　　　　　　　　　　　　　　　　　　　　　　║
+　║ 本站提供的各类游戏，工具及文章，只可研究学习，本站对使用 ║
+　║ 这些游戏（工具）而导致的一切后果，不承担任何责任　　　　 ║
+　║　　　　　　　　　　　　　　　　　　　　　　　　　　　　　║　　 
+　║　　　　　　　　　　　　　　　　　　　　　　　　　　　　　║
+　║　　　　　　　　　　　　　　　　　　　　　　　　　　　　　║
+　║　　　　　　　　　　　　　　　　　　　　　　　　　　　　　║
+　║　　╭───────────────────────╮　　║
+　╰══┤　　  http://github.com/wz111/sudoku_pair 　  ├══╯
+　　　　╰───────────────────────╯ 
+
+
+游戏名称：数独
+英文名称：Sudoku
+游戏类型：逻辑益智游戏
+游戏制作：AlenDou & LuoboLiam
+游戏发行：AlenDou & LuoboLiam
+游戏平台：PC
+发行时间：2017年10月14日
+官方网站：http://github.com/wz111/sudoku_pair
+
+游戏介绍
+《数独》是由AlenDou和LuoboLiam两人开发的数独解题游戏。
+数独是源自18世纪瑞士的一种数学游戏。是一种运用纸、笔进行演算的逻辑游戏。玩家需要根据9×9盘面上的已知数字，推理出所有剩余空格的数字，并满足每一行、每一列、每一个粗线宫（3*3）内的数字均含1-9，不重复。
+数独盘面是个九宫，每一宫又分为九个小格。在这八十一格中给出一定的已知数字和解题条件，利用逻辑和推理，在其他的空格上填入1-9的数字。使1-9每个数字在每一行、每一列和每一宫中都只出现一次，所以又称“九宫格”。
+
+安装信息：
+1、解压缩
+2、进入游戏
+
+玩法说明：
+点击Start Game按钮进入游戏，选择easy，medium，hard其中一个难度开始游戏，添数以及提示时要选中棋盘空格，generate用来生成新数独，hint用来提示，check用来进行检查和提交成绩，back用来返回主界面。
+
+点击Setting进行背景更改，暂时只有三张图片，后续会加入更多。
+
+Record可以保存用户的在三种模式下的最佳成绩。
